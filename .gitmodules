@@ -4,3 +4,6 @@
 [submodule ".config/zsh/z.lua"]
 	path = .config/zsh/z.lua
 	url = https://github.com/skywind3000/z.lua.git
+[submodule ".config/zsh/zsh-autosuggestions"]
+	path = .config/zsh/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions
