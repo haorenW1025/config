@@ -1,0 +1,6 @@
+[submodule ".config/zsh/fast-syntax-highlighting"]
+	path = .config/zsh/fast-syntax-highlighting
+	url = https://github.com/zdharma/fast-syntax-highlighting.git
+[submodule ".config/zsh/z.lua"]
+	path = .config/zsh/z.lua
+	url = https://github.com/skywind3000/z.lua.git
