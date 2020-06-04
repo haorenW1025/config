@@ -1,5 +1,4 @@
 " lsp
-nnoremap <silent> gc <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gi    <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -43,11 +42,6 @@ nmap <leader>es :UltiSnipsEdit<CR>
 " pandoc
 autocmd Filetype markdown nnoremap  <leader>pdf <cmd>lua require'markdown'.convertFile()<CR>
 
-" c, cpp
-autocmd Filetype cpp nnoremap <leader>mk :Dispatch make<CR>
-autocmd Filetype c nnoremap <leader>mk :Dispatch make<CR>
-autocmd Filetype rust nnoremap <leader>rc :Dispatch cargo check<CR>
-
 " tmux like terminal
 tnoremap <c-a><CR> <C-\><C-n>
 
@@ -85,10 +79,10 @@ function! ClosingTab()
     endif
 endfunction
 
-nmap ]t gt
-nmap [t gT
-tmap } <c-a><CR>gt
-tmap { <c-a><CR>gT
+nmap <a-]> gt
+nmap <a-[> gT
+tmap <a-]> <c-a><CR>gt
+tmap <a-[> <c-a><CR>gT
 nmap <c-a>1 1gt
 tmap <c-a>1 <c-a><CR>1gt
 nmap <c-a>2 2gt

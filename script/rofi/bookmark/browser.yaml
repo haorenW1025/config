@@ -1,3 +1,5 @@
+# bookmark files for rofi script: browser_bookmark.sh
+
 ceiba:
   url: https://ceiba.ntu.edu.tw
 
@@ -10,3 +12,17 @@ youtube:
 cool:
   url: https://cool.ntu.edu.tw/
 
+completion_nvim:
+  url: https://github.com/haorenW1025/completion-nvim
+
+diagnostic_nvim:
+  url: https://github.com/haorenW1025/diagnostic-nvim
+
+neovim:
+  url: https://github.com/neovim/neovim
+
+reddit:
+  url: https://reddit.com
+
+gitter:
+  url: https://gitter.im/home

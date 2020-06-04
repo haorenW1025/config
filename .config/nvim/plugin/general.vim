@@ -82,7 +82,7 @@ set nobackup
 set nowritebackup
 set cmdheight=1
 set updatetime=300
-set shortmess+=c
+set shortmess+=ac
 set signcolumn=yes
 
 

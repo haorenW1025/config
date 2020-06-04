@@ -9,7 +9,7 @@ au Filetype vim setl omnifunc=v:lua.vim.lsp.omnifunc
 let g:completion_chain_complete_list = {
             \ 'default' : {
             \   'default': [
-            \       {'complete_items': ['lsp', 'snippet']},
+            \       {'complete_items': ['lsp', 'snippet', 'buffers']},
             \       {'mode': '<c-p>'},
             \       {'mode': '<c-n>'}],
             \   'string' : [
@@ -63,6 +63,7 @@ let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_enable_auto_paren = 0
 let g:completion_timer_cycle = 80
 let g:completion_auto_change_source = 1
+let g:completion_trigger_keyword_length = 3
 let g:completion_confirm_key = ""
 
 imap <expr> <cr> pumvisible() ? complete_info()["selected"] != "-1" ?

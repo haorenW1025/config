@@ -1,26 +1,5 @@
-local treesitter = require'nvim-treesitter.configs'
+-- lsp setup
 local lsp = require'nvim_lsp'
-
-if vim.env.SNIPPETS then
-  vim.snippet = require 'snippet'
-end
-
--- treesitter setup
-treesitter.setup {
-  highlight = {
-    enable = false,
-    -- disable = { 'c', 'rust' },
-  },
-  incremental_selection = {
-    enable = true,
-    -- disable = { 'cpp', 'lua' },
-    keymaps = {
-      node_incremental = "grn",
-      scope_incremental = "grc"
-    }
-  },
-  ensure_installed = {'c', 'cpp', 'lua', 'rust'}
-}
 
 local on_attach = function(client)
   require'lsp_status'.on_attach(client)
@@ -32,7 +11,6 @@ local on_attach = function(client)
 end
 
 
--- lsp setup
 lsp.sumneko_lua.setup{
   on_attach= on_attach;
   cmd = {

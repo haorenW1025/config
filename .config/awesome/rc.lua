@@ -294,7 +294,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey,  "Shift" }, "Escape", function () awful.spawn("/usr/bin/rofi -show drun -modi drun") end,
               {description = "launch rofi menu", group = "launcher"}),
 
-    awful.key({ modkey, "Shift" },            "s",     function () awful.util.spawn('rofi -show ssh -modi ssh -ssh-command "alacritty -e {ssh-client} {host}"') end,
+    awful.key({ modkey, "Shift" },            "s",     function () awful.util.spawn('rofi -show ssh -modi ssh -ssh-command "alacritty -e {ssh-client} -Y {host}"') end,
               {description = "run surfraw", group = "launcher"}),
 
     awful.key({ modkey, "Shift" },            "m",     function () awful.util.spawn("./script/rofi/browser_bookmark.sh") end,
