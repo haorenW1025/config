@@ -44,10 +44,10 @@ function! PackagerInit() abort
     " Plug 'mfussenegger/nvim-dap'
     call packager#add('bfredl/nvim-ipy', { 'type': 'opt' })
 
-    call packager#add('hrsh7th/vim-vsnip-integ')
-    call packager#add('hrsh7th/vim-vsnip')
+    call packager#add('hrsh7th/vim-vsnip-integ', {'type': 'opt'})
+    call packager#add('hrsh7th/vim-vsnip', {'type': 'opt'})
 
-    call packager#add('git@github.com:haorenW1025/completion-buffers.git', {'type': 'opt'})
+    call packager#add('steelsojka/completion-buffers', {'type': 'opt'})
     " my plugins
     call packager#add('git@github.com:haorenW1025/completion-nvim.git', {'type': 'opt'})
     call packager#add('git@github.com:haorenW1025/diagnostic-nvim.git', {'type': 'opt'})
@@ -61,11 +61,13 @@ command! PackagerInstall call PackagerInit() | call packager#install()
 command! -bang PackagerUpdate call PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
 command! PackagerClean call PackagerInit() | call packager#clean()
 command! PackagerStatus call PackagerInit() | call packager#status()
+packadd vim-vsnip
+packadd vim-vsnip-integ
 packadd nvim-lsp
 packadd nvim-treesitter
 packadd completion-nvim.git
 packadd diagnostic-nvim.git
-packadd completion-buffers.git
+packadd completion-buffers
 packadd fzf.vim
 
 luafile ~/.config/nvim/init.lua

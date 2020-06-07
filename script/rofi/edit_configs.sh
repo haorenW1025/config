@@ -6,7 +6,7 @@ alacritty
 awesome
 neovim
 lf
-bookmark
+browser
 zsh
 quit")
 
@@ -31,12 +31,12 @@ case "$choice" in
 	zsh)
 		choice="$HOME/.zshrc"
 	;;
-    bookmar)
-        choice="$HOME/script/rofi/bookmark"
+    browser)
+        choice="$HOME/script/rofi/bookmark/browser.yaml"
     ;;
 	*)
 		exit 1
 	;;
 esac
-alacritty -e nvim "$choice"
+st -e nvim "$choice"
 

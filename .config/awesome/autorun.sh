@@ -32,7 +32,7 @@ run pamac-tray
 ## The following are not included in minimal edition by default
 ## but autorun.sh will pick them up if you install them
 
-run compton --shadow-exclude '!focused'
+run picom --experimental-backends --fading
 run blueman-applet
 run msm_notifier
 run xmodmap ~/.xmodmap

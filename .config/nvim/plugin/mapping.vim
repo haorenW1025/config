@@ -83,16 +83,16 @@ nmap <a-]> gt
 nmap <a-[> gT
 tmap <a-]> <c-a><CR>gt
 tmap <a-[> <c-a><CR>gT
-nmap <c-a>1 1gt
-tmap <c-a>1 <c-a><CR>1gt
-nmap <c-a>2 2gt
-tmap <c-a>2 <c-a><CR>2gt
-nmap <c-a>3 3gt
-tmap <c-a>3 <c-a><CR>3gt
-nmap <c-a>4 4gt
-tmap <c-a>4 <c-a><CR>4gt
-nmap <c-a>5 5gt
-tmap <c-a>5 <c-a><CR>5gt
+nmap <a-1> 1gt
+tmap <a-1> <c-a><CR>1gt
+nmap <a-2> 2gt
+tmap <a-2> <c-a><CR>2gt
+nmap <a-3> 3gt
+tmap <a-3> <c-a><CR>3gt
+nmap <a-4> 4gt
+tmap <a-4> <c-a><CR>4gt
+nmap <a-5> 5gt
+tmap <a-5> <c-a><CR>5gt
 
 " term-nvim
 nmap tt :TermToggle<CR>
@@ -104,9 +104,6 @@ autocmd FileType python nmap <buffer> <leader>tr :TermSend python %<CR>
 autocmd FileType sh nmap <buffer> <leader>tr:TermSend bash %<CR>
 autocmd FileType rust nmap <buffer> <leader>tr:TermSend cargo run<CR>
 autocmd FileType lua nmap <buffer> <leader>tr:TermSend lua %<CR>
-" REPL support nmap <leader>rl :TREPLSendLine<CR>
-" vmap <leader>rs :TREPLSendSelection<CR>
-" nmap <leader>rq :T exit()<CR>
 
 " floatLf
 nmap \ :LfToggle<CR>

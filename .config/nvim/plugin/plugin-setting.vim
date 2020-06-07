@@ -6,10 +6,29 @@ au Filetype rust setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype lua setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype vim setl omnifunc=v:lua.vim.lsp.omnifunc
 
+let g:completion_customize_lsp_label = {
+      \ 'Function': ' [function]',
+      \ 'Method': ' [method]',
+      \ 'Reference': ' [refrence]',
+      \ 'Enum': ' [enum]',
+      \ 'Field': 'ﰠ [field]',
+      \ 'Keyword': ' [key]',
+      \ 'Variable': ' [variable]',
+      \ 'Folder': ' [folder]',
+      \ 'Snippet': ' [snippet]',
+      \ 'Operator': ' [operator]',
+      \ 'Module': ' [module]',
+      \ 'Text': 'ﮜ[text]',
+      \ 'Class': ' [class]',
+      \ 'Interface': ' [interface]'
+      \}
+
+
 let g:completion_chain_complete_list = {
             \ 'default' : {
             \   'default': [
-            \       {'complete_items': ['lsp', 'snippet', 'buffers']},
+            \       {'complete_items': ['lsp', 'snippet']},
+            \       {'complete_items': ['buffers']},
             \       {'mode': '<c-p>'},
             \       {'mode': '<c-n>'}],
             \   'string' : [
@@ -17,7 +36,8 @@ let g:completion_chain_complete_list = {
             \   },
             \ 'cpp' : {
             \   'default': [
-            \       {'complete_items': ['lsp', 'snippet', 'ts']},
+            \       {'complete_items': ['lsp', 'snippet']},
+            \       {'complete_items': ['buffers']},
             \       {'mode': '<c-p>'},
             \       {'mode': '<c-n>'}],
             \   'comment': [],
@@ -57,17 +77,18 @@ let g:diagnostic_insert_delay = 1
 " completion-nvim
 let g:completion_enable_auto_hover = 1
 let g:completion_auto_change_source = 1
-let g:completion_enable_snippet = 'UltiSnips'
+" let g:completion_enable_snippet = 'UltiSnips'
 
 " let g:completion_max_items = 10
 let g:completion_enable_auto_paren = 0
 let g:completion_timer_cycle = 80
 let g:completion_auto_change_source = 1
-let g:completion_trigger_keyword_length = 3
-let g:completion_confirm_key = ""
+" let g:completion_trigger_keyword_length = 3
 
-imap <expr> <cr> pumvisible() ? complete_info()["selected"] != "-1" ?
-                                \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" : "\<CR>"
+
+" let g:completion_confirm_key = ""
+" imap <expr> <cr> pumvisible() ? complete_info()["selected"] != "-1" ?
+"                                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" : "\<CR>"
 " let g:completion_confirm_key_rhs = "\<Plug>AutoPairsReturn"
 
 imap <c-j> <cmd>lua require'source'.prevCompletion()<CR>
