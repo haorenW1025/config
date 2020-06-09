@@ -1,9 +1,11 @@
 syntax enable
 syntax on
+filetype indent plugin on
 set nocompatible
 set number
 let mapleader = " "
 let maplocalleader = ","
+
 
 " Load packager only when you need it
 function! PackagerInit() abort
@@ -19,6 +21,7 @@ function! PackagerInit() abort
     call packager#add('tpope/vim-repeat')
     call packager#add('tpope/vim-obsession')
     call packager#add('tpope/vim-commentary')
+    call packager#add('tpope/vim-fugitive', {'type': 'opt'})
     call packager#add('airblade/vim-gitgutter')
     call packager#add('neovim/nvim-lsp', {'type': 'opt'})
     call packager#add('SirVer/ultisnips')
@@ -61,13 +64,14 @@ command! PackagerInstall call PackagerInit() | call packager#install()
 command! -bang PackagerUpdate call PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
 command! PackagerClean call PackagerInit() | call packager#clean()
 command! PackagerStatus call PackagerInit() | call packager#status()
-packadd vim-vsnip
-packadd vim-vsnip-integ
-packadd nvim-lsp
-packadd nvim-treesitter
-packadd completion-nvim.git
-packadd diagnostic-nvim.git
-packadd completion-buffers
-packadd fzf.vim
+packadd! vim-vsnip
+packadd! vim-vsnip-integ
+packadd! nvim-lsp
+packadd! nvim-treesitter
+packadd! completion-nvim.git
+packadd! diagnostic-nvim.git
+packadd! completion-buffers
+packadd! fzf.vim
+packadd! vim-fugitive
 
 luafile ~/.config/nvim/init.lua

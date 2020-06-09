@@ -5,6 +5,7 @@ au Filetype python setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype rust setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype lua setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype vim setl omnifunc=v:lua.vim.lsp.omnifunc
+set cmdheight=2
 
 let g:completion_customize_lsp_label = {
       \ 'Function': ' [function]',
@@ -28,16 +29,14 @@ let g:completion_chain_complete_list = {
             \ 'default' : {
             \   'default': [
             \       {'complete_items': ['lsp', 'snippet']},
-            \       {'complete_items': ['buffers']},
-            \       {'mode': '<c-p>'},
-            \       {'mode': '<c-n>'}],
+            \       {'complete_items': ['path'], 'triggered_only': ['/']},
+            \       {'complete_items': ['buffers']}],
             \   'string' : [
             \       {'complete_items': ['path'], 'triggered_only': ['/']}]
             \   },
             \ 'cpp' : {
             \   'default': [
             \       {'complete_items': ['lsp', 'snippet']},
-            \       {'complete_items': ['buffers']},
             \       {'mode': '<c-p>'},
             \       {'mode': '<c-n>'}],
             \   'comment': [],
@@ -51,7 +50,6 @@ let g:completion_chain_complete_list = {
             \   },
             \ 'verilog' : {
             \   'default': [
-            \       {'complete_items': ['ts']},
             \       {'mode': '<c-p>'},
             \       {'mode': '<c-n>'}],
             \   'comment': [],
@@ -77,7 +75,7 @@ let g:diagnostic_insert_delay = 1
 " completion-nvim
 let g:completion_enable_auto_hover = 1
 let g:completion_auto_change_source = 1
-" let g:completion_enable_snippet = 'UltiSnips'
+let g:completion_enable_snippet = 'UltiSnips'
 
 " let g:completion_max_items = 10
 let g:completion_enable_auto_paren = 0

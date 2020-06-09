@@ -76,6 +76,7 @@ autocmd BufWrite * mkview
 autocmd BufRead * silent! loadview
 
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+autocmd BufEnter *.ipy setlocal filetype=python.ipython
 
 set hidden
 set nobackup
