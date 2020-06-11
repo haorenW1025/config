@@ -1,2 +1,2 @@
 wincmd J
-resize 30
+resize 20

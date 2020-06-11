@@ -1,6 +1,7 @@
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
+local scratch = require("scratch")
 require("awful.autofocus")
 -- Widget and layout library
 local wibox = require("wibox")
@@ -234,9 +235,9 @@ globalkeys = gears.table.join(
               {description = "swap with previous client by index", group = "client"}),
     awful.key({ modkey, "Control"   }, "m", function () awful.client.setmaster(client.focus)    end,
               {description = "set the current client as master", group = "client"}),
-    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative(1) end,
+    awful.key({ modkey, "Mod1" }, "j", function () awful.screen.focus_relative(1) end,
               {description = "focus the next screen", group = "screen"}),
-    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
+    awful.key({ modkey, "Mod1" }, "k", function () awful.screen.focus_relative(-1) end,
               {description = "focus the previous screen", group = "screen"}),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
@@ -295,6 +296,11 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey,  "Shift" }, "Escape", function () awful.spawn("/usr/bin/rofi -show drun -modi drun") end,
               {description = "launch rofi menu", group = "launcher"}),
+
+    awful.key({ modkey   }, "t", function () scratch.toggle(
+      "alacritty --class scratch-term -d 150 50", { instance = "scratch-term" }
+      ) end,
+              {description = "open scratch term", group = "launcher"}),
 
     awful.key({ modkey, "Shift" },            "s",     function () awful.util.spawn('rofi -show ssh -modi ssh -ssh-command "alacritty -e {ssh-client} -Y {host}"') end,
               {description = "run surfraw", group = "launcher"}),
@@ -456,6 +462,7 @@ awful.rules.rules = {
         instance = {
           "DTA",  -- Firefox addon DownThemAll.
           "copyq",  -- Includes session name in class.
+          "scratch"
         },
         class = {
           "Arandr",

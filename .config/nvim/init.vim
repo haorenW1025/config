@@ -12,9 +12,9 @@ function! PackagerInit() abort
     packadd vim-packager
     call packager#init()
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
+    call packager#add('junegunn/fzf', { 'do': { -> fzf#install()}})
     call packager#add('arcticicestudio/nord-vim')
     call packager#add('junegunn/fzf.vim')
-    call packager#add('junegunn/fzf', { 'do': './install --all && ln -s $(pwd) ~/.fzf'})
     call packager#add('Raimondi/delimitMate')
     call packager#add('luochen1990/rainbow')
     call packager#add('tpope/vim-surround')
@@ -24,7 +24,7 @@ function! PackagerInit() abort
     call packager#add('tpope/vim-fugitive', {'type': 'opt'})
     call packager#add('airblade/vim-gitgutter')
     call packager#add('neovim/nvim-lsp', {'type': 'opt'})
-    call packager#add('SirVer/ultisnips')
+    call packager#add('SirVer/ultisnips', {'type': 'opt'})
     call packager#add('haorenW1025/vim-snippets')
 
     " utility plugins
@@ -57,13 +57,13 @@ function! PackagerInit() abort
     call packager#add('git@github.com:haorenW1025/term-nvim.git')
     call packager#add('git@github.com:haorenW1025/floatLf-nvim.git')
 
-  "Loaded only for specific filetypes on demand. Requires autocommands below.
 endfunction
 
 command! PackagerInstall call PackagerInit() | call packager#install()
 command! -bang PackagerUpdate call PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
 command! PackagerClean call PackagerInit() | call packager#clean()
 command! PackagerStatus call PackagerInit() | call packager#status()
+packadd! ultisnips
 packadd! vim-vsnip
 packadd! vim-vsnip-integ
 packadd! nvim-lsp
