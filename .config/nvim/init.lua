@@ -1,5 +1,6 @@
 -- lsp setup
 local lsp = require'nvim_lsp'
+local callback = require'callback'
 
 require'nvim-treesitter.configs'.setup {
     highlight = {
@@ -37,7 +38,7 @@ local on_attach = function(client)
   mapper('n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>')
   mapper('n', '1gD', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
   mapper('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-  mapper('n', 'g0', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+  mapper('n', 'g0', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
   mapper('i', '<c-l>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 end
 
@@ -110,6 +111,7 @@ lsp.rust_analyzer.setup{
 
 lsp.tsserver.setup{
   on_attach = on_attach;
+  cmd = "typescript-language-server --stdio"
 }
 
 lsp.metals.setup{
