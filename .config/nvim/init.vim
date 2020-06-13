@@ -12,19 +12,16 @@ function! PackagerInit() abort
     packadd vim-packager
     call packager#init()
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
-    call packager#add('junegunn/fzf', { 'do': { -> fzf#install()}})
+    call packager#add('liuchengxu/vim-clap', { 'do': ':Clap install-binary', 'type': 'opt'})
     call packager#add('arcticicestudio/nord-vim')
-    call packager#add('junegunn/fzf.vim')
     call packager#add('Raimondi/delimitMate')
     call packager#add('luochen1990/rainbow')
     call packager#add('tpope/vim-surround')
     call packager#add('tpope/vim-repeat')
     call packager#add('tpope/vim-obsession')
     call packager#add('tpope/vim-commentary')
-    call packager#add('tpope/vim-fugitive', {'type': 'opt'})
+    call packager#add('hardcoreplayers/dashboard-nvim', {'type': 'opt'})
     call packager#add('airblade/vim-gitgutter')
-    call packager#add('neovim/nvim-lsp', {'type': 'opt'})
-    call packager#add('SirVer/ultisnips', {'type': 'opt'})
     call packager#add('haorenW1025/vim-snippets')
 
     " utility plugins
@@ -42,6 +39,9 @@ function! PackagerInit() abort
     " colorizer
     call packager#add('norcalli/nvim-colorizer.lua')
 
+    call packager#add('tpope/vim-fugitive', {'type': 'opt'})
+    call packager#add('neovim/nvim-lsp', {'type': 'opt'})
+    call packager#add('SirVer/ultisnips', {'type': 'opt'})
     " tree-sitter
     call packager#add('nvim-treesitter/nvim-treesitter', {'type': 'opt'})
     " Plug 'mfussenegger/nvim-dap'
@@ -71,7 +71,10 @@ packadd! nvim-treesitter
 packadd! completion-nvim.git
 packadd! diagnostic-nvim.git
 packadd! completion-buffers
-packadd! fzf.vim
-packadd! vim-fugitive
+packadd! dashboard-nvim
+packadd! vim-clap
+" packadd! fzf.vim
+" packadd! vim-fugitive
+
 
 luafile ~/.config/nvim/init.lua

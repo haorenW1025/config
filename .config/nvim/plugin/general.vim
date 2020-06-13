@@ -2,6 +2,7 @@
 set wildmode=longest:list,full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules
 set pumblend=20
+set pumheight=20
 
 if has("autocmd")
 " Highlight TODO, FIXME, NOTE, etc.

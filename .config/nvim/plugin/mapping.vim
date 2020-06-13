@@ -8,20 +8,32 @@ nnoremap <silent> <leader>do :OpenDiagnostic<CR>
 nnoremap <leader>dl <cmd>lua require'diagnostic.util'.show_line_diagnostics()<CR>
 
 " fzf
-nmap ,f :Files<CR>
-nmap ,h :FZF ~<CR>
-nmap ,g :GFiles<CR>
-nmap ,m :History<CR>
-nmap ,b :Buffer<CR>
-nmap ,sn :Snippets<CR>
-nmap ,c :Chistory<CR>
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
-nmap ,ss :Rg<space>
-nmap ,sc :Rg <c-r>=expand("<cword>")<CR><CR>
-nmap ,sl :Rg<UP><CR>
+" nmap ,f :Files<CR>
+" nmap ,h :FZF ~<CR>
+" nmap ,g :GFiles<CR>
+" nmap ,m :History<CR>
+" nmap ,b :Buffer<CR>
+" nmap ,sn :Snippets<CR>
+" nmap ,c :Chistory<CR>
+" nmap <leader><tab> <plug>(fzf-maps-n)
+" xmap <leader><tab> <plug>(fzf-maps-x)
+" omap <leader><tab> <plug>(fzf-maps-o)
+" nmap ,ss :Rg<space>
+" nmap ,sc :Rg <c-r>=expand("<cword>")<CR><CR>
+" nmap ,sl :Rg<UP><CR>
 
+" clap
+nmap ,ff :Clap files<CR>
+nmap ,fl :Clap filer<CR>
+nmap ,h :Clap files ~<CR>
+nmap ,g :Clap gfiles<CR>
+nmap ,l :Clap lines<CR>
+nmap ,m :History<CR>
+nmap ,b :Clap buffers<CR>
+nmap ,ss :Clap grep2<CR>
+nmap ,sm :Clap grep2 ++query=<cword><CR>
+vmap ,s :Clap grep ++query=@visual<CR>
+" nmap ,sc :Clap grep2 <c-r>=expand("<cword>")<CR><CR>
 
 " git
 nmap ]h <Plug>(GitGutterNextHunk)

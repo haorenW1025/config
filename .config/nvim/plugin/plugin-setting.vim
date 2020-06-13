@@ -76,7 +76,6 @@ let g:diagnostic_insert_delay = 1
 let g:completion_enable_auto_hover = 1
 let g:completion_auto_change_source = 1
 let g:completion_enable_snippet = 'UltiSnips'
-
 let g:completion_max_items = 10
 let g:completion_enable_auto_paren = 0
 let g:completion_timer_cycle = 80
@@ -176,6 +175,12 @@ command! -bang -nargs=* Rg
 let $FZF_DEFAULT_OPTS = "--layout=reverse"
 '
 let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow(0)' }
+let g:clap_layout = { 'relative': 'editor' }
+let g:clap_theme = { 'display': {'guibg': '#404040'},
+                   \ 'preview': {'guibg': '#202020'},
+                   \ 'input': {'guifg': '#81A1C1'},
+                   \ 'spinner': {'gui': 'bold', 'guifg': '#A3BE8C'}}
+
 
 " NerdCommentor
 let g:NERDSpaceDelims = 1
