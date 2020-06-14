@@ -90,19 +90,19 @@ lsp.pyls.setup{
 
 lsp.clangd.setup{
   on_attach = on_attach;
-  -- capabilities = {
-  --   textDocument = {
-  --     completion = {
-  --       completionItem = {
-  --         snippetSupport = true
-  --       }
-  --     }
-  --   }
-  -- },
-  -- init_options = {
-  --   usePlaceholders = true,
-  --   completeUnimported = true
-  -- }
+  capabilities = {
+    textDocument = {
+      completion = {
+        completionItem = {
+          snippetSupport = true
+        }
+      }
+    }
+  },
+  init_options = {
+    usePlaceholders = true,
+    completeUnimported = true
+  }
 }
 
 lsp.rust_analyzer.setup{

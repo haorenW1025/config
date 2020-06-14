@@ -47,7 +47,7 @@ beautiful.border_width = 8
 beautiful.font = "Monofurbold Nerd Font Mono Bold 20"
 
 -- This is used later as the default terminal and editor to run.
-browser = "brave"
+browser = "firefox"
 filemanager = "exo-open --launch FileManager" or "thunar"
 gui_editor = "mousepad"
 terminal = "alacritty"
@@ -288,7 +288,7 @@ globalkeys = gears.table.join(
               end,
               {description = "restore minimized", group = "client"}),
 
-    awful.key({ modkey },            "b",     function () awful.util.spawn("brave") end,
+    awful.key({ modkey },            "b",     function () awful.util.spawn("firefox") end,
               {description = "browser", group = "application"}),
     -- rofi
     awful.key({ modkey },            "r",     function () awful.util.spawn("/usr/bin/rofi -show run -modi run") end,
@@ -296,6 +296,9 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey,  "Shift" }, "Escape", function () awful.spawn("/usr/bin/rofi -show drun -modi drun") end,
               {description = "launch rofi menu", group = "launcher"}),
+
+    awful.key({ modkey,  "Shift" }, "w", function () awful.spawn("/usr/bin/rofi -show window -modi window") end,
+              {description = "launch rofi window", group = "launcher"}),
 
     awful.key({ modkey   }, "t", function () scratch.toggle(
       "alacritty --class scratch-term -d 150 50", { instance = "scratch-term" }

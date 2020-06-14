@@ -24,14 +24,15 @@ nnoremap <leader>dl <cmd>lua require'diagnostic.util'.show_line_diagnostics()<CR
 
 " clap
 nmap ,ff :Clap files<CR>
+nmap ,fc :Clap files <c-r>=expand("%:p:h")<CR><CR>
 nmap ,fl :Clap filer<CR>
 nmap ,h :Clap files ~<CR>
 nmap ,g :Clap gfiles<CR>
 nmap ,l :Clap lines<CR>
 nmap ,m :History<CR>
 nmap ,b :Clap buffers<CR>
-nmap ,ss :Clap grep2<CR>
-nmap ,sm :Clap grep2 ++query=<cword><CR>
+nmap ,w :Clap grep2<CR>
+nmap ,c :Clap grep2 ++query=<cword><CR>
 vmap ,s :Clap grep ++query=@visual<CR>
 " nmap ,sc :Clap grep2 <c-r>=expand("<cword>")<CR><CR>
 

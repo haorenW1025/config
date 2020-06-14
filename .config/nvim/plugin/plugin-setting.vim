@@ -194,7 +194,7 @@ let g:polyglot_disabled = ['v', 'vlang']
 let g:AutoPairsShortcutFastWrap="jw"
 
 " ultisnips
-let g:UltiSnipsSnippetDirectories = ["~/.vim/plugged/vim-snippets/UltiSnips/"]
+let g:UltiSnipsSnippetDirectories = ["/home/whz861025/.config/nvim/pack/packager/start/vim-snippets/UltiSnips"]
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsExpandTrigger="jl"
 let g:ultisnips_python_style="google"
@@ -224,6 +224,36 @@ xmap ga <Plug>(EasyAlign)
 " FloatLf
 let g:floatLf_border = 0
 let g:floatLf_exec = 'lf'
+
+" indentLine
+let g:indentLine_fileTypeExclude = ['dashboard']
+
+" dashboard
+nmap <Leader>ss :<C-u>SessionSave<CR>
+nmap <Leader>sl :<C-u>SessionLoad<CR>
+nnoremap <silent> <Leader>fh :<C-u>Clap history<CR>
+nnoremap <silent> <Leader>ff :<C-u>Clap files ++finder=rg --ignore --hidden --files<cr>
+nnoremap <silent> <Leader>tc :<C-u>Clap colors<CR>
+nnoremap <silent> <Leader>fa :<C-u>Clap grep2<CR>
+nnoremap <silent> <Leader>fb :<C-u>Clap marks<CR>
+
+let g:dashboard_custom_shortcut={
+  \ 'last_session' : 'SPC s l',
+  \ 'find_history' : 'SPC f h',
+  \ 'find_file' : 'SPC f f',
+  \ 'change_colorscheme' : 'SPC t c',
+  \ 'find_word' : 'SPC f a',
+  \ 'book_marks' : 'SPC f b',
+  \ }
+" let g:dashboard_custom_header = [
+"     \'',
+"     \' _   _ _____ _____     _____ __  __ ',
+"     \'| \ | | ____/ _ \ \   / /_ _|  \/  |',
+"     \'|  \| |  _|| | | \ \ / / | || |\/| |',
+"     \'| |\  | |__| |_| |\ V /  | || |  | |',
+"     \'|_| \_|_____\___/  \_/  |___|_|  |_|',
+"     \'',
+" \]
 
 " sneak
 let g:sneak#s_next = 1
