@@ -1,22 +1,58 @@
 -- lsp setup
 local lsp = require'nvim_lsp'
 local callback = require'callback'
+local dap = require'dap'
 
-require'nvim-treesitter.configs'.setup {
-    highlight = {
-        enable = false,
-    },
-    incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = 'gnn',
-          node_incremental = "grn",
-          scope_incremental = "grc",
-          node_decremental = "grm",
-        }
-    },
-    ensure_installed = {'rust', 'cpp', 'lua', 'python'}
+dap.adapters.cpp = {
+  attach = {
+    pidProperty = "pid",
+    pidSelect = "ask"
+  },
+  command = 'lldb-vscode', -- my binary was called 'lldb-vscode-11'
+  env = {
+    LLDB_LAUNCH_FLAG_LAUNCH_IN_TTY = "YES"
+  },
+  name = "lldb"
 }
+
+vim.cmd [[
+    command! -complete=file -nargs=* DebugC lua require "my_debug".start_c_debugger({<f-args>}, "gdb")
+]]
+vim.cmd [[
+    command! -complete=file -nargs=* DebugRust lua require "my_debug".start_c_debugger({<f-args>}, "gdb", "rust-gdb")
+]]
+
+dap.repl.commands = {
+  continue = {'.continue', '.c'},
+  next_ = {'.next', '.n'},
+  into = {'.into', '.i'},
+  out = {'.out', '.o'},
+  scopes = {'.scopes'},
+  threads = {'.threads'},
+  frames = {'.frames'},
+  exit = {'exit', '.exit'},
+  up = {'.up'},
+  down = {'.down'},
+  goto_ = {'.goto'},
+}
+
+-- require'nvim-treesitter.configs'.setup {
+--     highlight = {
+--         enable = true,
+--         disable = {'cpp'}
+--     },
+--     incremental_selection = {
+--         enable = true,
+--         keymaps = {
+--           init_selection = 'gnn',
+--           node_incremental = "grn",
+--           scope_incremental = "grc",
+--           node_decremental = "grm",
+--         }
+--     },
+--     ensure_installed = {'rust', 'cpp', 'lua', 'python'}
+-- }
+
 
 
 local on_attach = function(client)
@@ -53,7 +89,7 @@ lsp.sumneko_lua.setup {
   settings = {
     Lua = {
       completion = {
-        keywordSnippet = "Disable";
+        -- keywordSnippet = "Disable";
       };
       runtime = {
         version = "LuaJIT";
@@ -90,19 +126,19 @@ lsp.pyls.setup{
 
 lsp.clangd.setup{
   on_attach = on_attach;
-  capabilities = {
-    textDocument = {
-      completion = {
-        completionItem = {
-          snippetSupport = true
-        }
-      }
-    }
-  },
-  init_options = {
-    usePlaceholders = true,
-    completeUnimported = true
-  }
+  -- capabilities = {
+  --   textDocument = {
+  --     completion = {
+  --       completionItem = {
+  --         snippetSupport = true
+  --       }
+  --     }
+  --   }
+  -- },
+  -- init_options = {
+  --   usePlaceholders = true,
+  --   completeUnimported = true
+  -- }
 }
 
 lsp.rust_analyzer.setup{

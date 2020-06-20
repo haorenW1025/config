@@ -34,6 +34,15 @@ let g:completion_chain_complete_list = {
             \   'string' : [
             \       {'complete_items': ['path'], 'triggered_only': ['/']}]
             \   },
+            \ 'vim' : {
+            \   'default': [
+            \       {'complete_items': ['lsp', 'snippet']},
+            \       {'complete_items': ['path'], 'triggered_only': ['/']},
+            \       {'mode': '<c-p>'},
+            \       {'mode': '<c-n>'}],
+            \   'string' : [
+            \       {'complete_items': ['path'], 'triggered_only': ['/']}]
+            \   },
             \ 'cpp' : {
             \   'default': [
             \       {'complete_items': ['lsp', 'snippet']},
@@ -186,9 +195,6 @@ let g:clap_theme = { 'display': {'guibg': '#404040'},
 let g:NERDSpaceDelims = 1
 let g:NERDTrimTrailingWhitespace = 0
 let g:NERDCompactSexyComs = 1
-
-" polyglot
-let g:polyglot_disabled = ['v', 'vlang']
 
 " autopair
 let g:AutoPairsShortcutFastWrap="jw"

@@ -579,4 +579,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 --    end
 --end)
 
-awful.spawn.with_shell("~/.config/awesome/autorun.sh")
+awful.spawn.with_shell("~/script/autorun.sh")

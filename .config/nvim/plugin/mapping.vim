@@ -7,6 +7,18 @@ nnoremap <silent> [d :PrevDiagnostic<CR>
 nnoremap <silent> <leader>do :OpenDiagnostic<CR>
 nnoremap <leader>dl <cmd>lua require'diagnostic.util'.show_line_diagnostics()<CR>
 
+" dap
+nnoremap <silent> <c-c> :lua require'dap'.continue()<CR>
+nnoremap <silent> <down> :lua require'dap'.step_over()<CR>
+nnoremap <silent> <c-i> :lua require'dap'.step_into()<CR>
+nnoremap <silent> <up> :lua require'dap'.step_out()<CR>
+nnoremap <silent> <leader>db :lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <silent> <leader>dB :lua require'dap'.toggle_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+nnoremap <silent> <leader>de :lua require'dap'.repl.exit()<CR>
+nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
+nnoremap <silent> <leader>dl :lua require'dap'.repl.run_last()<CR>
+
+
 " fzf
 " nmap ,f :Files<CR>
 " nmap ,h :FZF ~<CR>
@@ -29,7 +41,7 @@ nmap ,fl :Clap filer<CR>
 nmap ,h :Clap files ~<CR>
 nmap ,g :Clap gfiles<CR>
 nmap ,l :Clap lines<CR>
-nmap ,m :History<CR>
+nmap ,m :Clap history<CR>
 nmap ,b :Clap buffers<CR>
 nmap ,w :Clap grep2<CR>
 nmap ,c :Clap grep2 ++query=<cword><CR>
@@ -161,7 +173,6 @@ inoremap jk <Esc>`^
 inoremap JK <Esc>`^
 nmap <leader>n :noh<CR><Esc>
 nmap x "_dl
-nmap <leader>so :source ~/.config/nvim/init.vim<CR>
 nmap <leader>cof :e ~/.config/nvim/init.vim<CR>
 nmap <leader>wo <C-w>o
 nmap <leader>bc :bd<CR>

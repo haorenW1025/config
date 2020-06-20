@@ -24,6 +24,8 @@ function! PackagerInit() abort
     call packager#add('airblade/vim-gitgutter')
     call packager#add('haorenW1025/vim-snippets')
 
+    call packager#add('bfrg/vim-cpp-modern')
+
     " utility plugins
     call packager#add('psliwka/vim-smoothie')
     call packager#add('Yggdroot/indentLine')
@@ -44,7 +46,7 @@ function! PackagerInit() abort
     call packager#add('SirVer/ultisnips', {'type': 'opt'})
     " tree-sitter
     call packager#add('nvim-treesitter/nvim-treesitter', {'type': 'opt'})
-    " Plug 'mfussenegger/nvim-dap'
+    call packager#add('mfussenegger/nvim-dap', {'type': 'opt'})
     call packager#add('bfredl/nvim-ipy', { 'type': 'opt' })
 
     call packager#add('hrsh7th/vim-vsnip-integ', {'type': 'opt'})
@@ -67,11 +69,12 @@ packadd! ultisnips
 packadd! vim-vsnip
 packadd! vim-vsnip-integ
 packadd! nvim-lsp
-packadd! nvim-treesitter
+" packadd! nvim-treesitter
 packadd! completion-nvim.git
 packadd! diagnostic-nvim.git
 packadd! completion-buffers
 packadd! dashboard-nvim
+packadd! nvim-dap
 packadd! vim-clap
 " packadd! fzf.vim
 " packadd! vim-fugitive

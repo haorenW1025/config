@@ -46,6 +46,7 @@ map gc cd ~/.config
 map gv cd ~/.config/nvim
 map gl cd ~/.config/lf
 map gw cd ~/workplace
+map gs cd ~/script
 map g~ cd ~/
 
 map el $$EDITOR ~/.config/lf/lfrc
@@ -64,20 +65,19 @@ cmd open ${{
 }}
 
 # define a custom 'rename' command without prompt for overwrite
+map m
 cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
 map m push :rename<space>
 
 cmd mkdir ${{
     mkdir $1
 }}
-map A push :mkdir<space>
+map N push :mkdir<space>
 
-cmd mkfile ${{
-    printf "File Name: "
-    read ans
-    $EDITOR $ans
+cmd touch ${{
+    touch $1
 }}
-map a mkfile
+map n push :touch<space>
 # make sure trash folder exists
 # %mkdir -p ~/.trash
 
@@ -85,6 +85,7 @@ map a mkfile
 # (also see 'man mv' for backup/overwrite options)
 cmd trash %set -f; mv $fx ~/.trash
 
+map d
 map d :delete
 # define a custom 'delete' command
 cmd delete %{{
@@ -112,7 +113,8 @@ cmd extract ${{
     esac
 }}
 
-cmd aj %lf -remote "send $id cd '$(autojump $1)'"
+cmd aj %lf -remote "send $id cd '$(~/.config/zsh/z.lua/z.lua -e $1)'"
+map a
 map a push :aj<space>
 # compress current file or selected files with tar and gunzip
 cmd tar ${{

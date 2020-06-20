@@ -3,6 +3,7 @@
 
 declare options=("
 alacritty
+xmonad
 awesome
 neovim
 lf
@@ -19,6 +20,9 @@ case "$choice" in
 	alacritty)
 		choice="$HOME/.config/alacritty/alacritty.yml"
 	;;
+	xmonad)
+		choice="$HOME/.xmonad/xmonad.hs"
+    ;;
 	awesome)
 		choice="$HOME/.config/awesome/rc.lua"
 	;;
@@ -38,5 +42,5 @@ case "$choice" in
 		exit 1
 	;;
 esac
-st -e nvim "$choice"
+st -e nvim -c 'cd %:p:h' "$choice"
 

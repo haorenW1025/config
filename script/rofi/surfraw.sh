@@ -9,7 +9,7 @@ engine=$(sr -elvi | gawk '{if (NR!=1) { print $1 }}' | $cmd -p "Search engine?")
 done
 
 while [ -z "$query" ]; do
-query=$(echo "" | $cmd -p "Searching $engine ") || exit
+    query=$(echo '' | $cmd -p "Searching $engine "  | sed 's/\"//g' ) || exit
 done
 
 sr "$engine" "$query"
