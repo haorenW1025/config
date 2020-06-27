@@ -7,46 +7,20 @@ nnoremap <silent> [d :PrevDiagnostic<CR>
 nnoremap <silent> <leader>do :OpenDiagnostic<CR>
 nnoremap <leader>dl <cmd>lua require'diagnostic.util'.show_line_diagnostics()<CR>
 
-" dap
-nnoremap <silent> <c-c> :lua require'dap'.continue()<CR>
-nnoremap <silent> <down> :lua require'dap'.step_over()<CR>
-nnoremap <silent> <c-i> :lua require'dap'.step_into()<CR>
-nnoremap <silent> <up> :lua require'dap'.step_out()<CR>
-nnoremap <silent> <leader>db :lua require'dap'.toggle_breakpoint()<CR>
-nnoremap <silent> <leader>dB :lua require'dap'.toggle_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
-nnoremap <silent> <leader>de :lua require'dap'.repl.exit()<CR>
-nnoremap <silent> <leader>dr :lua require'dap'.repl.open()<CR>
-nnoremap <silent> <leader>dl :lua require'dap'.repl.run_last()<CR>
-
 
 " fzf
-" nmap ,f :Files<CR>
-" nmap ,h :FZF ~<CR>
-" nmap ,g :GFiles<CR>
-" nmap ,m :History<CR>
-" nmap ,b :Buffer<CR>
-" nmap ,sn :Snippets<CR>
-" nmap ,c :Chistory<CR>
-" nmap <leader><tab> <plug>(fzf-maps-n)
-" xmap <leader><tab> <plug>(fzf-maps-x)
-" omap <leader><tab> <plug>(fzf-maps-o)
-" nmap ,ss :Rg<space>
-" nmap ,sc :Rg <c-r>=expand("<cword>")<CR><CR>
-" nmap ,sl :Rg<UP><CR>
-
-" clap
-nmap ,ff :Clap files<CR>
-nmap ,fc :Clap files <c-r>=expand("%:p:h")<CR><CR>
-nmap ,fl :Clap filer<CR>
-nmap ,h :Clap files ~<CR>
-nmap ,g :Clap gfiles<CR>
-nmap ,l :Clap lines<CR>
-nmap ,m :Clap history<CR>
-nmap ,b :Clap buffers<CR>
-nmap ,w :Clap grep2<CR>
-nmap ,c :Clap grep2 ++query=<cword><CR>
-vmap ,s :Clap grep ++query=@visual<CR>
-" nmap ,sc :Clap grep2 <c-r>=expand("<cword>")<CR><CR>
+nnoremap <silent> ,f    :<C-u>FzfPreviewProjectFiles<CR>
+nnoremap <silent> ,gm    :<C-u>FzfPreviewFromResources project_mru git<CR>
+nnoremap <silent> ,b     :<C-u>FzfPreviewBuffers<CR>
+nnoremap <silent> ,B     :<C-u>FzfPreviewAllBuffers<CR>
+nnoremap <silent> ,m     :<C-u>FzfPreviewFromResources buffer project_mru<CR>
+nnoremap <silent> ,o     :<C-u>FzfPreviewJumps<CR>
+nnoremap <silent> ,g     :<C-u>FzfPreviewChanges<CR>
+nnoremap <silent> ,l     :<C-u>FzfPreviewLines -add-fzf-arg=--no-sort<CR>
+nnoremap          ,w     :<C-u>FzfPreviewProjectCommandGrep<CR>
+nnoremap          ,c     :<C-u>FzfPreviewProjectGrep -add-fzf-arg=--query="<C-r>=expand('<cword>')<CR>" <Space><CR>
+nnoremap <silent> ,q     :<C-u>FzfPreviewQuickFix<CR>
+nnoremap <silent> ,l     :<C-u>FzfPreviewLocationList<CR>
 
 " git
 nmap ]h <Plug>(GitGutterNextHunk)

@@ -107,6 +107,7 @@ autocmd InsertEnter,WinLeave * set nocursorline
 cnoremap <c-n> <down>
 cnoremap <c-p> <up>
 
+set inccommand=split
 set nofoldenable
 set laststatus=2
 set showtabline=2

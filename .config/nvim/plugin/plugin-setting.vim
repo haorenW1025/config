@@ -91,14 +91,14 @@ let g:completion_timer_cycle = 80
 let g:completion_auto_change_source = 1
 " let g:completion_trigger_keyword_length = 3
 
-let g:completion_confirm_key = ""
-imap <expr> <cr> pumvisible() ? complete_info()["selected"] != "-1" ?
-                                \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :
-                                \ "\<CR>"
+" let g:completion_confirm_key = ""
+" imap <expr> <cr> pumvisible() ? complete_info()["selected"] != "-1" ?
+"                                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :
+"                                 \ "\<CR>"
 " let g:completion_confirm_key_rhs = "\<Plug>AutoPairsReturn"
 
-imap <c-j> <cmd>lua require'source'.prevCompletion()<CR>
-imap <c-k> <cmd>lua require'source'.nextCompletion()<CR>
+imap  <c-j> <Plug>(completion_next_source)
+imap  <c-k> <Plug>(completion_prev_source)
 
 function! s:check_back_space() abort
     let col = col('.') - 1
