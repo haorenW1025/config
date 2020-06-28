@@ -86,6 +86,31 @@ tmap <a-4> <c-a><CR>4gt
 nmap <a-5> 5gt
 tmap <a-5> <c-a><CR>5gt
 
+" for mac specific
+nmap ‘ gt
+nmap “ gT
+tmap ‘ <c-a><CR>gt
+tmap “ <c-a><CR>gT
+nmap ¡ 1gt
+tmap ¡ <c-a><CR>1gt
+nmap ™ 2gt
+tmap ™ <c-a><CR>2gt
+nmap £ 3gt
+tmap £ <c-a><CR>3gt
+nmap ¢ 4gt
+tmap ¢ <c-a><CR>4gt
+nmap ∞ 5gt
+tmap ∞ <c-a><CR>5gt
+
+nmap ˙ <C-w>h
+nmap ∆ <C-w>j
+nmap ˚ <C-w>k
+nmap ¬ <C-w>l
+tmap ˙ <c-a><CR><c-w>h
+tmap ∆ <c-a><CR><c-w>j
+tmap ˚ <c-a><CR><C-w>k
+tmap ¬ <c-a><CR><c-w>l
+
 " term-nvim
 nmap tt :TermToggle<CR>
 nmap t<CR> :TermSend<Space>
