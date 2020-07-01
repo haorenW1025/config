@@ -14,35 +14,34 @@ function! PackagerInit() abort
     call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
     call packager#add('junegunn/fzf', { 'do': './install --all && ln -s $(pwd) ~/.fzf'})
     call packager#add('yuki-ycino/fzf-preview.vim', {'type': 'opt'})
-    call packager#add('liuchengxu/vim-clap', { 'do': ':Clap install-binary', 'type': 'opt'})
+    " call packager#add('liuchengxu/vim-clap', { 'do': ':Clap install-binary', 'type': 'opt'})
     call packager#add('arcticicestudio/nord-vim', {'type': 'opt'})
     call packager#add('Raimondi/delimitMate', {'type': 'opt'})
     call packager#add('luochen1990/rainbow', {'type': 'opt'})
     call packager#add('tpope/vim-surround')
     call packager#add('tpope/vim-repeat')
-    call packager#add('tpope/vim-obsession')
     call packager#add('tpope/vim-commentary')
-    call packager#add('hardcoreplayers/dashboard-nvim', {'type': 'opt'})
+    call packager#add('tpope/vim-scriptease')
+    call packager#add('tpope/vim-projectionist')
+    " call packager#add('hardcoreplayers/dashboard-nvim', {'type': 'opt'})
+    call packager#add('mhinz/vim-startify', {'type': 'opt'})
     call packager#add('airblade/vim-gitgutter', {'type': 'opt'})
     call packager#add('haorenW1025/vim-snippets')
     call packager#add('lervag/vimtex', {'type': 'opt'})
+    " call packager#add('glacambre/firenvim', {'do':  'call firenvim#install(0)'})
 
     " utility plugins
     call packager#add('psliwka/vim-smoothie', {'type': 'opt'})
-    call packager#add('Yggdroot/indentLine', {'type': 'opt'})
-
-    " alignment plugin
-    call packager#add('junegunn/vim-easy-align', {'type': 'opt'})
+    call packager#add('Yggdroot/indentLine', {'type': 'opt'}) " alignment plugin call packager#add('junegunn/vim-easy-align', {'type': 'opt'})
 
     call packager#add('kana/vim-textobj-user')
     call packager#add('Julian/vim-textobj-variable-segment')
     call packager#add('justinmk/vim-sneak')
 
-    call packager#add('sgur/vim-editorconfig')
     " colorizer
     call packager#add('norcalli/nvim-colorizer.lua')
 
-    call packager#add('tpope/vim-fugitive', {'type': 'opt'})
+    call packager#add('lambdalisue/gina.vim', {'type': 'opt'})
     call packager#add('neovim/nvim-lsp', {'type': 'opt'})
     call packager#add('SirVer/ultisnips', {'type': 'opt'})
     " tree-sitter
@@ -69,20 +68,19 @@ packadd! nord-vim
 packadd! vim-gitgutter
 packadd! delimitMate
 packadd! indentLine
-packadd! vim-easy-align
 packadd! vim-smoothie
 packadd! ultisnips
-" packadd! vim-vsnip
-" packadd! vim-vsnip-integ
+packadd! vim-vsnip
+packadd! vim-vsnip-integ
 packadd! nvim-lsp
 " packadd! nvim-treesitter
 packadd! completion-nvim.git
 packadd! diagnostic-nvim.git
 packadd! completion-buffers
-packadd! dashboard-nvim
+" packadd! dashboard-nvim
 packadd! fzf-preview.vim
-" packadd! fzf.vim
-" packadd! vim-fugitive
+packadd! gina.vim
+packadd! vim-startify
 
 
 luafile ~/.config/nvim/init.lua

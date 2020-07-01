@@ -1,48 +1,14 @@
 -- lsp setup
 local lsp = require'nvim_lsp'
 local callback = require'callback'
--- local dap = require'dap'
-
--- dap.adapters.cpp = {
---   attach = {
---     pidProperty = "pid",
---     pidSelect = "ask"
---   },
---   command = 'lldb-vscode', -- my binary was called 'lldb-vscode-11'
---   env = {
---     LLDB_LAUNCH_FLAG_LAUNCH_IN_TTY = "YES"
---   },
---   name = "lldb"
--- }
-
--- vim.cmd [[
---     command! -complete=file -nargs=* DebugC lua require "my_debug".start_c_debugger({<f-args>}, "gdb")
--- ]]
--- vim.cmd [[
---     command! -complete=file -nargs=* DebugRust lua require "my_debug".start_c_debugger({<f-args>}, "gdb", "rust-gdb")
--- ]]
-
--- dap.repl.commands = {
---   continue = {'.continue', '.c'},
---   next_ = {'.next', '.n'},
---   into = {'.into', '.i'},
---   out = {'.out', '.o'},
---   scopes = {'.scopes', '.s'},
---   threads = {'.threads'},
---   frames = {'.frames'},
---   exit = {'exit', '.exit'},
---   up = {'.up'},
---   down = {'.down'},
---   goto_ = {'.goto'},
--- }
 
 -- require'nvim-treesitter.configs'.setup {
 --     highlight = {
 --         enable = true,
---         disable = {'cpp'}
+--         disable = {'c'}
 --     },
 --     incremental_selection = {
---         enable = true,
+--         enable = false,
 --         keymaps = {
 --           init_selection = 'gnn',
 --           node_incremental = "grn",
@@ -60,7 +26,7 @@ local on_attach = function(client)
   require'diagnostic'.on_attach()
   require'completion'.on_attach({
       sorter = 'alphabet',
-      matcher = {'exact', 'substring', 'fuzzy'}
+      matcher = {'exact', 'fuzzy'}
     })
 
   -- This came from https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/lua/lsp_config.lua
@@ -89,7 +55,7 @@ lsp.sumneko_lua.setup {
   settings = {
     Lua = {
       completion = {
-        -- keywordSnippet = "Disable";
+        keywordSnippet = "Disable";
       };
       runtime = {
         version = "LuaJIT";

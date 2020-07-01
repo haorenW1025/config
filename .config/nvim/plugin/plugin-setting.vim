@@ -28,7 +28,7 @@ let g:completion_customize_lsp_label = {
 let g:completion_chain_complete_list = {
             \ 'default' : {
             \   'default': [
-            \       {'complete_items': ['lsp', 'snippet']},
+            \       {'complete_items': ['lsp', 'UltiSnips']},
             \       {'complete_items': ['path'], 'triggered_only': ['/']},
             \       {'complete_items': ['buffers']}],
             \   'string' : [
@@ -84,11 +84,12 @@ let g:diagnostic_insert_delay = 1
 " completion-nvim
 let g:completion_enable_auto_hover = 1
 let g:completion_auto_change_source = 1
-let g:completion_enable_snippet = 'UltiSnips'
+" let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_max_items = 10
 let g:completion_enable_auto_paren = 0
 let g:completion_timer_cycle = 80
 let g:completion_auto_change_source = 1
+let g:completion_matching_ignore_case = 1
 " let g:completion_trigger_keyword_length = 3
 
 " let g:completion_confirm_key = ""
@@ -231,35 +232,6 @@ xmap ga <Plug>(EasyAlign)
 let g:floatLf_border = 0
 let g:floatLf_exec = 'lf'
 
-" indentLine
-let g:indentLine_fileTypeExclude = ['dashboard']
-
-" dashboard
-nmap <Leader>ss :<C-u>SessionSave<CR>
-nmap <Leader>sl :<C-u>SessionLoad<CR>
-nnoremap <silent> <Leader>fh :<C-u>Clap history<CR>
-nnoremap <silent> <Leader>ff :<C-u>Clap files ++finder=rg --ignore --hidden --files<cr>
-nnoremap <silent> <Leader>tc :<C-u>Clap colors<CR>
-nnoremap <silent> <Leader>fa :<C-u>Clap grep2<CR>
-nnoremap <silent> <Leader>fb :<C-u>Clap marks<CR>
-
-let g:dashboard_custom_shortcut={
-  \ 'last_session' : 'SPC s l',
-  \ 'find_history' : 'SPC f h',
-  \ 'find_file' : 'SPC f f',
-  \ 'change_colorscheme' : 'SPC t c',
-  \ 'find_word' : 'SPC f a',
-  \ 'book_marks' : 'SPC f b',
-  \ }
-" let g:dashboard_custom_header = [
-"     \'',
-"     \' _   _ _____ _____     _____ __  __ ',
-"     \'| \ | | ____/ _ \ \   / /_ _|  \/  |',
-"     \'|  \| |  _|| | | \ \ / / | || |\/| |',
-"     \'| |\  | |__| |_| |\ V /  | || |  | |',
-"     \'|_| \_|_____\___/  \_/  |___|_|  |_|',
-"     \'',
-" \]
 
 " sneak
 let g:sneak#s_next = 1
@@ -269,3 +241,7 @@ highlight SneakScope guifg=red guibg=green ctermfg=red ctermbg=yellow
 lua require'colorizer'.setup()
 
 au BufNewFile,BufRead *.v,*.vh,*.sv,*.svh,*.vs	set filetype=verilog
+
+" startify
+let g:startify_session_persistence = 1
+

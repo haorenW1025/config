@@ -9,7 +9,7 @@ nnoremap <leader>dl <cmd>lua require'diagnostic.util'.show_line_diagnostics()<CR
 
 
 " fzf
-nnoremap <silent> ,f    :<C-u>FzfPreviewProjectFiles<CR>
+nnoremap <silent> ,f    :<C-u>FzfPreviewDirectoryFiles<CR>
 nnoremap <silent> ,gm    :<C-u>FzfPreviewFromResources project_mru git<CR>
 nnoremap <silent> ,b     :<C-u>FzfPreviewBuffers<CR>
 nnoremap <silent> ,B     :<C-u>FzfPreviewAllBuffers<CR>
@@ -18,7 +18,7 @@ nnoremap <silent> ,o     :<C-u>FzfPreviewJumps<CR>
 nnoremap <silent> ,g     :<C-u>FzfPreviewChanges<CR>
 nnoremap <silent> ,l     :<C-u>FzfPreviewLines -add-fzf-arg=--no-sort<CR>
 nnoremap          ,w     :<C-u>FzfPreviewProjectCommandGrep<CR>
-nnoremap          ,c     :<C-u>FzfPreviewProjectGrep -add-fzf-arg=--query="<C-r>=expand('<cword>')<CR>" <Space><CR>
+nnoremap          ,c     :<C-u>FzfPreviewProjectGrep "<C-r>=expand('<cword>')<CR>" <Space><CR>
 nnoremap <silent> ,q     :<C-u>FzfPreviewQuickFix<CR>
 nnoremap <silent> ,l     :<C-u>FzfPreviewLocationList<CR>
 
@@ -86,6 +86,10 @@ tmap <a-4> <c-a><CR>4gt
 nmap <a-5> 5gt
 tmap <a-5> <c-a><CR>5gt
 
+" gina
+nmap <leader>gs :Gina status<CR>
+nmap <leader>gb :Gina blame<CR>
+
 " for mac specific
 nmap ‘ gt
 nmap “ gT
@@ -110,6 +114,9 @@ tmap ˙ <c-a><CR><c-w>h
 tmap ∆ <c-a><CR><c-w>j
 tmap ˚ <c-a><CR><C-w>k
 tmap ¬ <c-a><CR><c-w>l
+" startify
+nmap <leader>ss :SSave<CR>
+nmap <leader>sl :SLoad<CR>
 
 " term-nvim
 nmap tt :TermToggle<CR>

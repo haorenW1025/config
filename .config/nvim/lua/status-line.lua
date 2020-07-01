@@ -133,11 +133,11 @@ function M.activeLine()
   RedrawColors(mode)
   statusline = statusline.."%#ModeSeparator#"..left_separator.."%#Mode# "..current_mode[mode].." %#ModeSeparator#"..right_separator
   statusline = statusline..blank
+  local branch = api.nvim_call_function("gina#component#repo#branch", {})
+  if #branch ~= 0 then
+    statusline = statusline.."%#Function#  "..branch
+  end
 
-  -- Component: Working Directory
-  local dir = api.nvim_call_function('getcwd', {})
-  statusline = statusline.."%#DirSeparator#"..left_separator.."%#Directory# "..TrimmedDirectory(dir).." %#DirSeparator#"..right_separator
-  statusline = statusline..blank
 
   -- Alignment to left
   statusline = statusline.."%="
@@ -221,8 +221,10 @@ function M.TabLine()
     end
   end
   tabline = tabline.."%="
-  local obsession_status = api.nvim_call_function('ObsessionStatus', {})
-  tabline = tabline.."%#Obsession#"..obsession_status..' '
+  -- Component: Working Directory
+  local dir = api.nvim_call_function('getcwd', {})
+  tabline = tabline.."%#DirSeparator#"..left_separator.."%#Directory# "..TrimmedDirectory(dir).." %#DirSeparator#"..right_separator
+  tabline = tabline..blank
   if session.data ~= nil then
     tabline = tabline.."%#TabLineSeparator# "..left_separator
     tabline = tabline.."%#TabLine# session: "..session.data
