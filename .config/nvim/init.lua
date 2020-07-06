@@ -2,22 +2,40 @@
 local lsp = require'nvim_lsp'
 local callback = require'callback'
 
--- require'nvim-treesitter.configs'.setup {
---     highlight = {
---         enable = true,
---         disable = {'c'}
---     },
---     incremental_selection = {
---         enable = false,
---         keymaps = {
---           init_selection = 'gnn',
---           node_incremental = "grn",
---           scope_incremental = "grc",
---           node_decremental = "grm",
---         }
---     },
---     ensure_installed = {'rust', 'cpp', 'lua', 'python'}
--- }
+require "nvim-treesitter.highlight"
+local hlmap = vim.treesitter.TSHighlighter.hl_map
+
+hlmap.error = nil
+
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,
+    },
+    incremental_selection = {
+        enable = false,
+        keymaps = {
+          init_selection = 'gnn',
+          node_incremental = "grn",
+          scope_incremental = "grc",
+          node_decremental = "grm",
+        }
+    },
+    refactor = {
+      highlight_defintions = {
+        enable = false
+      },
+      smart_rename = {
+        enable = true,
+        smart_rename = "grr",             -- mapping to rename reference under cursor
+      },
+      navigation = {
+        enable = true,
+        goto_definition = "gnd",          -- mapping to go to definition of symbol under cursor
+        list_definitions = "gnD"          -- mapping to list all definitions in current file
+      }
+    },
+    ensure_installed = {'rust', 'cpp', 'lua', 'python'}
+}
 
 
 
@@ -25,10 +43,9 @@ local on_attach = function(client)
   require'lsp_status'.on_attach(client)
   require'diagnostic'.on_attach()
   require'completion'.on_attach({
-      sorter = 'alphabet',
-      matcher = {'exact', 'fuzzy'}
+      sorting = 'alphabet',
+      -- matching_strategy_list = {'exact', 'fuzzy'},
     })
-
   -- This came from https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/lua/lsp_config.lua
   local mapper = function(mode, key, result)
     vim.fn.nvim_buf_set_keymap(0, mode, key, result, {noremap=true, silent=true})
@@ -117,6 +134,15 @@ lsp.clangd.setup{
 }
 
 lsp.rust_analyzer.setup{
+  on_attach = on_attach;
+}
+
+lsp.texlab.setup{
+  on_attach = on_attach;
+  filetypes = { "plaintex", "tex" }
+}
+
+lsp.metals.setup{
   on_attach = on_attach;
 }
 

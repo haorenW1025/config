@@ -77,14 +77,17 @@ font:
   normal:
     # family: Iosevka
     family: "FantasqueSansMono Nerd Font"
+    # family: "OperatorMono Nerd Font"
     # family: "FuraCode Nerd Font"
     # family: "Hack Nerd Font"
     style: "Regular"
+    # style: "book"
 
   # The bold font face
   bold:
     # family: Iosevka
     family: "FantasqueSansMono Nerd Font"
+    # family: "OperatorMono Nerd Font"
     # family: "Hack Nerd Font"
     # family: "Source Code Pro"
     style: "Bold"
@@ -97,7 +100,7 @@ font:
     style: "Italic"
 
   # Point size of the font
-  size: 16.0
+  size: 14.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.

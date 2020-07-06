@@ -35,7 +35,7 @@ nmap <leader>es :UltiSnipsEdit<CR>
 autocmd Filetype markdown nnoremap  <leader>pdf <cmd>lua require'markdown'.convertFile()<CR>
 
 " tmux like terminal
-tnoremap <c-a><CR> <C-\><C-n>
+tnoremap <esc> <C-\><C-n>
 
 nmap <c-n> :tabnew term://zsh<CR>
 nmap <c-a>v :vsplit term://zsh<CR>i

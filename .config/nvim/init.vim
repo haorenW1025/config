@@ -15,6 +15,9 @@ function! PackagerInit() abort
     call packager#add('junegunn/fzf', { 'do': './install --all && ln -s $(pwd) ~/.fzf'})
     call packager#add('yuki-ycino/fzf-preview.vim', {'type': 'opt'})
     " call packager#add('liuchengxu/vim-clap', { 'do': ':Clap install-binary', 'type': 'opt'})
+
+    " color
+    call packager#add('tjdevries/colorbuddy.vim', {'type': 'opt'})
     call packager#add('arcticicestudio/nord-vim', {'type': 'opt'})
     call packager#add('Raimondi/delimitMate', {'type': 'opt'})
     call packager#add('luochen1990/rainbow', {'type': 'opt'})
@@ -43,6 +46,7 @@ function! PackagerInit() abort
 
     call packager#add('lambdalisue/gina.vim', {'type': 'opt'})
     call packager#add('neovim/nvim-lsp', {'type': 'opt'})
+    call packager#add('neoclide/coc.nvim', {'branch': 'release', 'type': 'opt'})
     call packager#add('SirVer/ultisnips', {'type': 'opt'})
     " tree-sitter
     call packager#add('nvim-treesitter/nvim-treesitter', {'type': 'opt'})
@@ -52,6 +56,8 @@ function! PackagerInit() abort
     call packager#add('hrsh7th/vim-vsnip', {'type': 'opt'})
 
     call packager#add('steelsojka/completion-buffers', {'type': 'opt'})
+    call packager#add('aca/completion-tabnine', { 'do': './install.sh', 'type': 'opt'})
+
     " my plugins
     call packager#add('git@github.com:haorenW1025/completion-nvim.git', {'type': 'opt'})
     call packager#add('git@github.com:haorenW1025/diagnostic-nvim.git', {'type': 'opt'})
@@ -73,14 +79,17 @@ packadd! ultisnips
 packadd! vim-vsnip
 packadd! vim-vsnip-integ
 packadd! nvim-lsp
-" packadd! nvim-treesitter
+packadd! nvim-treesitter
 packadd! completion-nvim.git
 packadd! diagnostic-nvim.git
 packadd! completion-buffers
+packadd! completion-tabnine
 " packadd! dashboard-nvim
 packadd! fzf-preview.vim
 packadd! gina.vim
 packadd! vim-startify
+
+" packadd! coc.nvim
 
 
 luafile ~/.config/nvim/init.lua

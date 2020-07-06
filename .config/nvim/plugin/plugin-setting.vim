@@ -25,23 +25,24 @@ let g:completion_customize_lsp_label = {
       \}
 
 
+" nmap a :test<c
 let g:completion_chain_complete_list = {
             \ 'default' : {
             \   'default': [
-            \       {'complete_items': ['lsp', 'UltiSnips']},
+            \       {'complete_items': ['lsp']},
             \       {'complete_items': ['path'], 'triggered_only': ['/']},
             \       {'complete_items': ['buffers']}],
             \   'string' : [
             \       {'complete_items': ['path'], 'triggered_only': ['/']}]
             \   },
-            \ 'vim' : {
+            \ 'python' : {
             \   'default': [
-            \       {'complete_items': ['lsp', 'snippet']},
-            \       {'complete_items': ['path'], 'triggered_only': ['/']},
+            \       {'complete_items': ['tabnine']},
             \       {'mode': '<c-p>'},
             \       {'mode': '<c-n>'}],
+            \   'comment': [],
             \   'string' : [
-            \       {'complete_items': ['path'], 'triggered_only': ['/']}]
+            \       {'complete_items': ['path']}]
             \   },
             \ 'cpp' : {
             \   'default': [
@@ -106,91 +107,23 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-smap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-imap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ vsnip#available(1)  ? '<Plug>(vsnip-jump-next)' :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ completion#trigger_completion()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-
-" treesitter-nvim
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
-
-" autocmd CursorHold * lua vim.lsp.util.show_line_diagnostics()
-
-" firenvim 
-" let fc['.*'] = { 'cmdline' : 'firenvim' }
-au BufEnter www.firecode.*.txt set filetype=cpp
-au BufEnter github.com_*.txt set filetype=markdown
-if exists('g:started_by_firenvim') && g:started_by_firenvim
-    " general options
-    setl laststatus=0
-    setl showtabline=0
-    colorscheme nord
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
-function! s:IsFirenvimActive(event) abort
-  if !exists('*nvim_get_chan_info')
-    return 0
-  endif
-  let l:ui = nvim_get_chan_info(a:event.chan)
-  return has_key(l:ui, 'client') && has_key(l:ui.client, "name") &&
-      \ l:ui.client.name is# "Firenvim"
-endfunction
 
-function! OnUIEnter(event) abort
-  if s:IsFirenvimActive(a:event)
-    set laststatus=0
-  endif
-endfunction
-autocmd UIEnter * call OnUIEnter(deepcopy(v:event))
-nnoremap <Esc><Esc> :call firenvim#focus_page()<CR>
-nnoremap <C-z> :call firenvim#hide_frame()<CR>
-
-" fzf
-let g:fzf_colors =
-\ { 'fg':      ['bg', 'Normal'],
-\ 'bg':      ['bg', 'Normal'],
-\ 'hl':      ['fg', 'Comment'],
-\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-\ 'bg+':     ['fg', 'CursorLine', 'CursorColumn'],
-\ 'hl+':     ['fg', 'Statement'],
-\ 'info':    ['fg', 'PreProc'],
-\ 'border':  ['fg', 'Ignore'],
-\ 'prompt':  ['fg', 'Conditional'],
-\ 'pointer': ['fg', 'Exception'],
-\ 'marker':  ['fg', 'Keyword'],
-\ 'spinner': ['fg', 'Label'],
-\ 'header':  ['fg', 'Comment']}
-
-command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('right:70%'), <bang>0)
-
-command! -bang -nargs=? -complete=dir GFiles
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('right:70%'), <bang>0)
-
-command! -bang -nargs=? -complete=dir History
-    \ call fzf#vim#history(fzf#vim#with_preview('right:70%'), <bang>0)
-
-command! -bang -nargs=? -complete=dir Chistory
-    \ call fzf#vim#command_history()
-
-command! -bang -nargs=* Rg
-\ call fzf#vim#grep(
-\   'rg --max-columns=80 --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 2,
-\   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:60%'),  <bang>0)
-
-let $FZF_DEFAULT_OPTS = "--layout=reverse"
-'
-let g:fzf_layout = { 'window': 'call CreateCenteredFloatingWindow(0)' }
-let g:clap_layout = { 'relative': 'editor' }
-let g:clap_theme = { 'display': {'guibg': '#404040'},
-                   \ 'preview': {'guibg': '#202020'},
-                   \ 'input': {'guifg': '#81A1C1'},
-                   \ 'spinner': {'gui': 'bold', 'guifg': '#A3BE8C'}}
-
+" smap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+" imap <silent><expr> <TAB>
+"   \ pumvisible() ? "\<C-n>" :
+"   \ vsnip#available(1)  ? '<Plug>(vsnip-jump-next)' :
+"   \ <SID>check_back_space() ? "\<TAB>" :
+"   \ completion#trigger_completion()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " NerdCommentor
 let g:NERDSpaceDelims = 1
@@ -232,6 +165,7 @@ xmap ga <Plug>(EasyAlign)
 let g:floatLf_border = 0
 let g:floatLf_exec = 'lf'
 
+let g:indentLine_fileTypeExclude = ['startify']
 
 " sneak
 let g:sneak#s_next = 1
@@ -244,4 +178,7 @@ au BufNewFile,BufRead *.v,*.vh,*.sv,*.svh,*.vs	set filetype=verilog
 
 " startify
 let g:startify_session_persistence = 1
+let g:startify_custom_header =
+        \ 'startify#center(startify#fortune#cowsay())'
+
 
