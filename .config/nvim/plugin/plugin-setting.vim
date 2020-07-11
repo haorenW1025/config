@@ -24,47 +24,6 @@ let g:completion_customize_lsp_label = {
       \ 'Interface': ' [interface]'
       \}
 
-
-" nmap a :test<c
-let g:completion_chain_complete_list = {
-            \ 'default' : {
-            \   'default': [
-            \       {'complete_items': ['lsp']},
-            \       {'complete_items': ['path'], 'triggered_only': ['/']},
-            \       {'complete_items': ['buffers']}],
-            \   'string' : [
-            \       {'complete_items': ['path'], 'triggered_only': ['/']}]
-            \   },
-            \ 'python' : {
-            \   'default': [
-            \       {'complete_items': ['tabnine']},
-            \       {'mode': '<c-p>'},
-            \       {'mode': '<c-n>'}],
-            \   'comment': [],
-            \   'string' : [
-            \       {'complete_items': ['path']}]
-            \   },
-            \ 'cpp' : {
-            \   'default': [
-            \       {'complete_items': ['lsp', 'snippet']},
-            \       {'mode': '<c-p>'},
-            \       {'mode': '<c-n>'}],
-            \   'comment': [],
-            \   'string' : [
-            \       {'complete_items': ['path']}]
-            \   },
-            \ 'markdown' : {
-            \   'default': [
-            \       {'mode': 'spel'}],
-            \   'comment': [],
-            \   },
-            \ 'verilog' : {
-            \   'default': [
-            \       {'mode': '<c-p>'},
-            \       {'mode': '<c-n>'}],
-            \   'comment': [],
-            \   }
-            \}
 " autocmd CursorHold * lua vim.lsp.util.show_line_diagnostics()
 " autocmd CursorMoved * lua vim.lsp.util.show_line_diagnostics()
 
@@ -85,7 +44,7 @@ let g:diagnostic_insert_delay = 1
 " completion-nvim
 let g:completion_enable_auto_hover = 1
 let g:completion_auto_change_source = 1
-" let g:completion_enable_snippet = 'UltiSnips'
+let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_max_items = 10
 let g:completion_enable_auto_paren = 0
 let g:completion_timer_cycle = 80
@@ -93,7 +52,7 @@ let g:completion_auto_change_source = 1
 let g:completion_matching_ignore_case = 1
 " let g:completion_trigger_keyword_length = 3
 
-" let g:completion_confirm_key = ""
+" let g:completion_confirm_key = "\<c-y>"
 " imap <expr> <cr> pumvisible() ? complete_info()["selected"] != "-1" ?
 "                                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :
 "                                 \ "\<CR>"
@@ -180,5 +139,28 @@ au BufNewFile,BufRead *.v,*.vh,*.sv,*.svh,*.vs	set filetype=verilog
 let g:startify_session_persistence = 1
 let g:startify_custom_header =
         \ 'startify#center(startify#fortune#cowsay())'
+"vimtex
+let g:matchup_override_vimtex = 1
+let g:matchup_matchparen_deferred = 1
+let g:vimtex_latexmk_progname= '/usr/bin/nvr'
+let g:vimtex_latexmk_progname= '/usr/bin/nvr'
+let g:vimtex_latexmk_options="-pdf -pdflatex='pdflatex -file-line-error -shell-escape -synctex=1'"
+let g:vimtex_fold_enabled = 0
+let g:vimtex_toc_resize = 0
+let g:vimtex_toc_hide_help = 1
+let g:vimtex_indent_enabled = 1
+let g:vimtex_latexmk_enabled = 1
+let g:vimtex_latexmk_callback = 1
+let g:vimtex_complete_recursive_bib = 0
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_complete_close_braces = 1
+let g:vimtex_quickfix_mode = 2
+let g:vimtex_quickfix_open_on_warning = 1
+let g:vimtex_quickfix_ignored_warnings = [
+        \ 'Underfull',
+        \ 'Overfull',
+        \ 'specifier changed to',
+      \ ]
+let g:tex_flavor = "latex"
 
 

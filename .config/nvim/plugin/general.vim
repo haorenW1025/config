@@ -27,7 +27,7 @@ command! -nargs=+ -complete=dir -bar Grep lua require'grep'.asyncGrep(<q-args>)
 
 augroup highlight_yank
     autocmd!
-    autocmd TextYankPost * lua require'vim.highlight'.on_yank("IncSearch", 500)
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank{ higroup="IncSearch", timeout=500}
 augroup END
 
 nnoremap  ]z :call NextClosedFold('j')<cr>

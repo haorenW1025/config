@@ -37,6 +37,17 @@ require'nvim-treesitter.configs'.setup {
     ensure_installed = {'rust', 'cpp', 'lua', 'python'}
 }
 
+local chain_complete_list = {
+  default = {
+    {complete_items = {'lsp', 'snippet'}},
+    {complete_items = {'path'}, triggered_only = {'/'}},
+    {complete_items = {'buffers'}},
+  },
+  string = {
+    {complete_items = {'path'}, triggered_only = {'/'}},
+  },
+  comment = {},
+}
 
 
 local on_attach = function(client)
@@ -44,7 +55,8 @@ local on_attach = function(client)
   require'diagnostic'.on_attach()
   require'completion'.on_attach({
       sorting = 'alphabet',
-      -- matching_strategy_list = {'exact', 'fuzzy'},
+      matching_strategy_list = {'exact', 'fuzzy'},
+      chain_complete_list = chain_complete_list,
     })
   -- This came from https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/lua/lsp_config.lua
   local mapper = function(mode, key, result)
@@ -60,7 +72,6 @@ local on_attach = function(client)
   mapper('n', 'g0', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
   mapper('i', '<c-l>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 end
-
 
 lsp.sumneko_lua.setup {
   on_attach= on_attach;
