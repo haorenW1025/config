@@ -143,12 +143,8 @@ xmap ga <Plug>(EasyAlign)
 let g:floatLf_border = 0
 let g:floatLf_exec = 'lf'
 
-<<<<<<< Updated upstream
-let g:indentLine_fileTypeExclude = ['startify']
-=======
 let g:indentLine_fileTypeExclude = ['startify', 'term', 'markdown.pandoc']
 let g:indentLine_setColors = 0
->>>>>>> Stashed changes
 
 " sneak
 let g:sneak#s_next = 1

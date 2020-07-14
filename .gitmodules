@@ -7,6 +7,6 @@
 [submodule ".config/zsh/zsh-autosuggestions"]
 	path = .config/zsh/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions
-[submodule ".config/nvim/pack/packager/opt/vim-packager"]
-	path = .config/nvim/pack/packager/opt/vim-packager
-	url = https://github.com/kristijanhusak/vim-packager
+[submodule ".config/nvim/pack/packager/opt/packer.nvim"]
+	path = .config/nvim/pack/packager/opt/packer.nvim
+	url = https://github.com/wbthomason/packer.nvim
