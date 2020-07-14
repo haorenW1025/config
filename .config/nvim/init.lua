@@ -5,6 +5,7 @@ local callback = require'callback'
 require "nvim-treesitter.highlight"
 local hlmap = vim.treesitter.TSHighlighter.hl_map
 
+
 hlmap.error = nil
 
 require'nvim-treesitter.configs'.setup {
@@ -39,14 +40,15 @@ require'nvim-treesitter.configs'.setup {
 
 local chain_complete_list = {
   default = {
-    {complete_items = {'lsp', 'snippet'}},
-    {complete_items = {'path'}, triggered_only = {'/'}},
-    {complete_items = {'buffers'}},
-  },
-  string = {
-    {complete_items = {'path'}, triggered_only = {'/'}},
-  },
-  comment = {},
+    default = {
+      {complete_items = {'lsp'}},
+      {complete_items = {'path'}, triggered_only = {'/'}},
+    },
+    string = {
+      {complete_items = {'path'}, triggered_only = {'/'}},
+    },
+    comment = {},
+  }
 }
 
 
@@ -55,7 +57,7 @@ local on_attach = function(client)
   require'diagnostic'.on_attach()
   require'completion'.on_attach({
       sorting = 'alphabet',
-      matching_strategy_list = {'exact', 'fuzzy'},
+      matching_strategy_list = {'exact'},
       chain_complete_list = chain_complete_list,
     })
   -- This came from https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/lua/lsp_config.lua

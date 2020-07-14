@@ -9,7 +9,15 @@ nnoremap <leader>dl <cmd>lua require'diagnostic.util'.show_line_diagnostics()<CR
 
 
 " fzf
-nnoremap <silent> ,f    :<C-u>FzfPreviewDirectoryFiles<CR>
+function FzfFile() abort
+    if isdirectory(".git")
+        FzfPreviewProjectFiles
+    else
+        FzfPreviewDirectoryFiles
+    endif
+endfunction
+
+nnoremap <silent> ,f    :call FzfFile()<CR>
 nnoremap <silent> ,gm    :<C-u>FzfPreviewFromResources project_mru git<CR>
 nnoremap <silent> ,b     :<C-u>FzfPreviewBuffers<CR>
 nnoremap <silent> ,B     :<C-u>FzfPreviewAllBuffers<CR>
@@ -34,8 +42,12 @@ nmap <leader>es :UltiSnipsEdit<CR>
 " pandoc
 autocmd Filetype markdown nnoremap  <leader>pdf <cmd>lua require'markdown'.convertFile()<CR>
 
+" goto my personal wiki
+nmap <leader>ww :e ~/workplace/note/index.md<CR>
+
 " tmux like terminal
 tnoremap <c-a><CR> <C-\><C-n>
+tnoremap <ESC> <c-\><c-n>
 
 nmap <c-n> :tabnew term://zsh<CR>
 nmap <c-a>v :vsplit term://zsh<CR>i
@@ -89,6 +101,9 @@ tmap <a-5> <c-a><CR>5gt
 " gina
 nmap <leader>gs :Gina status<CR>
 nmap <leader>gb :Gina blame<CR>
+
+" custom function
+nnoremap <buffer> <leader>cc <cmd> lua require'util'.toggleConceal()<CR>
 
 " for mac specific
 nmap ‘ gt

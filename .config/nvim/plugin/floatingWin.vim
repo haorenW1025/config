@@ -73,11 +73,6 @@ function! ToggleLazyGit()
     call ToggleNoBorderTerm('lazygit')
 endfunction
 
-nnoremap <silent> <leader>tc :call ToggleCalcurse()<CR>
-function! ToggleCalcurse()
-    call ToggleBorderTerm('calcurse')
-endfunction
-
 nnoremap <silent> <Leader>tt :call ToggleGotop()<CR>
 function! ToggleGotop()
     call ToggleNoBorderTerm('gotop')
@@ -96,8 +91,10 @@ endfunction
 
 nnoremap <silent> <Leader>ts :call ToggleZsh()<CR>
 function! ToggleZsh()
-    call ToggleBorderTerm('zsh')
+    call ToggleNoBorderTerm('zsh')
 endfunction
+
+nnoremap <silent> <Leader>td :call DeleteUnlistedBuffers()<CR>
 
 function! OnTermExit(job_id, code, event) dict
     if a:code == 0

@@ -15,4 +15,16 @@ function M.convertFile()
   )
 end
 
+function M.followLink()
+  local dir = api.nvim_call_function('expand', {'%:p:h'})
+  local line = api.nvim_get_current_line()
+  if line:match("^.*%[.*%]%(.*%)") then
+    local link = line:match("%(.*%)")
+    link = link:sub(2, #link-1)
+    link = dir..'/'..link
+    print(link)
+    api.nvim_command("e "..link)
+  end
+end
+
 return M

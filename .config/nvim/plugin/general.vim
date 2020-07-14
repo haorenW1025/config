@@ -1,5 +1,5 @@
 " floating window
-set wildmode=longest:list,full
+set wildmode=longest:full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules
 set pumblend=20
 set pumheight=20
@@ -107,6 +107,7 @@ autocmd InsertEnter,WinLeave * set nocursorline
 cnoremap <c-n> <down>
 cnoremap <c-p> <up>
 
+set nospell
 set inccommand=split
 set nofoldenable
 set laststatus=2

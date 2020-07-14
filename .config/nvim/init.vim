@@ -13,10 +13,10 @@ command! PackerSync packadd packer.nvim | lua require('plugins').sync()
 command! PackerClean packadd packer.nvim | lua require('plugins').clean()
 command! PackerCompile packadd packer.nvim | lua require('plugins').compile('~/.config/nvim/plugin/packer_load.vim')
 
-packadd! nord-vim
+
+" packadd! indentLine
 packadd! vim-gitgutter
 packadd! delimitMate
-packadd! indentLine
 packadd! vim-smoothie
 packadd! ultisnips
 packadd! vim-vsnip
@@ -30,6 +30,11 @@ packadd! completion-tabnine
 packadd! gina.vim
 packadd! vim-startify
 packadd! fzf-preview.vim
+packadd! vimtex
+packadd! indentLine
+packadd! nvim-metals
+" packadd! luvjob.nvim
+" packadd! expressline.nvim
 
 " packadd! coc.nvim
 

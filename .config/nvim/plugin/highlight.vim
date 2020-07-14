@@ -30,8 +30,8 @@ function! SelfDefinedHighlight() abort
     hi LineNr guibg=None guifg=#7c8f8f
     hi LspDiagnosticsError guifg=#ff6c6b
     hi LspDiagnosticsWarning guifg=#FF8C00
-    hi link DashboardHeader Number
-    hi link DashboardShortcut String
+    hi Conceal guifg=#7e7e7e guibg=None
+    hi pandocAtxHeader guifg=#88C0D0
 augroup END
 endf
 
