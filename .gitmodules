@@ -10,9 +10,6 @@
 [submodule ".config/nvim/pack/packager/opt/packer.nvim"]
 	path = .config/nvim/pack/packager/opt/packer.nvim
 	url = https://github.com/wbthomason/packer.nvim
-[submodule "packer.nvim"]
-	path = packer.nvim
-	url = https://github.com/wbthomason/packer.nvim
 [submodule ".config/nvim/pack/packer.nvim"]
 	path = .config/nvim/pack/packer.nvim
 	url = https://github.com/wbthomason/packer.nvim
