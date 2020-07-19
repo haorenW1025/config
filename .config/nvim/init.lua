@@ -187,6 +187,10 @@ lsp.metals.setup{
   on_attach = on_attach;
 }
 
+lsp.ghcide.setup{
+  on_attach = on_attach;
+}
+
 lsp.gopls.setup{
   on_attach = on_attach;
 }

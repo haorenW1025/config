@@ -19,8 +19,8 @@ packadd! vim-gitgutter
 packadd! delimitMate
 packadd! vim-smoothie
 packadd! ultisnips
-" packadd! vim-vsnip
-" packadd! vim-vsnip-integ
+packadd! vim-vsnip
+packadd! vim-vsnip-integ
 packadd! nvim-lsp
 packadd! nvim-treesitter
 packadd! completion-nvim
