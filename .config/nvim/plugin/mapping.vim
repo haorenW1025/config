@@ -11,24 +11,17 @@ nnoremap <leader>dl <cmd>lua require'diagnostic.util'.show_line_diagnostics()<CR
 " fzf
 function FzfFile() abort
     if isdirectory(".git")
-        FzfPreviewProjectFiles
+        GFiles
     else
-        FzfPreviewDirectoryFiles
+        Files
     endif
 endfunction
 
 nnoremap <silent> ,f    :call FzfFile()<CR>
-nnoremap <silent> ,gm    :<C-u>FzfPreviewFromResources project_mru git<CR>
-nnoremap <silent> ,b     :<C-u>FzfPreviewBuffers<CR>
-nnoremap <silent> ,B     :<C-u>FzfPreviewAllBuffers<CR>
-nnoremap <silent> ,m     :<C-u>FzfPreviewFromResources buffer project_mru<CR>
-nnoremap <silent> ,o     :<C-u>FzfPreviewJumps<CR>
-nnoremap <silent> ,g     :<C-u>FzfPreviewChanges<CR>
-nnoremap <silent> ,l     :<C-u>FzfPreviewLines -add-fzf-arg=--no-sort<CR>
-nnoremap          ,w     :<C-u>FzfPreviewProjectCommandGrep<CR>
-nnoremap          ,c     :<C-u>FzfPreviewProjectGrep "<C-r>=expand('<cword>')<CR>" <Space><CR>
-nnoremap <silent> ,q     :<C-u>FzfPreviewQuickFix<CR>
-nnoremap <silent> ,l     :<C-u>FzfPreviewLocationList<CR>
+nnoremap <silent> ,b     :Buffers<CR>
+nnoremap <silent> ,l     :Lines<CR>
+nnoremap          ,w     :Rg<CR>
+
 
 " git
 nmap ]h <Plug>(GitGutterNextHunk)
@@ -66,6 +59,19 @@ tmap <c-a>K <c-a><CR><c-w>K
 tmap <c-a>H <c-a><CR><c-w>H
 tmap <c-a>L <c-a><CR><c-w>L
 
+function! s:save_and_exec() abort
+  if &filetype == 'vim'
+    :silent! write
+    :source %
+  elseif &filetype == 'lua'
+    :silent! write
+    :luafile %
+  endif
+
+  return
+endfunction
+
+nnoremap <leader><leader>x :call <SID>save_and_exec()<CR>
 
 function! ClosingTerminal()
     let answer = confirm('closing this terminal?', "&Yes\n&No", 1)

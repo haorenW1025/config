@@ -32,6 +32,8 @@ function! SelfDefinedHighlight() abort
     hi LspDiagnosticsWarning guifg=#FF8C00
     hi Conceal guifg=#7e7e7e guibg=None
     hi pandocAtxHeader guifg=#88C0D0
+    hi TSError guifg=#ff6c6b guibg=None
+    hi Type guifg=#8FBCBB
 augroup END
 endf
 

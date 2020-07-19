@@ -19,20 +19,24 @@ packadd! vim-gitgutter
 packadd! delimitMate
 packadd! vim-smoothie
 packadd! ultisnips
-packadd! vim-vsnip
-packadd! vim-vsnip-integ
+" packadd! vim-vsnip
+" packadd! vim-vsnip-integ
 packadd! nvim-lsp
 packadd! nvim-treesitter
 packadd! completion-nvim
 packadd! diagnostic-nvim
-" packadd! completion-buffers
+packadd! completion-buffers
 packadd! completion-tabnine
 packadd! gina.vim
 packadd! vim-startify
-packadd! fzf-preview.vim
+" packadd! fzf-preview.vim
 packadd! vimtex
 packadd! indentLine
+packadd! fzf.vim
 packadd! nvim-metals
+" packadd! popup.nvim
+" packadd! telescope.nvim
+" packadd! typeracer.nvim
 " packadd! luvjob.nvim
 " packadd! expressline.nvim
 

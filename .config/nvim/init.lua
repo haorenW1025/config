@@ -35,13 +35,35 @@ require'nvim-treesitter.configs'.setup {
         list_definitions = "gnD"          -- mapping to list all definitions in current file
       }
     },
+    textobjects = { -- syntax-aware textobjects
+      enable = true,
+      disable = {},
+      keymaps = {
+        -- or you use the queries from supported languages with textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["aC"] = "@class.outer",
+        ["iC"] = "@class.inner",
+        ["ac"] = "@conditional.outer",
+        ["ic"] = "@conditional.inner",
+        ["ae"] = "@block.outer",
+        ["ie"] = "@block.inner",
+        ["al"] = "@loop.outer",
+        ["il"] = "@loop.inner",
+        ["is"] = "@statement.inner",
+        ["as"] = "@statement.outer",
+        ["ad"] = "@comment.outer",
+        ["am"] = "@call.outer",
+        ["im"] = "@call.inner"
+      }
+    },
     ensure_installed = {'rust', 'cpp', 'lua', 'python'}
 }
 
 local chain_complete_list = {
   default = {
     default = {
-      {complete_items = {'lsp'}},
+      {complete_items = {'lsp', 'snippet'}},
       {complete_items = {'path'}, triggered_only = {'/'}},
     },
     string = {
@@ -57,7 +79,7 @@ local on_attach = function(client)
   require'diagnostic'.on_attach()
   require'completion'.on_attach({
       sorting = 'alphabet',
-      matching_strategy_list = {'exact'},
+      matching_strategy_list = {'exact', 'fuzzy'},
       chain_complete_list = chain_complete_list,
     })
   -- This came from https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/lua/lsp_config.lua
@@ -85,7 +107,7 @@ lsp.sumneko_lua.setup {
   settings = {
     Lua = {
       completion = {
-        keywordSnippet = "Disable";
+        -- keywordSnippet = "Disable";
       };
       runtime = {
         version = "LuaJIT";
@@ -94,6 +116,12 @@ lsp.sumneko_lua.setup {
         enable=true,
         globals={
           "vim", "Color", "c", "Group", "g", "s", "describe", "it", "before_each", "after_each"
+        },
+      },
+      workspace = {
+        library = {
+          [vim.fn.expand("~/packages/neovim/runtime/lua")] = true,
+          [vim.fn.expand("~/packages/neovim/src/nvim/lua")] = true,
         },
       },
     },

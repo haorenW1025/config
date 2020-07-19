@@ -44,7 +44,7 @@ local function init()
 
   -- Search
   use {'junegunn/fzf', run = './install --all && ln -s $(pwd) ~/.fzf'}
-  use {'yuki-ycino/fzf-preview.vim', opt = true}
+  use {'junegunn/fzf.vim', opt = true}
 
   -- Completion and linting
   use {'neovim/nvim-lsp', opt = true}

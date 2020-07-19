@@ -123,7 +123,7 @@ imap <expr> <C-f>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l
 " rainbow
 let g:rainbow_active = 1
 let g:rainbow_conf = {
-\	'guifgs': ['white', 'lightcyan', 'lightred', 'red', 'blue', 'darkgray'],
+\	'guifgs': ['LightBlue', 'LightRed', 'White', 'LightMagenta', 'LightCyan', 'LightGray'],
 \	'ctermfgs': ['white', 'yellow', 'lightcyan', 'red', 'blue', 'darkgray'],
 \	'guis': [''],
 \	'cterms': [''],
@@ -143,7 +143,7 @@ xmap ga <Plug>(EasyAlign)
 let g:floatLf_border = 0
 let g:floatLf_exec = 'lf'
 
-let g:indentLine_fileTypeExclude = ['startify', 'term', 'markdown.pandoc']
+let g:indentLine_fileTypeExclude = ['startify', 'term', 'markdown.pandoc', 'fzf']
 let g:indentLine_setColors = 0
 
 " sneak
@@ -183,6 +183,17 @@ let g:vimtex_quickfix_ignored_warnings = [
         \ 'specifier changed to',
       \ ]
 let g:tex_flavor = "latex"
+
+" word-motion
+let g:wordmotion_mappings = {
+\ 'w' : '<M-w>',
+\ 'b' : '<M-b>',
+\ 'e' : '<M-e>',
+\ 'ge' : 'g<M-e>',
+\ 'aw' : 'a<M-w>',
+\ 'iw' : 'i<M-w>',
+\ '<C-R><C-W>' : '<C-R><M-w>'
+\ }
 
 augroup pandoc_syntax
     au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
