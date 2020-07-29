@@ -6,6 +6,7 @@ require "nvim-treesitter.highlight"
 local hlmap = vim.treesitter.TSHighlighter.hl_map
 
 
+
 hlmap.error = nil
 
 require'nvim-treesitter.configs'.setup {
@@ -141,7 +142,7 @@ lsp.vimls.setup{
   },
 }
 
-lsp.pyls.setup{
+lsp.jedi_language_server.setup{
   on_attach = on_attach;
   settings = {
     pyls = {
@@ -192,5 +193,9 @@ lsp.ghcide.setup{
 }
 
 lsp.gopls.setup{
+  on_attach = on_attach;
+}
+
+lsp.ghcide.setup{
   on_attach = on_attach;
 }

@@ -133,10 +133,10 @@ function M.activeLine()
   RedrawColors(mode)
   statusline = statusline.."%#ModeSeparator#"..left_separator.."%#Mode# "..current_mode[mode].." %#ModeSeparator#"..right_separator
   statusline = statusline..blank
-  local branch = api.nvim_call_function("gina#component#repo#branch", {})
-  if #branch ~= 0 then
-    statusline = statusline.."%#Function#  "..branch
-  end
+  -- local branch = api.nvim_call_function("gina#component#repo#branch", {})
+  -- if #branch ~= 0 then
+  --   statusline = statusline.."%#Function#  "..branch
+  -- end
 
 
   -- Alignment to left

@@ -116,6 +116,11 @@ label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
 
+[module/speed]
+type = custom/script
+exec = ~/.config/polybar/scripts/speed.sh
+interval = 180
+format-foreground = #88C0D0
 
 [module/cpu]
 type = custom/script
@@ -123,19 +128,33 @@ exec = ~/.config/polybar/scripts/cpu.sh 2> /dev/null || echo "%{T5}%{F#dae1ec}�
 format-prefix = " "
 format-foreground = #A3BE8C
 
-interval = 1
+format-underline = #88C0D0
+interval = 5
 tail = true
-
-click-left = pgrep gotop && xdotool search --name "gotop" windowactivate || alacritty -t gotop -e gotop &
+click-left = alacritty -t gotop -e gotop &
 
 [module/memory]
-type = internal/memory
-interval = 2
+type = custom/script
+exec = ~/.config/polybar/scripts/memory.sh
 format-prefix = " "
 format-prefix-foreground = #BF616A
+format-underline = #88C0D0
 format-foreground = #BF616A
-format-underline = #B48EAD
-label = %percentage_used%%
+click-left = alacritty -t gotop -e gotop &
+; type = internal/memory
+interval = 5
+; format-underline = #B48EAD
+; label = %percentage_used%%
+
+[module/battery]
+type = custom/script
+exec = ~/.config/polybar/scripts/battery.sh
+
+format-underline = #88C0D0
+format-prefix = " "
+format-foreground = #8FBCBB
+format-charging = <animation-charging> <label-charging>
+click-left = notify-send "$(acpi)"
 
 [module/date]
 type = internal/date
@@ -191,40 +210,6 @@ bar-volume-fill-font = 2
 bar-volume-empty = ─
 bar-volume-empty-font = 2
 bar-volume-empty-foreground = ${colors.foreground-alt}
-
-[module/battery]
-type = internal/battery
-battery = BAT0
-adapter = ADP1
-full-at = 98
-
-format-charging = <animation-charging> <label-charging>
-format-charging-underline = #EBCB8B
-
-format-discharging = <animation-discharging> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
-
-format-full-prefix = " "
-format-full-prefix-foreground = #8FBCBB
-format-full-underline = ${self.format-charging-underline}
-format-full-foreground = #8FBCBB
-
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-foreground = ${colors.foreground-alt}
-
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-foreground = ${colors.foreground-alt}
-animation-charging-framerate = 750
-
-animation-discharging-0 = 
-animation-discharging-1 = 
-animation-discharging-2 = 
-animation-discharging-foreground = ${colors.foreground-alt}
-animation-discharging-framerate = 750
 
 [module/temperature]
 type = internal/temperature

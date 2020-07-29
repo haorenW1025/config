@@ -26,8 +26,8 @@ packadd! nvim-treesitter
 packadd! completion-nvim
 packadd! diagnostic-nvim
 packadd! completion-buffers
-packadd! completion-tabnine
-packadd! gina.vim
+" packadd! completion-tabnine
+" packadd! gina.vim
 packadd! vim-startify
 " packadd! fzf-preview.vim
 packadd! vimtex
@@ -44,3 +44,4 @@ packadd! nvim-metals
 
 
 luafile ~/.config/nvim/init.lua
+" luafile ~/.config/nvim/lua/express.lua

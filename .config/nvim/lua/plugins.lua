@@ -9,7 +9,7 @@ local function init()
   packer.reset()
 
   -- Packer
-  use {'~/projects/personal/packer.nvim', opt = true}
+  use {'wbthomason/packer.nvim', opt = true}
 
   -- Colors
   use {'arcticicestudio/nord-vim', opt = false }
@@ -56,7 +56,7 @@ local function init()
 
   -- extra sources
   use {'steelsojka/completion-buffers', opt = true}
-  use {'aca/completion-tabnine', opt = true}
+  use {'aca/completion-tabnine', opt = true, run = "./install.sh"}
 
   -- treesitter
   use {'nvim-treesitter/completion-treesitter', opt = true}

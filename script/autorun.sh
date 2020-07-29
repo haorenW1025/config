@@ -23,7 +23,6 @@ fi
 
 run xfsettingsd
 run nm-applet
-run light-locker
 run thunar --daemon
 run pa-applet
 run pamac-tray
@@ -31,11 +30,11 @@ run pamac-tray
 ## The following are not included in minimal edition by default
 ## but autorun.sh will pick them up if you install them
 
+modifiedkey.sh
+polybar.sh
 run ibus-daemon -drx --panel /usr/lib/ibus/ibus-ui-gtk3
 run picom --experimental-backends --fading
 run blueman-applet
 run nitrogen --restore
 run msm_notifier
 run xmodmap ~/.xmodmap
-modifiedkey.sh
-polybar.sh
