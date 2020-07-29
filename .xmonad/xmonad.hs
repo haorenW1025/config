@@ -7,20 +7,17 @@
 --
 
 import XMonad
-import Data.Monoid
-import System.Exit
+import System.Exit (exitSuccess)
 
 import Data.Tree
-import System.Exit (exitSuccess)
 import qualified Data.Map as M
-import Data.Tree
 import qualified XMonad.Actions.TreeSelect as TS
 import XMonad.Hooks.WorkspaceHistory (workspaceHistoryHook)
 import qualified XMonad.StackSet as W
 -- layout
 import XMonad.Layout.Decoration
 import XMonad.Layout.LayoutModifier
-import XMonad.Layout.LimitWindows (limitWindows, increaseLimit, decreaseLimit)
+import XMonad.Layout.LimitWindows (limitWindows)
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.NoBorders
@@ -30,13 +27,11 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
-import XMonad.Layout.Simplest
-import XMonad.Layout.Minimize
-import XMonad.Layout.Accordion
+import XMonad.Layout.Hidden
+import XMonad.Layout.NoBorders
 import XMonad.Layout.BoringWindows(boringWindows, focusUp, focusDown, focusMaster)
 
 import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
-import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
 import XMonad.Layout.GridVariants (Grid(Grid))
 import XMonad.Layout.SimplestFloat
 import XMonad.Layout.Spiral
@@ -47,23 +42,18 @@ import XMonad.Layout.ThreeColumns
 -- import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.Minimize
 
 -- Actions
-import XMonad.Actions.Submap
+-- import XMonad.Actions.Submap
 import XMonad.Actions.CycleWS
 import XMonad.Actions.DynamicProjects
-import XMonad.Actions.Minimize
 
 -- util
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.NamedScratchpad
-import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
 
-import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
 import qualified DBus as D
 import qualified DBus.Client as D
 import qualified Codec.Binary.UTF8.String as UTF8
@@ -272,21 +262,19 @@ myEZKeys =
         , ("M-q", kill)
         , ("M-l", focusDown)
         , ("M-h", focusUp)
-        , ("M-m", focusMaster)
-        , ("M-S-m", windows W.swapMaster)
-        , ("M-S-j", windows W.swapDown)
-        , ("M-S-k", windows W.swapUp)
+        -- , ("M-m", focusMaster)
+        -- , ("M-S-m", windows W.swapMaster)
+        , ("M-m", withFocused hideWindow)
+        , ("M-S-m", popOldestHiddenWindow)
+        , ("M-S-l", windows W.swapDown)
+        , ("M-S-h", windows W.swapUp)
         , ("M-j", sendMessage Shrink)
         , ("M-k", sendMessage Expand)
-        , ("M-m", withFocused minimizeWindow)
-        , ("M-S-m", withLastMinimized maximizeWindowAndFocus)
-        -- , ("M-t", withFocused $ windows . W.sink)
+        , ("M-w", withFocused $ windows . W.sink)
         , ("M-f", sendMessage $ Toggle FULL)
         -- workspace
         , ("M-C-l", nextWS)
         , ("M-C-h", prevWS)
-        , ("M-S-l", shiftToNext >> nextWS)
-        , ("M-S-h", shiftToPrev >> prevWS)
         -- screen
         , ("M-.", nextScreen)  -- Switch focus to next monitor
         , ("M-,", prevScreen)  -- Switch focus to prev monitor
@@ -391,6 +379,8 @@ myTabConfig = def { fontName            = "xft:Monofurbold Nerd Font Mono:bold:p
 
 -- sublayout is nice
 tall     = renamed [Replace "tall"]
+           -- $ noBorders
+           $ hiddenWindows
            $ windowNavigation
            $ boringWindows
            $ subLayout [] (tabs)
@@ -399,7 +389,9 @@ tall     = renamed [Replace "tall"]
            $ mySpacing 10
            $ ResizableTall 1 (3/100) (1/2) []
 mirrorTall = renamed [Replace "mirrorTall"]
+           $ hiddenWindows
            $ windowNavigation
+           -- $ noBorders
            $ boringWindows
            $ subLayout [] (tabs)
            $ addTabs shrinkText myTabConfig
@@ -408,9 +400,11 @@ mirrorTall = renamed [Replace "mirrorTall"]
            $ Mirror
            $ ResizableTall 1 (3/100) (1/2) []
 monocle  = renamed [Replace "monocle"]
+           $ noBorders
            $ limitWindows 20
            $ Full
 floats   = renamed [Replace "floats"]
+           $ noBorders
            $ limitWindows 20
            $ simplestFloat
 grid     = renamed [Replace "grid"]
@@ -431,8 +425,8 @@ tabs     = renamed [Replace "tabs"]
            $ tabbed shrinkText myTabConfig
           
 -- The layout hook
-myLayoutHook = avoidStruts $ mkToggle (MIRROR ?? FULL ?? EOT) $ T.toggleLayouts floats $ T.toggleLayouts monocle
-               $ T.toggleLayouts tabs 
+myLayoutHook = avoidStruts $ mkToggle (MIRROR ?? FULL ?? EOT)
+               $ T.toggleLayouts floats
                $ myDefaultLayout
              where
                myDefaultLayout =     tall
@@ -538,7 +532,7 @@ myLogHook dbus = def
     , ppUrgent  = \( _ ) -> ""
     , ppHidden  = \( _ ) -> ""
     , ppHiddenNoWindows= \( _ ) -> ""
-    , ppTitle   = wrap ("%{F" ++ color2 ++ "}")"%{F-}" . shorten 60
+    , ppTitle   = wrap ("%{F" ++ color2 ++ "}")"%{F-}" . shorten 30
     -- , ppTitle   = \( _ ) -> ""
     , ppLayout = wrap ("%{F" ++ color1 ++ "} ") "%{F-}"
     , ppSep     = "  |  "
