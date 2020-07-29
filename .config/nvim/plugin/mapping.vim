@@ -36,7 +36,7 @@ nmap <leader>es :UltiSnipsEdit<CR>
 autocmd Filetype markdown nnoremap  <leader>pdf <cmd>lua require'markdown'.convertFile()<CR>
 
 " goto my personal wiki
-nmap <leader>ww :e ~/workplace/note/index.md<CR>
+nmap <leader>w :e ~/workplace/note/index.md<CR>
 
 " tmux like terminal
 tnoremap <c-a><CR> <C-\><C-n>
@@ -162,6 +162,13 @@ nmap <leader><leader> za
 nmap <localleader>lt :T leetcode test %<CR>
 nmap <localleader>ls :T leetcode submit %<CR>
 
+function CloseBuffer()
+    bprevious
+    bdelete #
+endfunction
+
+nmap <leader>bq :call CloseBuffer()<CR>
+
 nmap <leader>cd :cd %:p:h<CR>
 nmap [e  :<c-u>execute 'move -1-'. v:count1<cr>
 nmap ]e  :<c-u>execute 'move +'. v:count1<cr>
@@ -201,9 +208,7 @@ inoremap JK <Esc>`^
 nmap <leader>n :noh<CR><Esc>
 nmap x "_dl
 nmap <leader>cof :e ~/.config/nvim/init.vim<CR>
-nmap <leader>wo <C-w>o
 nmap <leader>bc :bd<CR>
-nmap <leader>w :w<CR>
 nmap :: :<c-f>
 nmap Y y$
 
