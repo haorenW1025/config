@@ -33,7 +33,10 @@ packadd! vim-startify
 packadd! vimtex
 packadd! indentLine
 packadd! fzf.vim
-packadd! nvim-metals
+packadd! colorbuddy.vim
+packadd! goyo.vim
+packadd! limelight.vim
+" packadd! nvim-metals
 " packadd! popup.nvim
 " packadd! telescope.nvim
 " packadd! typeracer.nvim
@@ -44,4 +47,5 @@ packadd! nvim-metals
 
 
 luafile ~/.config/nvim/init.lua
+lua require("colorbuddy").setup()
 " luafile ~/.config/nvim/lua/express.lua
