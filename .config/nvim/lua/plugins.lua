@@ -12,7 +12,6 @@ local function init()
   use {'wbthomason/packer.nvim', opt = true}
 
   -- Colors
-  use {'arcticicestudio/nord-vim', opt = false }
   use {'luochen1990/rainbow', opt = false }
 
   -- Tpope plugins
@@ -79,12 +78,16 @@ local function init()
   -- ipython integration
   use {'bfredl/nvim-ipy', opt = true}
 
+  use {'junegunn/goyo.vim', opt = true}
+  use {'junegunn/limelight.vim', opt = true}
+
   -- utility
   use {'nvim-lua/plenary.nvim', opt = true}
 
   -- statusline
   use {'tjdevries/luvjob.nvim', opt = true}
   use {'tjdevries/expressline.nvim', opt = true}
+  use {'tjdevries/colorbuddy.vim', opt = true}
 
   -- my plugins
   use {'haorenW1025/term-nvim'}
