@@ -77,12 +77,15 @@ local chain_complete_list = {
 
 local on_attach = function(client)
   require'lsp_status'.on_attach(client)
-  require'diagnostic'.on_attach()
+  require'diagnostic'.on_attach({
+    -- enable_virtual_text = 1,
+    -- virtual_text_prefix = 'F',
+  })
   require'completion'.on_attach({
-      sorting = 'alphabet',
-      matching_strategy_list = {'exact', 'fuzzy'},
-      chain_complete_list = chain_complete_list,
-    })
+    sorting = 'alphabet',
+    matching_strategy_list = {'exact', 'fuzzy'},
+    chain_complete_list = chain_complete_list,
+  })
   -- This came from https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/lua/lsp_config.lua
   local mapper = function(mode, key, result)
     vim.fn.nvim_buf_set_keymap(0, mode, key, result, {noremap=true, silent=true})
@@ -160,6 +163,9 @@ lsp.jedi_language_server.setup{
 
 lsp.clangd.setup{
   on_attach = on_attach;
+  cmd = {
+    "/home/whz861025/packages/clangd/build/bin/clangd"
+  },
   capabilities = {
     textDocument = {
       completion = {

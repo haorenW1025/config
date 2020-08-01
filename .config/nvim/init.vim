@@ -30,7 +30,7 @@ packadd! completion-buffers
 " packadd! gina.vim
 packadd! vim-startify
 " packadd! fzf-preview.vim
-packadd! vimtex
+" packadd! vimtex
 packadd! indentLine
 packadd! fzf.vim
 packadd! colorbuddy.vim

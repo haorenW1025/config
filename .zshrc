@@ -74,18 +74,6 @@ echo $TTY | read test
 export NVIM_TTY=$test
 
 set -o vi
-alias sn='create_session'
-function project_start(){
-    prm start $1
-}
-function create_session() {
-	abduco -c $1 nvim +e term://zsh
-}
-
-function attach_session(){
-	abduco -a $1
-}
-
 alias ab='abduco'
 alias cp='cp -iv'
 alias zf='zathura --fork'
@@ -93,6 +81,7 @@ alias activate='source ~/env/bin/activate'
 alias ls='exa --icons'
 alias rm='rm -i'
 alias vim='nvim'
+alias tmux='/usr/local/bin/tmux'
 set charset="utf-8"
 set send_charset="utf-8"
 set attach_charset="utf-8"
