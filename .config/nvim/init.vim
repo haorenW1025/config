@@ -14,7 +14,6 @@ command! PackerClean packadd packer.nvim | lua require('plugins').clean()
 command! PackerCompile packadd packer.nvim | lua require('plugins').compile('~/.config/nvim/plugin/packer_load.vim')
 
 
-" packadd! indentLine
 packadd! vim-gitgutter
 packadd! delimitMate
 packadd! vim-smoothie
@@ -34,8 +33,6 @@ packadd! vim-startify
 packadd! indentLine
 packadd! fzf.vim
 packadd! colorbuddy.vim
-packadd! goyo.vim
-packadd! limelight.vim
 " packadd! nvim-metals
 " packadd! popup.nvim
 " packadd! telescope.nvim
@@ -47,5 +44,5 @@ packadd! limelight.vim
 
 
 luafile ~/.config/nvim/init.lua
-lua require("colorbuddy").setup()
+
 " luafile ~/.config/nvim/lua/express.lua

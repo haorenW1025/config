@@ -17,7 +17,6 @@ local function location_callback(_, method, result)
   end
 
   util.set_qflist(util.locations_to_items(result))
-  api.nvim_command("FzfPreviewQuickFix")
 end
 
 -- modified from source to escape variable
@@ -65,13 +64,11 @@ local symbol_callback = function(_, _, result, _, bufnr)
   if not result or vim.tbl_isempty(result) then return end
 
   util.set_qflist(symbols_to_items(result, bufnr))
-  api.nvim_command("FzfPreviewQuickFix")
 end
 
 M['textDocument/references'] = function(_, _, result)
   if not result then return end
   util.set_qflist(util.locations_to_items(result))
-  api.nvim_command("FzfPreviewQuickFix")
 end
 M['textDocument/declaration'] = location_callback
 M['textDocument/definition'] = location_callback
