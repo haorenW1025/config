@@ -83,7 +83,7 @@ Group.new("SignColumn",     colors.none,         colors.none,    styles.NONE)
 
 Group.new("ColorColumn", colors.none, colors.nord_1)
 Group.new("Cursor", colors.nord_0, colors.nord_4)
-Group.new("CursorLine", colors.none, colors.nord_1)
+Group.new("CursorLine", colors.none, colors.nord_0)
 Group.new("iCursor",colors.nord_0, colors.nord_4)
 Group.new("EndOfBuffer",colors.none, colors.none)
 Group.new("MatchParen",colors.nord_8, colors.nord_3)
@@ -146,4 +146,6 @@ Group.new("LSPDiagnosticsError", colors.nord_11, colors.none)
 Group.new("LSPDiagnosticsInformation", colors.nord_8, colors.none)
 Group.new("LSPDiagnosticsHint", colors.nord_10, colors.none)
 
+-- TS
+Group.new("TSDefinitionUsage", groups.CursorLine, groups.CursorLine)
 
