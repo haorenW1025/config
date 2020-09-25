@@ -6,7 +6,7 @@ function M.convertFile()
   local shortname = vim.fn.expand('%:t:r')
   local fullname = api.nvim_buf_get_name(0)
   handle = vim.loop.spawn('pandoc', {
-    args = {fullname, '--to=pdf', '-o', string.format('%s.pdf', shortname), '-s', '--pdf-engine=xelatex', '--template', 'eisvogel', '--listings', '--toc', '--number-sections'}
+    args = {fullname, '-o', string.format('%s.pdf', shortname), '-s', '--pdf-engine=xelatex', '--template', 'eisvogel', '--listings', '--toc', '--number-sections'}
   },
   function()
     print('DOCUMENT CONVERSION COMPLETE')

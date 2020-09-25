@@ -12,7 +12,6 @@ local function init()
   use {'wbthomason/packer.nvim', opt = true}
 
   -- Colors
-  use {'luochen1990/rainbow', opt = false }
 
   -- Tpope plugins
   use 'tpope/vim-surround'
@@ -69,32 +68,29 @@ local function init()
   -- smooth scrolling
   use {'psliwka/vim-smoothie', opt = true}
 
-  -- gina
-  use {'lambdalisue/gina.vim', opt = true}
-
   -- movement
   use {'justinmk/vim-sneak'}
-
-  -- ipython integration
-  use {'bfredl/nvim-ipy', opt = true}
+  use {'rhysd/clever-f.vim'}
 
   use {'junegunn/goyo.vim', opt = true}
   use {'junegunn/limelight.vim', opt = true}
 
   -- utility
   use {'nvim-lua/plenary.nvim', opt = true}
+  use {'nvim-lua/popup.nvim', opt = true}
+  use {'nvim-lua/telescope.nvim', opt = true}
 
-  -- statusline
-  use {'tjdevries/luvjob.nvim', opt = true}
-  use {'tjdevries/expressline.nvim', opt = true}
   use {'tjdevries/colorbuddy.vim', opt = true}
 
   -- my plugins
   use {'haorenW1025/term-nvim'}
   use {'haorenW1025/floatLf-nvim'}
 
-  -- wiki
   use {'vim-pandoc/vim-pandoc-syntax'}
+
+  -- texobject
+  use {'kana/vim-textobj-user'}
+  use {'Julian/vim-textobj-variable-segment'}
 end
 
 local plugins = setmetatable({}, {

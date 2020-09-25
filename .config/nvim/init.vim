@@ -32,10 +32,15 @@ packadd! vim-startify
 " packadd! vimtex
 packadd! indentLine
 packadd! fzf.vim
+packadd! vim-cpp-modern
 packadd! colorbuddy.vim
+" packadd! snippets.nvim
 " packadd! nvim-metals
-" packadd! popup.nvim
-" packadd! telescope.nvim
+packadd! plenary.nvim
+packadd! popup.nvim
+packadd! telescope.nvim
+packadd! vimspector
+" packadd! nvim-metals
 " packadd! typeracer.nvim
 " packadd! luvjob.nvim
 " packadd! expressline.nvim
@@ -44,5 +49,3 @@ packadd! colorbuddy.vim
 
 
 luafile ~/.config/nvim/init.lua
-
-" luafile ~/.config/nvim/lua/express.lua

@@ -9,18 +9,26 @@ nnoremap <leader>dl <cmd>lua require'diagnostic.util'.show_line_diagnostics()<CR
 
 
 " fzf
-function FzfFile() abort
-    if isdirectory(".git")
-        GFiles
-    else
-        Files
-    endif
-endfunction
+" function FzfFile() abort
+"     if isdirectory(".git")
+"         GFiles
+"     else
+"         Files
+"     endif
+" endfunction
 
-nnoremap <silent> ,f    :call FzfFile()<CR>
-nnoremap <silent> ,b     :Buffers<CR>
-nnoremap <silent> ,l     :Lines<CR>
-nnoremap          ,w     :Rg<CR>
+" nnoremap <silent> ,f    :call FzfFile()<CR>
+" nnoremap <silent> ,b     :Buffers<CR>
+" nnoremap <silent> ,l     :Lines<CR>
+" nnoremap          ,w     :Rg<CR>
+
+" telescope
+nnoremap <silent> ,g    :lua require'telescope.builtin'.git_files{show_preview = true}<CR>
+nnoremap <silent> ,f    :lua require'telescope_ex'.fd{show_preview = true}<CR>
+nnoremap <silent> ,w    :lua require('telescope.builtin').live_grep()<CR>
+nnoremap <silent> ,b    :lua require('telescope.builtin').buffers()<CR>
+nnoremap <silent> ,c    :lua require('telescope.builtin').command_history()<CR>
+nnoremap <silent> ,m    :lua require('telescope.builtin').oldfiles()<CR>
 
 
 " git
@@ -164,7 +172,7 @@ nmap <localleader>ls :T leetcode submit %<CR>
 
 function CloseBuffer()
     bprevious
-    bdelete #
+    bdelete! #
 endfunction
 
 nmap <leader>bq :call CloseBuffer()<CR>
@@ -175,10 +183,10 @@ nmap ]e  :<c-u>execute 'move +'. v:count1<cr>
 nmap + <C-w>+
 nmap - <C-w>-
 nmap S :%s//g<left><left>
-nmap <Leader>+ 20+ 
-nmap <Leader>- 20- 
-nmap <left> <C-w>>
-nmap <right> <C-w><
+nmap <Leader>s+ 20+ 
+nmap <Leader>s- 20- 
+nmap <leader>v+ :vertical resize +20<CR>
+nmap <leader>v- :vertical resize -20<CR>
 nmap <silent><a-h> <C-w>h
 nmap <silent><a-j> <C-w>j
 nmap <silent><a-k> <C-w>k
@@ -212,3 +220,11 @@ nmap <leader>bc :bd<CR>
 nmap :: :<c-f>
 nmap Y y$
 
+" vimspector
+" nmap <leader>dr <Plug>VimspectorRestart
+" nmap <leader>dc <Plug>VimspectorContinue
+" nmap <leader>db <Plug>VimspectorToggleBreakpoint
+" nmap <leader>dB <Plug>VimspectorToggleConditionBreakpoint
+" nmap <leader>dr <Plug>VimspectorRestart
+" nmap <leader>dr <Plug>VimspectorRestart
+" nmap <leader>dr <Plug>VimspectorRestart

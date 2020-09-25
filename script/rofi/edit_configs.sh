@@ -42,5 +42,5 @@ case "$choice" in
 		exit 1
 	;;
 esac
-st -e nvim -c 'cd %:p:h' "$choice"
+alacritty -e nvim -c 'cd %:p:h' "$choice"
 

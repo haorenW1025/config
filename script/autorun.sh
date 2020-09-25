@@ -21,20 +21,19 @@ if (command -v  xfce4-power-manager && ! pgrep xfce4-power-man) ; then
     xfce4-power-manager &
 fi
 
-run xfsettingsd
 run nm-applet
 run thunar --daemon
 run pa-applet
-run pamac-tray
 
 ## The following are not included in minimal edition by default
 ## but autorun.sh will pick them up if you install them
 
 modifiedkey.sh
-polybar.sh
 run ibus-daemon -drx --panel /usr/lib/ibus/ibus-ui-gtk3
-run picom --experimental-backends --fading
+run ~/packages/picom/build/src/picom --experimental-backends --fading
 run blueman-applet
-run nitrogen --restore
 run msm_notifier
-run xmodmap ~/.xmodmap
+
+nitrogen --restore &
+xrandr --output DP-0 --pos 0x0 --mode 1920x1080 --rate 144.00 --output HDMI-0 --pos 1920x0 --mode 1920x1200 --rotate left &
+xmodmap ~/.xmodmap &

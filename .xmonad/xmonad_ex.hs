@@ -340,8 +340,8 @@ myKeys =
         --, ("M-S-s", windows copyToAll)  
         , ("M-C-s", killAllOtherCopies) 
         
-        , ("M-C-M1-<Up>", sendMessage Arrange)
-        , ("M-C-M1-<Down>", sendMessage DeArrange)
+        , ("M-C-S-<Up>", sendMessage Arrange)
+        , ("M-C-S-<Down>", sendMessage DeArrange)
         , ("M-<Up>", sendMessage (MoveUp 10))             --  Move focused window to up
         , ("M-<Down>", sendMessage (MoveDown 10))         --  Move focused window to down
         , ("M-<Right>", sendMessage (MoveRight 10))       --  Move focused window to right

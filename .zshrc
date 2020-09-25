@@ -81,7 +81,6 @@ alias activate='source ~/env/bin/activate'
 alias ls='exa --icons'
 alias rm='rm -i'
 alias vim='nvim'
-alias tmux='/usr/local/bin/tmux'
 set charset="utf-8"
 set send_charset="utf-8"
 set attach_charset="utf-8"

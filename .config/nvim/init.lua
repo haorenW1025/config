@@ -5,7 +5,7 @@ local callback = require'callback'
 require'nvim-treesitter.configs'.setup {
   refactor = {
     highlight_definitions = { enable = true },
-    highlight_current_scope = { enable = true },
+    highlight_current_scope = { enable = false },
   },
 }
 
@@ -23,9 +23,11 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
+
 require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
+        disable = {'cpp'}
     },
     incremental_selection = {
         enable = false,
@@ -85,20 +87,17 @@ require'nvim-treesitter.configs'.setup {
     },
   },
 }
-
-local chain_complete_list = {
-  default = {
-    default = {
-      {complete_items = {'lsp', 'snippet'}},
-      {complete_items = {'path'}, triggered_only = {'/'}},
-    },
-    string = {
-      {complete_items = {'path'}, triggered_only = {'/'}},
-    },
-    comment = {},
-  }
-}
-
+local function syntax_at_point()
+    if vim.g.loaded_nvim_treesitter and vim.g.loaded_nvim_treesitter > 0 then
+        local current_node = require('nvim-treesitter/ts_utils').get_node_at_cursor()
+        if current_node then
+            return current_node:type()
+        end
+    end
+    -- fallback
+    local pos = vim.api.nvim_win_get_cursor(0)
+    return vim.fn.synIDattr(vim.fn.synID(pos[1], pos[2], 1), "name")
+end
 
 local on_attach = function(client)
   require'lsp_status'.on_attach(client)
@@ -108,8 +107,9 @@ local on_attach = function(client)
   })
   require'completion'.on_attach({
     sorting = 'alphabet',
+    enable_auto_signature = 1,
     matching_strategy_list = {'exact', 'fuzzy'},
-    chain_complete_list = chain_complete_list,
+    syntax_at_point = syntax_at_point
   })
   -- This came from https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/lua/lsp_config.lua
   local mapper = function(mode, key, result)
@@ -121,9 +121,10 @@ local on_attach = function(client)
   mapper('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
   mapper('n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>')
   mapper('n', '1gD', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-  mapper('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-  mapper('n', 'g0', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
-  mapper('i', '<c-l>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+  mapper('n', 'gr', '<cmd>lua require(\'telescope.builtin\').lsp_references()<CR>')
+  mapper('n', 'g0', '<cmd>lua require(\'telescope.builtin\').lsp_document_symbols()<CR>')
+  mapper('n', 'gW', '<cmd>lua require(\'telescope.builtin\').lsp_workspace_symbols()<CR>')
+  mapper('i', '<c-p>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 end
 
 lsp.sumneko_lua.setup {
@@ -155,6 +156,15 @@ lsp.sumneko_lua.setup {
       },
     },
   };
+  capabilities = {
+    textDocument = {
+      completion = {
+        completionItem = {
+          snippetSupport = true
+        }
+      }
+    }
+  },
 }
 
 lsp.vimls.setup{
@@ -179,14 +189,14 @@ lsp.pyls.setup{
       }
     }
   };
-  filetypes = { "python", "python.ipython" }
+  filetypes = { "python"}
 }
 
 -- lsp.pyls_ms.setup{
   -- on_attach = require'on_attach'.on_attach;
 -- }
 
-lsp.clangd.setup{
+lsp.ccls.setup{
   on_attach = on_attach;
   capabilities = {
     textDocument = {
@@ -197,13 +207,9 @@ lsp.clangd.setup{
       }
     }
   },
-  init_options = {
-    usePlaceholders = true,
-    completeUnimported = true
-  }
 }
 
-lsp.rust_analyzer.setup{
+lsp.rls.setup{
   on_attach = on_attach;
 }
 
@@ -216,14 +222,10 @@ lsp.metals.setup{
   on_attach = on_attach;
 }
 
-lsp.ghcide.setup{
+lsp.hls.setup{
   on_attach = on_attach;
 }
 
 lsp.gopls.setup{
-  on_attach = on_attach;
-}
-
-lsp.ghcide.setup{
-  on_attach = on_attach;
+  on_attach= on_attach;
 }

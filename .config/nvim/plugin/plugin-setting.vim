@@ -1,5 +1,4 @@
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
 
 au Filetype c,cpp  setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype python setl omnifunc=v:lua.vim.lsp.omnifunc
@@ -47,8 +46,8 @@ let g:diagnostic_insert_delay = 1
 " completion-nvim
 let g:completion_enable_auto_hover = 1
 let g:completion_auto_change_source = 1
+" let g:completion_enable_snippet = 'snippets.nvim'
 let g:completion_enable_snippet = 'UltiSnips'
-let g:completion_max_items = 10
 let g:completion_enable_auto_paren = 0
 let g:completion_timer_cycle = 80
 let g:completion_auto_change_source = 1
@@ -63,9 +62,12 @@ let g:completion_confirm_key = "\<CR>"
  let g:completion_chain_complete_list = {
     \ 'default' : {
     \   'default': [
-    \       {'complete_items': ['snippet', 'buffers']},
+    \       {'complete_items': ['snippet', 'lsp']},
     \],
-    \   'comment': []
+    \   'comment': [],
+    \   'string' : [
+    \       {'complete_items': ['path']}
+    \]
     \   },
     \ 'markdown.pandoc': {
     \   'default': [
@@ -80,8 +82,6 @@ augroup CompletionStartUp
     autocmd BufEnter *.md lua require'completion'.on_attach()
 augroup end
 
-imap  <c-j> <Plug>(completion_next_source)
-imap  <c-k> <Plug>(completion_prev_source)
 
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -105,6 +105,10 @@ endfunction
 "   \ <SID>check_back_space() ? "\<TAB>" :
 "   \ completion#trigger_completion()
 " inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ completion#trigger_completion()
 
 " NerdCommentor
 let g:NERDSpaceDelims = 1
@@ -112,13 +116,19 @@ let g:NERDTrimTrailingWhitespace = 0
 let g:NERDCompactSexyComs = 1
 
 " ultisnips
-let g:UltiSnipsSnippetDirectories = ["~/.local/share/nvim/site/pack/packer/start/vim-snippets/UltiSnips/"]
+let g:UltiSnipsSnippetDirectories = ["~/.local/share/nvim/UltiSnips/"]
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsExpandTrigger="jl"
 let g:ultisnips_python_style="google"
 let g:UltiSnipsJumpForwardTrigger="jl"
 let g:UltiSnipsJumpBackwardTrigger="jh"
-imap <expr> <C-f>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+
+" vim-vsnip
+imap <expr> <c-f>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<c-f>'
+smap <expr> <c-f>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<c-f>'
+imap <expr> <c-b> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<c-b>'
+smap <expr> <c-b> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<c-b>'
+let g:vsnip_snippet_dir = "~/.local/share/nvim/vsnip"
 
 " rainbow
 let g:rainbow_active = 1
@@ -157,6 +167,7 @@ au BufNewFile,BufRead *.v,*.vh,*.sv,*.svh,*.vs	set filetype=verilog
 
 " startify
 let g:startify_session_persistence = 1
+let g:startify_change_to_vcs_root = 0
 let g:startify_custom_header =
         \ 'startify#center(startify#fortune#cowsay())'
 "vimtex
@@ -194,6 +205,8 @@ let g:wordmotion_mappings = {
 \ 'iw' : 'i<M-w>',
 \ '<C-R><C-W>' : '<C-R><M-w>'
 \ }
+
+let g:vimspector_enable_mappings = 'HUMAN'
 
 augroup pandoc_syntax
     au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
