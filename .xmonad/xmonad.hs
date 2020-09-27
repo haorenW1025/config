@@ -50,6 +50,7 @@ import XMonad.Prompt.Man
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.WindowSwallowing
+import XMonad.Hooks.ServerMode
 
 -- Actions
 -- import XMonad.Actions.Submap
@@ -155,7 +156,7 @@ projects =
     , Project   { projectName       = "music"
                 , projectDirectory  = "~/"
                 , projectStartHook  = Just $ do
-                    spawn "/snap/bin/spotify"
+                    spawn "spotify"
                 }
     ]
 
@@ -169,15 +170,16 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 
 myXPConfig :: XPConfig
 myXPConfig = def
-      { font                = "xft:Monofurbold Nerd Font Mono:size=12:bold:antialias=true"
-      , bgColor             = "#434c5e"
-      , fgColor             = "#d0d0d0"
-      , bgHLight            = "#88c0d0"
-      , fgHLight            = "#000000"
-      , borderColor         = "#535974"
-      , promptBorderWidth   = 5
+      { font                = "xft:Monofurbold Nerd Font:size=18:bold:antialias=true"
+      , bgColor             = "#3B4252"
+      , fgColor             = "#D8DEE9"
+      , bgHLight            = "#8FBCBB"
+      , fgHLight            = "#292929"
+      , borderColor         = "#81A1C1"
+      , promptBorderWidth   = 2
       , promptKeymap        = defaultXPKeymap
-      , completionKey       = (mod1Mask, xK_n)
+      , completionKey       = (controlMask, xK_n)
+      , changeModeKey       = xK_Tab
       -- , position            = Top
       , position            = CenteredAt { xpCenterY = 0.3, xpWidth = 0.5 }
       , height              = 50
@@ -186,7 +188,7 @@ myXPConfig = def
       , defaultText         = []
       , showCompletionOnTab = False
       , alwaysHighlight     = False
-      , maxComplRows        = Just 10
+      , maxComplRows        = Just 20
       , searchPredicate     = fuzzyMatch
       , sorter              = fuzzySort
       }
@@ -198,6 +200,16 @@ spawnPrompt c config =  do
     cmds <- io getCommands
     mkXPrompt Shell config (getShellCompl cmds $ searchPredicate config) run
     where run a = unsafeSpawn $ c ++ " " ++ a
+
+activateCurrentProject :: X ()
+activateCurrentProject = do
+    project <- currentProject
+    activateProject project
+
+
+
+
+-- trigger current project hook
 
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
@@ -260,13 +272,7 @@ myEZKeys =
         , ("M-w m", windows $ W.greedyView "music")
         , ("M-x", toggleWS)
         -- run project startup hook
-        , ("M-S-<Return>", bindOn [("config1", spawn "~/script/rofi/edit_configs.sh") 
-                                ,  ("config2", spawn "~/script/rofi/edit_configs.sh")
-                                ,  ("dev1", spawn "~/script/rofi/tmux_session.sh")
-                                ,  ("dev2", spawn "~/script/rofi/tmux_session.sh")
-                                ,  ("web", spawn "firefox")
-                                ,  ("music", spawn "/snap/bin/spotify")
-                                ])
+        , ("M-S-<Return>",  activateCurrentProject)
 
         -- , ("M-w", TS.treeselectWorkspace myTSConfig myWorkspaces W.greedyView)
 
@@ -302,6 +308,9 @@ myEZKeys =
         , ("M-t j" , sendMessage $ pullGroup D)
         , ("M-t m" , withFocused (sendMessage . MergeAll))
         , ("M-t u" , withFocused (sendMessage . UnMerge))
+        , ("<XF86AudioMute>",   spawn "amixer set Master toggle")  -- Bug prevents it from toggling correctly in 12.04.
+        , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
+        , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
 
         -- utility
         , ("M-u 4", spawn "sleep 0.2; scrot -s -f")
@@ -435,7 +444,8 @@ myManageHook = composeAll
 -- return (All True) if the default handler is to be run afterwards. To
 -- combine event hooks use mappend or mconcat from Data.Monoid.
 --
-myEventHook = swallowEventHook (className =? "Alacritty" <||> className =? "Termite") (return True)
+myEventHook = ewmhDesktopsEventHook
+              <+> swallowEventHook (className =? "Alacritty" <||> className =? "Termite") (return True)
 
 ------------------------------------------------------------------------
 -- Status bars and logging
