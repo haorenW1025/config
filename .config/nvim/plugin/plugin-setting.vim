@@ -1,6 +1,7 @@
 
 
 au Filetype c,cpp  setl omnifunc=v:lua.vim.lsp.omnifunc
+au Filetype ruby  setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype python setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype rust   setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype lua    setl omnifunc=v:lua.vim.lsp.omnifunc
@@ -54,10 +55,7 @@ let g:completion_auto_change_source = 1
 let g:completion_matching_ignore_case = 1
 " let g:completion_trigger_keyword_length = 3
 
-let g:completion_confirm_key = "\<CR>"
-" imap <expr> <cr> pumvisible() ? complete_info()["selected"] != "-1" ?
-"                                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :
-"                                 \ "\<CR>"
+" let g:completion_confirm_key = "\<CR>"
 " let g:completion_confirm_key_rhs = "\<Plug>AutoPairsReturn"
  let g:completion_chain_complete_list = {
     \ 'default' : {

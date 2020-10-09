@@ -22,6 +22,7 @@ packadd! vim-vsnip
 packadd! vim-vsnip-integ
 packadd! nvim-lsp
 packadd! nvim-treesitter
+packadd! nvim-treesitter-textobjects
 packadd! completion-nvim
 packadd! diagnostic-nvim
 packadd! completion-buffers
@@ -36,10 +37,11 @@ packadd! vim-cpp-modern
 packadd! colorbuddy.vim
 " packadd! snippets.nvim
 " packadd! nvim-metals
+" packadd! express_line.nvim
 packadd! plenary.nvim
 packadd! popup.nvim
 packadd! telescope.nvim
-packadd! vimspector
+" packadd! vimspector
 " packadd! nvim-metals
 " packadd! typeracer.nvim
 " packadd! luvjob.nvim

@@ -1,9 +1,6 @@
 local api = vim.api
 local icons = require 'devicon'
-local session = require 'abduco'
 local M = {}
-
-session.abduco_session()
 
 -- Different colors for mode
 local purple = '#B48EAD'
@@ -225,11 +222,6 @@ function M.TabLine()
   local dir = api.nvim_call_function('getcwd', {})
   tabline = tabline.."%#DirSeparator#"..left_separator.."%#Directory# "..TrimmedDirectory(dir).." %#DirSeparator#"..right_separator
   tabline = tabline..blank
-  if session.data ~= nil then
-    tabline = tabline.."%#TabLineSeparator# "..left_separator
-    tabline = tabline.."%#TabLine# session: "..session.data
-    tabline = tabline.." %#TabLineSeparator#"..right_separator
-  end
   return tabline
 end
 return M

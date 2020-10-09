@@ -29,6 +29,8 @@ nnoremap <silent> ,w    :lua require('telescope.builtin').live_grep()<CR>
 nnoremap <silent> ,b    :lua require('telescope.builtin').buffers()<CR>
 nnoremap <silent> ,c    :lua require('telescope.builtin').command_history()<CR>
 nnoremap <silent> ,m    :lua require('telescope.builtin').oldfiles()<CR>
+nnoremap <silent> ,t    :lua require('telescope.builtin').treesitter()<CR>
+nnoremap <silent> ,l    :lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>
 
 
 " git

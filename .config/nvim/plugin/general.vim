@@ -53,7 +53,10 @@ function! Osc52Yank()
     let buffer=system('base64 -w0 ', @0)
     let buffer=substitute(buffer, "\n$", "", "")
     let buffer='\e]52;c;'.buffer.'\x07'
-    silent exe "!echo -ne ".shellescape(buffer)." > ".shellescape($NVIM_TTY)
+    " let tty = $SSH_TTY
+    " echo tty
+    " silent exe "!echo -ne ".shellescape(buffer)." > ".shellescape($NVIM_TTY)
+    " silent exe "!echo -ne ".shellescape(buffer)." > ".tty
 endfunction
 command! Osc52CopyYank call Osc52Yank()
 augroup Example
@@ -72,6 +75,7 @@ autocmd FileType text,markdown
 set dir^=$HOME/.config/nvim//storage/swaps//
 set undodir^=$HOME/.config/nvim/storage/undos//
 set backupdir^=$HOME/.config/nvim//storage/backups//
+
 
 " folding
 autocmd BufWrite * mkview

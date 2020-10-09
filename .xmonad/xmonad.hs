@@ -170,7 +170,7 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 
 myXPConfig :: XPConfig
 myXPConfig = def
-      { font                = "xft:Monofurbold Nerd Font:size=18:bold:antialias=true"
+      { font                = "xft:Monofurbold Nerd Font Mono:size=14:bold:antialias=true"
       , bgColor             = "#3B4252"
       , fgColor             = "#D8DEE9"
       , bgHLight            = "#8FBCBB"

@@ -108,8 +108,6 @@ Group.new("TermCursorNC",colors.nord_1, colors.nord_1)
 Group.new("IncSearch",colors.nord_6, colors.nord_10, styles.underline)
 Group.new("Search",colors.nord_1, colors.nord_8)
 
-
-
 -- vim
 Group.new('vimcommand',      groups.Statement, colors.none)
 Group.new('vimLet',          groups.vimcommand , colors.none)

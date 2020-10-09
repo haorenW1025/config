@@ -59,6 +59,7 @@ local function init()
   -- treesitter
   use {'nvim-treesitter/completion-treesitter', opt = true}
   use {'nvim-treesitter/nvim-treesitter', opt = true}
+  use {'nvim-treesitter/nvim-treesitter-textobjects', opt = true}
 
   use {'haorenW1025/diagnostic-nvim', opt = true}
 
@@ -87,6 +88,9 @@ local function init()
   use {'haorenW1025/floatLf-nvim'}
 
   use {'vim-pandoc/vim-pandoc-syntax'}
+
+  -- devicons
+  use {'kyazdani42/nvim-web-devicons'}
 
   -- texobject
   use {'kana/vim-textobj-user'}
