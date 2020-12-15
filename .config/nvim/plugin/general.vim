@@ -1,4 +1,18 @@
-" floating window
+syntax enable
+syntax on
+filetype indent plugin on
+set nocompatible
+set number
+let mapleader=" "
+let localleader=","
+
+execute 'luafile ' . stdpath('config') . '/lua/plugins.lua'
+command! PackerInstall packadd packer.nvim | lua require('plugins').install()
+command! PackerUpdate packadd packer.nvim | lua require('plugins').update()
+command! PackerSync packadd packer.nvim | lua require('plugins').sync()
+command! PackerClean packadd packer.nvim | lua require('plugins').clean()
+command! PackerCompile packadd packer.nvim | lua require('plugins').compile('~/.config/nvim/plugin/packer_load.vim')
+
 set wildmode=longest,list,full
 set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__,node_modules
 set pumblend=20
@@ -55,7 +69,7 @@ function! Osc52Yank()
     let buffer='\e]52;c;'.buffer.'\x07'
     " let tty = $SSH_TTY
     " echo tty
-    " silent exe "!echo -ne ".shellescape(buffer)." > ".shellescape($NVIM_TTY)
+    silent exe "!echo -ne ".shellescape(buffer)." > ".shellescape($NVIM_TTY)
     " silent exe "!echo -ne ".shellescape(buffer)." > ".tty
 endfunction
 command! Osc52CopyYank call Osc52Yank()

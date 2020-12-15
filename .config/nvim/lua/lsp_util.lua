@@ -1,4 +1,4 @@
-local lsp = require'nvim_lsp'
+local lsp = require'lspconfig'
 local callback = require'callback'
 
 local function preview_location_callback(_, method, result)
@@ -25,36 +25,61 @@ local function syntax_at_point()
     return vim.fn.synIDattr(vim.fn.synID(pos[1], pos[2], 1), "name")
 end
 
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    -- This will disable virtual text, like doing:
+    -- let g:diagnostic_enable_virtual_text = 0
+    virtual_text = false,
+    underline = false,
+    -- This is similar to:
+    -- let g:diagnostic_show_sign = 1
+    -- To configure sign display,
+    --  see: ":help vim.lsp.diagnostic.set_signs()"
+    signs = true,
+
+    -- This is similar to:
+    -- "let g:diagnostic_insert_delay = 1"
+    update_in_insert = false,
+  }
+)
+
 local on_attach = function(client)
   require'lsp_status'.on_attach(client)
-  require'diagnostic'.on_attach({
-    -- enable_virtual_text = 1,
-    -- virtual_text_prefix = 'F',
-  })
   require'completion'.on_attach({
     sorting = 'alphabet',
     enable_auto_signature = 0,
+    enable_auto_hover = 0,
     matching_strategy_list = {'exact', 'fuzzy'},
-    -- syntax_at_point = syntax_at_point
+    abbr_length = 30,
+    menu_length = 30,
+    syntax_at_point = syntax_at_point
   })
   -- This came from https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/lua/lsp_config.lua
   local mapper = function(mode, key, result)
     vim.fn.nvim_buf_set_keymap(0, mode, key, result, {noremap=true, silent=true})
   end
 
+  mapper('n', '<leader>dj', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+  mapper('n', '<leader>dk', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+  mapper('n', '<leader>bf', '<cmd>lua vim.lsp.buf.formatting()<CR>')
   mapper('n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>')
   mapper('n', '<c-]>', '<cmd>lua vim.lsp.buf.definition()<CR>')
   mapper('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
   mapper('n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>')
   mapper('n', '1gD', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-  mapper('n', 'gr', '<cmd>lua require(\'telescope.builtin\').lsp_references()<CR>')
-  mapper('n', 'g0', '<cmd>lua require(\'telescope.builtin\').lsp_document_symbols()<CR>')
-  mapper('n', 'gW', '<cmd>lua require(\'telescope.builtin\').lsp_workspace_symbols()<CR>')
+  mapper('n', 'gr', '<cmd>lua require(\'telescope.builtin\').lsp_references(require"telescope_config".themes)<CR>')
+  mapper('n', 'g0', '<cmd>lua require(\'telescope_config\').document_symbols(require"telescope_config".themes)<CR>')
+  mapper('n', 'gW', '<cmd>lua require(\'telescope_config\').workspace_symbols(require"telescope_config".themes)<CR>')
   mapper('i', '<c-p>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
 end
 
+local lua_on_attach = function (client)
+  on_attach(client)
+  client.server_capabilities.completionProvider.triggerCharacters = {'.'}
+end
+
 lsp.sumneko_lua.setup {
-  on_attach= on_attach;
+  on_attach= lua_on_attach;
   cmd = {
     "/home/whz861025/packages/lua-language-server/bin/Linux/lua-language-server",
     "-E",
@@ -144,6 +169,14 @@ lsp.clangd.setup{
   },
 }
 
+lsp.tsserver.setup {
+  on_attach = on_attach;
+}
+
+lsp.bashls.setup{
+  on_attach = on_attach
+}
+
 lsp.rust_analyzer.setup{
   on_attach = on_attach;
 }
@@ -156,7 +189,6 @@ lsp.texlab.setup{
 lsp.metals.setup{
   on_attach = on_attach;
 }
-
 
 lsp.solargraph.setup {
   on_attach = on_attach,

@@ -68,15 +68,15 @@ function! ToggleNoBorderTerm(cmd)
 endfunction
 
 " lazygit
-nnoremap <silent> <leader>tg :call ToggleLazyGit()<CR>
 function! ToggleLazyGit()
     call ToggleNoBorderTerm('lazygit')
 endfunction
+nnoremap <silent> <leader>tg :call ToggleLazyGit()<CR>
 
-nnoremap <silent> <Leader>tt :call ToggleGotop()<CR>
 function! ToggleGotop()
     call ToggleNoBorderTerm('gotop')
 endfunction
+nnoremap <silent> <Leader>tt :call ToggleGotop()<CR>
 
 nnoremap <silent> <leader>tf :call ToggleLf()<CR>
 nnoremap <silent> <leader>cf :call ToggleLfCurrentFile()<CR>

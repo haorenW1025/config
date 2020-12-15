@@ -1,5 +1,5 @@
 autoload -U promptinit; promptinit
-prompt spaceship
+prompt pure
 
 ZSH_AUTOSUGGEST_STRATEGY=(history)
 
@@ -21,7 +21,6 @@ bindkey "^N" down-line-or-search
 
 # Highlight the current autocomplete option
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-
 autoload -Uz compinit
 compinit
 
@@ -81,6 +80,7 @@ alias activate='source ~/env/bin/activate'
 alias ls='exa --icons'
 alias rm='rm -i'
 alias vim='nvim'
+alias tmux='/usr/local/bin/tmux'
 set charset="utf-8"
 set send_charset="utf-8"
 set attach_charset="utf-8"
@@ -88,15 +88,11 @@ source $HOME/.config/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugi
 source $HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/.config/zsh/completion.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-eval "$(lua $HOME/.config/zsh/z.lua/z.lua --init zsh)"
+eval "$(zoxide init zsh)"
 source $HOME/.config/lf/lficon
 source $HOME/.cargo/env
-source $HOME/.config/zsh/spaceship.zsh
 
 _fzf_compgen_path() {
   fd --hidden --follow --exclude ".git" . "$1"
 }
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"

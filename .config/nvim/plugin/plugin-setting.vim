@@ -1,4 +1,7 @@
+autocmd BufWritePost * GitGutter
 
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 
 au Filetype c,cpp  setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype ruby  setl omnifunc=v:lua.vim.lsp.omnifunc
@@ -6,7 +9,6 @@ au Filetype python setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype rust   setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype lua    setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype vim    setl omnifunc=v:lua.vim.lsp.omnifunc
-au FileType scala  setl omnifunc=v:lua.vim.lsp.omnifunc
 
 set cmdheight=2
 
@@ -32,10 +34,15 @@ let g:completion_customize_lsp_label = {
 
 set completeopt=menuone,noinsert,noselect
 
-call sign_define("LspDiagnosticsErrorSign", {"text" : ">>", "texthl" : "LspDiagnosticsError"})
-call sign_define("LspDiagnosticsWarningSign", {"text" : "⚡", "texthl" : "LspDiagnosticsWarning"})
-call sign_define("LspDiagnosticsInformationSign", {"text" : "", "texthl" : "LspDiagnosticsInformation"})
-call sign_define("LspDiagnosticsHintSign", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
+call sign_define("LspDiagnosticsSignError", {"text" : ">>", "texthl" : "LspDiagnosticsError"})
+call sign_define("LspDiagnosticsSignWarning", {"text" : "⚡", "texthl" : "LspDiagnosticsWarning"})
+call sign_define("LspDiagnosticsSignInformation", {"text" : "", "texthl" : "LspDiagnosticsInformation"})
+call sign_define("LspDiagnosticsSignHint", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
+
+" sign define LspDiagnosticsSignError text=">>" texthl=LspDiagnosticsSignError linehl= numhl=
+" sign define LspDiagnosticsSignWarning text="⚡" texthl=LspDiagnosticsSignWarning linehl= numhl=
+" sign define LspDiagnosticsSignInformation text="" texthl=LspDiagnosticsSignInformation linehl= numhl=
+" sign define LspDiagnosticsSignHint text="" texthl=LspDiagnosticsSignHint linehl= numhl=
 
 " diagnostic-nvim
 let g:diagnostic_level = 'Warning'
@@ -55,8 +62,6 @@ let g:completion_auto_change_source = 1
 let g:completion_matching_ignore_case = 1
 " let g:completion_trigger_keyword_length = 3
 
-" let g:completion_confirm_key = "\<CR>"
-" let g:completion_confirm_key_rhs = "\<Plug>AutoPairsReturn"
  let g:completion_chain_complete_list = {
     \ 'default' : {
     \   'default': [
@@ -65,6 +70,11 @@ let g:completion_matching_ignore_case = 1
     \   'comment': [],
     \   'string' : [
     \       {'complete_items': ['path']}
+    \]
+    \   },
+    \ 'verilog': {
+    \   'default': [
+    \       {'complete_items': ['snippet', 'buffer']}
     \]
     \   },
     \ 'markdown.pandoc': {

@@ -83,7 +83,7 @@ Group.new("SignColumn",     colors.none,         colors.none,    styles.NONE)
 
 Group.new("ColorColumn", colors.none, colors.nord_1)
 Group.new("Cursor", colors.nord_0, colors.nord_4)
-Group.new("CursorLine", colors.none, colors.nord_0)
+Group.new("CursorLine", colors.none, colors.none)
 Group.new("iCursor",colors.nord_0, colors.nord_4)
 Group.new("EndOfBuffer",colors.none, colors.none)
 Group.new("MatchParen",colors.nord_8, colors.nord_3)
@@ -139,10 +139,10 @@ Group.new("GitGutterChange",       colors.nord_13, colors.none)
 Group.new("GitGutterChangeDelete", colors.nord_11, colors.none)
 
 -- built-in LSP
-Group.new("LSPDiagnosticsWarning", colors.nord_13, colors.none)
-Group.new("LSPDiagnosticsError", colors.nord_11, colors.none)
-Group.new("LSPDiagnosticsInformation", colors.nord_8, colors.none)
-Group.new("LSPDiagnosticsHint", colors.nord_10, colors.none)
+Group.new("LSPDiagnosticsDefaultWarning", colors.nord_13, colors.none)
+Group.new("LSPDiagnosticsDefaultError", colors.nord_11, colors.none)
+Group.new("LSPDiagnosticsDefaultInformation", colors.nord_8, colors.none)
+Group.new("LSPDiagnosticsDefaultHint", colors.nord_10, colors.none)
 
 -- TS
 Group.new("TSDefinition", groups.Type, groups.Type, styles.italic)
@@ -152,4 +152,7 @@ Group.new("TSDefinitionUsage", groups.CursorLine, groups.CursorLine)
 -- TeleScope
 Group.new("TelescopeSelection", colors.nord_11, colors.nord_8, styles.bold)
 Group.new("TelescopeNormal", groups.Pmenu, groups.Pmenu)
+
+-- Markdown
+Group.new("markdownError", colors.nord_4, colors.none)
 

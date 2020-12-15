@@ -29,14 +29,17 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.BoringWindows(boringWindows, focusUp, focusDown, focusMaster)
+import XMonad.Layout.Gaps
 
 import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
 import XMonad.Layout.SimplestFloat
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.ResizableThreeColumns
+import XMonad.Layout.Simplest
 
 -- Prompt
 import XMonad.Prompt
+-- import XMonad.Prompt.Unicode
 import XMonad.Prompt.Ssh
 import XMonad.Prompt.Shell
 import XMonad.Prompt.Zsh
@@ -78,13 +81,13 @@ import qualified DBus.Client as D
 -- certain contrib modules.
 --
 myTerminal :: String
-myTerminal      = "alacritty"
+myTerminal = "kitty"
 myBrowser :: String
-myBrowser       = "firefox"
+myBrowser  = "firefox"
 myEditor :: String
-myEditor        = "neovim"
+myEditor   = "neovim"
 myFont :: String
-myFont          = "Monofur Nerd Font Mono"
+myFont     = "Monofur Nerd Font Mono"
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -141,7 +144,7 @@ projects =
     , Project   { projectName       = "web"
                 , projectDirectory  = "~"
                 , projectStartHook  = Just $ do
-                    spawn "firefox"
+                    spawn myBrowser
                 }
     , Project   { projectName       = "config1"
                 , projectDirectory  = "~/"
@@ -232,7 +235,7 @@ myEZKeys =
         , ("M-r p", switchProjectPrompt myXPConfig)
         , ("M-r C-p", shiftToProjectPrompt myXPConfig)
         , ("M-r d", changeProjectDirPrompt myXPConfig)
-        , ("M-r z", spawnPrompt ("alacritty" ++ " -e") myXPConfig)
+        , ("M-r z", spawnPrompt ("kitty" ++ " -e") myXPConfig)
         -- , ("M-r z", zshPrompt myXPConfig "$HOME/packages/zsh-capture-completion/capture.zsh")
 
         -- xmonad
@@ -250,8 +253,8 @@ myEZKeys =
 
         -- window
         , ("M-q", kill1)
-        , ("M-l", windows W.focusDown)
-        , ("M-h", windows W.focusUp)
+        , ("M-l", focusDown)
+        , ("M-h", focusUp)
         , ("M-m", focusMaster)
         , ("M-S-m", windows W.swapMaster)
         , ("M-S-l", windows W.swapDown)
@@ -261,6 +264,9 @@ myEZKeys =
         , ("M-C-j", sendMessage MirrorShrink)
         , ("M-C-k", sendMessage MirrorExpand)
         , ("M-f", sendMessage $ Toggle FULL)
+        , ("M-d", decWindowSpacing 4)           -- Decrease window spacing
+        , ("M-i", incWindowSpacing 4)           -- Increase window spacing
+
 
         -- workspace
         -- , ("M-S-w", TS.treeselectWorkspace myTSConfig myWorkspaces (\i -> W.greedyView i . W.shift i))
@@ -308,9 +314,9 @@ myEZKeys =
         , ("M-t j" , sendMessage $ pullGroup D)
         , ("M-t m" , withFocused (sendMessage . MergeAll))
         , ("M-t u" , withFocused (sendMessage . UnMerge))
-        , ("<XF86AudioMute>",   spawn "amixer set Master toggle")  -- Bug prevents it from toggling correctly in 12.04.
-        , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%- unmute")
-        , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+ unmute")
+        , ("<XF86AudioMute>",   spawn "pactl -- set-sink-mute alsa_output.pci-0000_0b_00.4.analog-stereo toggle")  -- Bug prevents it from toggling correctly in 12.04.
+        , ("<XF86AudioLowerVolume>", spawn "pactl -- set-sink-volume alsa_output.pci-0000_0b_00.4.analog-stereo -5%")
+        , ("<XF86AudioRaiseVolume>", spawn "pactl -- set-sink-volume alsa_output.pci-0000_0b_00.4.analog-stereo +5%")
 
         -- utility
         , ("M-u 4", spawn "sleep 0.2; scrot -s -f")
@@ -445,7 +451,7 @@ myManageHook = composeAll
 -- combine event hooks use mappend or mconcat from Data.Monoid.
 --
 myEventHook = ewmhDesktopsEventHook
-              <+> swallowEventHook (className =? "Alacritty" <||> className =? "Termite") (return True)
+              <+> swallowEventHook (className =? "Alacritty" <||> className =? "kitty") (return True)
 
 ------------------------------------------------------------------------
 -- Status bars and logging

@@ -100,7 +100,7 @@ font:
     style: "Italic"
 
   # Point size of the font
-  size: 10.0
+  size: 12.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
@@ -226,7 +226,7 @@ bell:
   duration: 0
 
 # Background opacity
-background_opacity: 0.9
+background_opacity: 0.8
 
 # Key bindings
 #
@@ -322,8 +322,8 @@ background_opacity: 0.9
 #   - AppKeypad
 #
 key_bindings:
-  - { key: V,        mods: Alt,       action: Paste                        }
-  - { key: C,        mods: Alt,       action: Copy                         }
+  - { key: V,        mods: Alt,             action: Paste                        }
+  - { key: C,        mods: Alt,             action: Copy                         }
   # - { key: L,        mods: Control,       action: None }
 
   # - { key: Delete,                        chars: "\x1b[3~"                     }

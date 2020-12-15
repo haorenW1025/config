@@ -2,36 +2,8 @@
 nnoremap <silent> <leader>f <cmd>lua vim.lsp.buf.formatting()<CR>
 nnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <silent> ]d :NextDiagnostic<CR>
-nnoremap <silent> [d :PrevDiagnostic<CR>
 nnoremap <silent> <leader>do :OpenDiagnostic<CR>
 nnoremap <leader>dl <cmd>lua require'diagnostic.util'.show_line_diagnostics()<CR>
-
-
-" fzf
-" function FzfFile() abort
-"     if isdirectory(".git")
-"         GFiles
-"     else
-"         Files
-"     endif
-" endfunction
-
-" nnoremap <silent> ,f    :call FzfFile()<CR>
-" nnoremap <silent> ,b     :Buffers<CR>
-" nnoremap <silent> ,l     :Lines<CR>
-" nnoremap          ,w     :Rg<CR>
-
-" telescope
-nnoremap <silent> ,g    :lua require'telescope.builtin'.git_files{show_preview = true}<CR>
-nnoremap <silent> ,f    :lua require'telescope_ex'.fd{show_preview = true}<CR>
-nnoremap <silent> ,w    :lua require('telescope.builtin').live_grep()<CR>
-nnoremap <silent> ,b    :lua require('telescope.builtin').buffers()<CR>
-nnoremap <silent> ,c    :lua require('telescope.builtin').command_history()<CR>
-nnoremap <silent> ,m    :lua require('telescope.builtin').oldfiles()<CR>
-nnoremap <silent> ,t    :lua require('telescope.builtin').treesitter()<CR>
-nnoremap <silent> ,l    :lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>
-
 
 " git
 nmap ]h <Plug>(GitGutterNextHunk)
@@ -40,6 +12,7 @@ nmap <leader>ghp <Plug>(GitGutterPreviewHunk)
 nmap <leader>ghu <Plug>(GitGutterUndoHunk)
 nmap <leader>ghs <Plug>(GitGutterStageHunk)
 
+nmap Q @a
 nmap <leader>es :UltiSnipsEdit<CR>
 
 " pandoc
@@ -114,10 +87,6 @@ tmap <a-4> <c-a><CR>4gt
 nmap <a-5> 5gt
 tmap <a-5> <c-a><CR>5gt
 
-" gina
-nmap <leader>gs :Gina status<CR>
-nmap <leader>gb :Gina blame<CR>
-
 " custom function
 nnoremap <buffer> <leader>cc <cmd> lua require'util'.toggleConceal()<CR>
 
@@ -165,6 +134,12 @@ nmap \ :LfToggle<CR>
 nmap <leader>\ :LfToggleCurrentBuf<CR>
 let g:floatLf_lf_close = '\'
 
+" lazygit
+function! ToggleLazyGit()
+    call ToggleNoBorderTerm('lazygit')
+endfunction
+nnoremap <silent> <leader>tg :call ToggleLazyGit()<CR>
+
 " fold
 nmap <leader><leader> za
 
@@ -200,6 +175,7 @@ nmap <leader>qh <C-w>h:q<CR>
 nmap <leader>qk <C-w>k:q<CR>
 nmap <leader>ql <C-w>l:q<CR>
 nmap <leader>= <c-w>=
+nmap <leader>= <c-w>=
 noremap ' ;
 noremap ; :
 
@@ -212,9 +188,9 @@ nmap <leader>qq :ccl<CR>
 nmap <leader>qo :copen<CR>
 
 
+imap jk <esc>
+imap JK <esc>
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
-inoremap jk <Esc>`^
-inoremap JK <Esc>`^
 nmap <leader>n :noh<CR><Esc>
 nmap x "_dl
 nmap <leader>cof :e ~/.config/nvim/init.vim<CR>

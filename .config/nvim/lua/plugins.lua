@@ -24,10 +24,6 @@ local function init()
   use {'airblade/vim-gitgutter', opt = true}
   use {'lervag/vimtex', opt = true}
 
-  -- snippet
-  use {'SirVer/ultisnips', opt = true}
-  use {'haorenW1025/vim-snippets'}
-
   -- paring
   use {'Raimondi/delimitMate', opt = false}
 
@@ -40,11 +36,8 @@ local function init()
   -- Prettification
   use 'junegunn/vim-easy-align'
 
-  -- Search
-  use {'junegunn/fzf', run = './install --all && ln -s $(pwd) ~/.fzf'}
-  use {'junegunn/fzf.vim', opt = true}
-
   -- Completion and linting
+  use {'SirVer/ultisnips'}
   use {'neovim/nvim-lsp', opt = true}
   use {
     'haorenW1025/completion-nvim',
@@ -58,10 +51,8 @@ local function init()
 
   -- treesitter
   use {'nvim-treesitter/completion-treesitter', opt = true}
-  use {'nvim-treesitter/nvim-treesitter', opt = true}
-  use {'nvim-treesitter/nvim-treesitter-textobjects', opt = true}
-
-  use {'haorenW1025/diagnostic-nvim', opt = true}
+  use {'nvim-treesitter/nvim-treesitter'}
+  use {'nvim-treesitter/nvim-treesitter-textobjects'}
 
   -- Highlight colors
   use 'norcalli/nvim-colorizer.lua'
