@@ -38,12 +38,14 @@ local function init()
 
   -- Completion and linting
   use {'SirVer/ultisnips'}
+  use {'kkoomen/vim-doge', opt = true}
   use {'neovim/nvim-lsp', opt = true}
   use {
     'haorenW1025/completion-nvim',
     opt = true,
     requires = {{'hrsh7th/vim-vsnip', opt = true}, {'hrsh7th/vim-vsnip-integ', opt = true}}
   }
+  use {'glepnir/lspsaga.nvim', opt = true}
 
   -- extra sources
   use {'steelsojka/completion-buffers', opt = true}
@@ -53,6 +55,7 @@ local function init()
   use {'nvim-treesitter/completion-treesitter', opt = true}
   use {'nvim-treesitter/nvim-treesitter'}
   use {'nvim-treesitter/nvim-treesitter-textobjects'}
+  use {'nvim-treesitter/playground'}
 
   -- Highlight colors
   use 'norcalli/nvim-colorizer.lua'
@@ -72,7 +75,7 @@ local function init()
   use {'nvim-lua/popup.nvim', opt = true}
   use {'nvim-lua/telescope.nvim', opt = true}
 
-  use {'tjdevries/colorbuddy.vim', opt = true}
+  use {'tjdevries/colorbuddy.vim'}
 
   -- my plugins
   use {'haorenW1025/term-nvim'}
@@ -86,6 +89,7 @@ local function init()
   -- texobject
   use {'kana/vim-textobj-user'}
   use {'Julian/vim-textobj-variable-segment'}
+  use {'jeetsukumaran/vim-indentwise'}
 end
 
 local plugins = setmetatable({}, {

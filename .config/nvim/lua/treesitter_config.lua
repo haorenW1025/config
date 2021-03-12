@@ -4,6 +4,7 @@ ts.setup {
   textobjects = {
     swap = {
       enable = true,
+      disable = {"cpp"},
       swap_next = {
         ["<leader>sn"] = "@parameter.inner",
       },
@@ -36,7 +37,6 @@ require'nvim-treesitter.configs'.setup {
   textobjects = {
     move = {
       enable = true,
-      disable = {'cpp'},
       goto_next_start = {
         ["]m"] = "@function.outer",
         ["]]"] = "@class.outer",

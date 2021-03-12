@@ -9,6 +9,7 @@ au Filetype python setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype rust   setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype lua    setl omnifunc=v:lua.vim.lsp.omnifunc
 au Filetype vim    setl omnifunc=v:lua.vim.lsp.omnifunc
+au FileType go setl omnifunc=v:lua.vim.lsp.omnifunc
 
 set cmdheight=2
 
@@ -34,10 +35,10 @@ let g:completion_customize_lsp_label = {
 
 set completeopt=menuone,noinsert,noselect
 
-call sign_define("LspDiagnosticsSignError", {"text" : ">>", "texthl" : "LspDiagnosticsError"})
-call sign_define("LspDiagnosticsSignWarning", {"text" : "⚡", "texthl" : "LspDiagnosticsWarning"})
-call sign_define("LspDiagnosticsSignInformation", {"text" : "", "texthl" : "LspDiagnosticsInformation"})
-call sign_define("LspDiagnosticsSignHint", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
+call sign_define("LspDiagnosticsSignError", {"text" : ">>", "texthl" : "LspDiagnosticsSignError"})
+call sign_define("LspDiagnosticsSignWarning", {"text" : "⚠", "texthl" : "LspDiagnosticsSignWarning"})
+call sign_define("LspDiagnosticsSignInformation", {"text" : "", "texthl" : "LspDiagnosticsSignInformation"})
+call sign_define("LspDiagnosticsSignHint", {"text" : "", "texthl" : "LspDiagnosticsSignWarning"})
 
 " sign define LspDiagnosticsSignError text=">>" texthl=LspDiagnosticsSignError linehl= numhl=
 " sign define LspDiagnosticsSignWarning text="⚡" texthl=LspDiagnosticsSignWarning linehl= numhl=
@@ -62,6 +63,15 @@ let g:completion_auto_change_source = 1
 let g:completion_matching_ignore_case = 1
 " let g:completion_trigger_keyword_length = 3
 
+" lua require'completion'.addCompletionSource('vimtex', require'vimtex'.complete_item)
+
+autocmd BufEnter *.tex lua require'completion'.on_attach()
+" let g:completion_chain_complete_list = {
+"             \ 'tex' : [
+"             \     {'complete_items': ['vimtex']}, 
+"             \   ],
+"             \ }
+
  let g:completion_chain_complete_list = {
     \ 'default' : {
     \   'default': [
@@ -72,6 +82,9 @@ let g:completion_matching_ignore_case = 1
     \       {'complete_items': ['path']}
     \]
     \   },
+    \ 'tex' : [
+    \     {'complete_items': ['vimtex', 'lsp']}, 
+    \   ],
     \ 'verilog': {
     \   'default': [
     \       {'complete_items': ['snippet', 'buffer']}
@@ -179,29 +192,6 @@ let g:startify_change_to_vcs_root = 0
 let g:startify_custom_header =
         \ 'startify#center(startify#fortune#cowsay())'
 "vimtex
-let g:matchup_override_vimtex = 1
-let g:matchup_matchparen_deferred = 1
-let g:vimtex_syntax_enabled = 0
-let g:vimtex_latexmk_progname= '/usr/bin/nvr'
-let g:vimtex_latexmk_progname= '/usr/bin/nvr'
-let g:vimtex_latexmk_options="-pdf -pdflatex='pdflatex -file-line-error -shell-escape -synctex=1'"
-let g:vimtex_fold_enabled = 0
-let g:vimtex_toc_resize = 0
-let g:vimtex_toc_hide_help = 1
-let g:vimtex_indent_enabled = 1
-let g:vimtex_latexmk_enabled = 1
-let g:vimtex_latexmk_callback = 1
-let g:vimtex_complete_recursive_bib = 0
-let g:vimtex_view_method = 'zathura'
-let g:vimtex_complete_close_braces = 1
-let g:vimtex_quickfix_mode = 2
-let g:vimtex_quickfix_open_on_warning = 1
-let g:vimtex_quickfix_ignored_warnings = [
-        \ 'Underfull',
-        \ 'Overfull',
-        \ 'specifier changed to',
-      \ ]
-let g:tex_flavor = "latex"
 
 " word-motion
 let g:wordmotion_mappings = {
@@ -216,7 +206,9 @@ let g:wordmotion_mappings = {
 
 let g:vimspector_enable_mappings = 'HUMAN'
 
+let g:gitgutter_sign_priority = 1
 augroup pandoc_syntax
     au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
 augroup END
 
+let g:doge_mapping = '<leader>dg'

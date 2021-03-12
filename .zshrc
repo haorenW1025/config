@@ -15,7 +15,7 @@ zstyle ':completion:*' menu select
 _comp_options+=(globdots)
 
 bindkey -v
-bindkey "jk" vi-cmd-mode
+bindkey "^A" vi-cmd-mode
 bindkey "^P" up-line-or-search
 bindkey "^N" down-line-or-search
 
@@ -80,7 +80,6 @@ alias activate='source ~/env/bin/activate'
 alias ls='exa --icons'
 alias rm='rm -i'
 alias vim='nvim'
-alias tmux='/usr/local/bin/tmux'
 set charset="utf-8"
 set send_charset="utf-8"
 set attach_charset="utf-8"
@@ -96,3 +95,5 @@ _fzf_compgen_path() {
   fd --hidden --follow --exclude ".git" . "$1"
 }
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

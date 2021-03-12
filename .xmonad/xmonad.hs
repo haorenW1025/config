@@ -30,12 +30,14 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.BoringWindows(boringWindows, focusUp, focusDown, focusMaster)
 import XMonad.Layout.Gaps
+import XMonad.Layout.Hidden
 
 import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
 import XMonad.Layout.SimplestFloat
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.ResizableThreeColumns
 import XMonad.Layout.Simplest
+import XMonad.Layout.NoFrillsDecoration
 
 -- Prompt
 import XMonad.Prompt
@@ -81,7 +83,7 @@ import qualified DBus.Client as D
 -- certain contrib modules.
 --
 myTerminal :: String
-myTerminal = "kitty"
+myTerminal = "alacritty"
 myBrowser :: String
 myBrowser  = "firefox"
 myEditor :: String
@@ -144,7 +146,7 @@ projects =
     , Project   { projectName       = "web"
                 , projectDirectory  = "~"
                 , projectStartHook  = Just $ do
-                    spawn myBrowser
+                    spawn "qutebrowser"
                 }
     , Project   { projectName       = "config1"
                 , projectDirectory  = "~/"
@@ -173,25 +175,25 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 
 myXPConfig :: XPConfig
 myXPConfig = def
-      { font                = "xft:Monofurbold Nerd Font Mono:size=14:bold:antialias=true"
+      { font                = "xft:Monofurbold Nerd Font Mono:size=12:bold:antialias=true"
       , bgColor             = "#3B4252"
       , fgColor             = "#D8DEE9"
       , bgHLight            = "#8FBCBB"
       , fgHLight            = "#292929"
       , borderColor         = "#81A1C1"
-      , promptBorderWidth   = 2
+      , promptBorderWidth   = 0
       , promptKeymap        = defaultXPKeymap
       , completionKey       = (controlMask, xK_n)
       , changeModeKey       = xK_Tab
-      -- , position            = Top
-      , position            = CenteredAt { xpCenterY = 0.3, xpWidth = 0.5 }
-      , height              = 50
+      , position            = Top
+      -- , position            = CenteredAt { xpCenterY = 0.3, xpWidth = 0.5 }
+      , height              = 25
       , historySize         = 256
       , historyFilter       = id
       , defaultText         = []
       , showCompletionOnTab = False
       , alwaysHighlight     = False
-      , maxComplRows        = Just 20
+      , maxComplRows        = Nothing
       , searchPredicate     = fuzzyMatch
       , sorter              = fuzzySort
       }
@@ -235,7 +237,7 @@ myEZKeys =
         , ("M-r p", switchProjectPrompt myXPConfig)
         , ("M-r C-p", shiftToProjectPrompt myXPConfig)
         , ("M-r d", changeProjectDirPrompt myXPConfig)
-        , ("M-r z", spawnPrompt ("kitty" ++ " -e") myXPConfig)
+        , ("M-r z", spawnPrompt (myTerminal ++ " -e") myXPConfig)
         -- , ("M-r z", zshPrompt myXPConfig "$HOME/packages/zsh-capture-completion/capture.zsh")
 
         -- xmonad
@@ -244,8 +246,8 @@ myEZKeys =
         , ("M-S-r", spawn "xmonad --restart")        -- Restarts xmonad
         -- applications
         , ("M-<Return>", spawn myTerminal)
-        , ("M-b", spawn "firefox")
-        , ("M-S-b", runOrCopy "firefox" (className =? "Firefox"))
+        , ("M-b", spawn "qutebrowser")
+        , ("M-S-b", runOrCopy "qutebrowser" (className =? "qutebrowser"))
         , ("M-a m", spawn "/snap/bin/spotify")
         -- emacs
         , ("M-e e", spawn "emacs") -- this is not illegal!
@@ -266,6 +268,9 @@ myEZKeys =
         , ("M-f", sendMessage $ Toggle FULL)
         , ("M-d", decWindowSpacing 4)           -- Decrease window spacing
         , ("M-i", incWindowSpacing 4)           -- Increase window spacing
+
+        , ("M-n", withFocused hideWindow)
+        , ("M-S-n", popOldestHiddenWindow)
 
 
         -- workspace
@@ -410,12 +415,14 @@ tabs     = renamed [Replace "tabs"]
 -- The layout hook
 myLayoutHook = avoidStruts $ mkToggle (MIRROR ?? FULL ?? EOT) $ T.toggleLayouts floats $ T.toggleLayouts monocle
                $ T.toggleLayouts tabs $ windowArrange
-               $ myDefaultLayout
+               $ hiddenWindows $ myDefaultLayout
              where
                myDefaultLayout =     tall
                                  ||| mirrorTall 
                                  ||| threeCol
                                  ||| noBorders monocle
+
+myL = noFrillsDeco shrinkText def (myLayoutHook)
 
 ------------------------------------------------------------------------
 -- Window rules:
@@ -469,7 +476,7 @@ myEventHook = ewmhDesktopsEventHook
 -- By default, do nothing.
 myStartupHook :: X ()
 myStartupHook = do
-          spawnOnce "~/script/autorun.sh" 
+        spawnOnce "~/script/autorun.sh" 
 
 
 -- scratchpads

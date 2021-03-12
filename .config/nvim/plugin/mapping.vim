@@ -2,7 +2,6 @@
 nnoremap <silent> <leader>f <cmd>lua vim.lsp.buf.formatting()<CR>
 nnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<CR>
 nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <silent> <leader>do :OpenDiagnostic<CR>
 nnoremap <leader>dl <cmd>lua require'diagnostic.util'.show_line_diagnostics()<CR>
 
 " git
@@ -22,25 +21,24 @@ autocmd Filetype markdown nnoremap  <leader>pdf <cmd>lua require'markdown'.conve
 nmap <leader>w :e ~/workplace/note/index.md<CR>
 
 " tmux like terminal
-tnoremap <c-a><CR> <C-\><C-n>
 tnoremap <ESC> <c-\><c-n>
 
 nmap <c-n> :tabnew term://zsh<CR>
-nmap <c-a>v :vsplit term://zsh<CR>i
-nmap <c-a>x :split term://zsh<CR>i
+nmap <c-t>v :vsplit term://zsh<CR>i
+nmap <c-t>x :split term://zsh<CR>i
 " tmap <c-n> <c-a><CR>:tabnew term://zsh<CR>i
-tmap <c-a>v <c-a><CR>:vsplit term://zsh<CR>i
-tmap <c-a>x <c-a><CR>:split term://zsh<CR>i
-tmap <c-a>] <c-a>:+tabmove<cr>
-tmap <c-a>[ <c-a>:-tabmove<cr>
-tmap <a-h> <c-a><CR><c-w>h
-tmap <a-j> <c-a><CR><c-w>j
-tmap <a-k> <c-a><CR><C-w>k
-tmap <a-l> <c-a><CR><c-w>l
-tmap <c-a>J <c-a><CR><c-w>J
-tmap <c-a>K <c-a><CR><c-w>K
-tmap <c-a>H <c-a><CR><c-w>H
-tmap <c-a>L <c-a><CR><c-w>L
+tmap <c-t>v <c-a><CR>:vsplit term://zsh<CR>i
+tmap <c-t>x <c-a><CR>:split term://zsh<CR>i
+tmap <c-t>] <c-a>:+tabmove<cr>
+tmap <c-t>[ <c-a>:-tabmove<cr>
+tmap <a-h> <c-t><CR><c-w>h
+tmap <a-j> <c-t><CR><c-w>j
+tmap <a-k> <c-t><CR><C-w>k
+tmap <a-l> <c-t><CR><c-w>l
+tmap <c-t>J <c-t><CR><c-w>J
+tmap <c-t>K <c-t><CR><c-w>K
+tmap <c-t>H <c-t><CR><c-w>H
+tmap <c-t>L <c-t><CR><c-w>L
 
 function! s:save_and_exec() abort
   if &filetype == 'vim'
@@ -114,9 +112,6 @@ tmap ˙ <c-a><CR><c-w>h
 tmap ∆ <c-a><CR><c-w>j
 tmap ˚ <c-a><CR><C-w>k
 tmap ¬ <c-a><CR><c-w>l
-" startify
-nmap <leader>ss :SSave<CR>
-nmap <leader>sl :SLoad<CR>
 
 " term-nvim
 nmap tt :TermToggle<CR>
@@ -162,6 +157,9 @@ nmap - <C-w>-
 nmap S :%s//g<left><left>
 nmap <Leader>s+ 20+ 
 nmap <Leader>s- 20- 
+nmap <leader>ss :split<CR>
+nmap <leader>sv :vsplit<CR>
+nmap <leader>tn :tabnew<CR>
 nmap <leader>v+ :vertical resize +20<CR>
 nmap <leader>v- :vertical resize -20<CR>
 nmap <silent><a-h> <C-w>h
@@ -186,6 +184,7 @@ nmap ]q :cnext<CR>
 nmap [q :cprevious<CR>
 nmap <leader>qq :ccl<CR>
 nmap <leader>qo :copen<CR>
+nmap gd <c-]>
 
 
 imap jk <esc>

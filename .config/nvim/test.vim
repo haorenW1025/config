@@ -1,10 +1,25 @@
-packadd! nvim-lsp
-packadd! completion-nvim.git
-lua require'nvim_lsp'.vimls.setup{on_attach=require'completion'.on_attach}
-au Filetype lua setl omnifunc=v:lua.vim.lsp.omnifunc
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+set runtimepath^=~/.local/share/nvim/site/pack/packer/opt/nvim-lsp
+set runtimepath^=~/.local/share/nvim/site/pack/packer/opt/completion-nvim
 
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
+autocmd BufEnter * lua require'completion'.on_attach()
+
+lua << EOF
+vim.o.completeopt = "menuone,noinsert,noselect"
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+require'lspconfig'.gopls.setup{
+	cmd = {"gopls", "serve"},
+	capabilities = capabilities,
+	settings = {
+		gopls = {
+			analyses = {
+				unusedparams = true,
+			},
+			staticcheck = true,
+		},
+	},
+}
+
+EOF

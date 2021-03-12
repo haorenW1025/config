@@ -1,4 +1,6 @@
 local api = vim.api
+local status = require'lsp_status'
+local vcs = require'vcs'
 local icons = require 'devicon'
 local M = {}
 
@@ -8,15 +10,19 @@ local blue = '#81A1C1'
 local yellow = '#EBCB8B'
 local green = '#A3BE8C'
 local red = '#BF616A'
+local orange = '#D08770'
+local cyan = '#8FBCBB'
 
--- fg and bg
+-- fg and be
 local white_fg = '#e6e6e6'
 local black_fg = '#282c34'
-local bg = '#4d4d4d'
+local bg = '#4C566A'
 
 -- Separators
-local left_separator = ''
-local right_separator = ''
+-- local left_separator = ''
+local left_separator = ''
+-- local right_separator = ''
+local right_separator = ''
 
 -- Blank Between Components
 local blank = ' '
@@ -56,11 +62,6 @@ local current_mode = setmetatable({
     }
 )
 
--- Obsession Color
-local obsession_fg = purple
-local obsession_gui = 'bold'
-api.nvim_command('hi Obsession guifg='..obsession_fg..' gui='..obsession_gui)
-
 -- Filename Color
 local file_bg = purple
 local file_fg = black_fg
@@ -69,22 +70,44 @@ api.nvim_command('hi File guibg='..file_bg..' guifg='..file_fg..' gui='..file_gu
 api.nvim_command('hi FileSeparator guifg='..file_bg)
 
 -- Working directory Color
-local dir_bg = bg
+local dir_bg = black_fg
 local dir_fg = white_fg
 local dir_gui = 'bold'
 api.nvim_command('hi Directory guibg='..dir_bg..' guifg='..dir_fg..' gui='..dir_gui)
 api.nvim_command('hi DirSeparator guifg='..dir_bg)
 
 -- FileType Color
-local filetype_bg = 'None'
-local filetype_fg = purple
-local filetype_gui = 'bold'
+local filetype_bg = blue
+local filetype_fg = black_fg
+local filetype_gui = 'italic'
 api.nvim_command('hi Filetype guibg='..filetype_bg..' guifg='..filetype_fg..' gui='..filetype_gui)
 
+local error_status_bg = '#4c566a'
+local error_status_fg = white_fg
+api.nvim_command('hi error_status guibg='..error_status_bg..' guifg='..error_status_fg)
+
+local branch_bg = '#4c566a'
+local branch_fg = orange
+local branch_gui = 'italic'
+api.nvim_command('hi branch guibg='..branch_bg..' guifg='..branch_fg..' gui='..branch_gui)
+
+local warning_status_bg = '#4c566a'
+local warning_status_fg = white_fg
+api.nvim_command('hi warning_status guibg='..warning_status_bg..' guifg='..warning_status_fg)
+
+local process_bg = '#4c566a'
+local process_fg = blue
+api.nvim_command('hi process guibg='..process_bg..' guifg='..process_fg)
+
+local function_status_bg = '#4c566a'
+local function_status_fg = purple
+local function_status_gui = 'italic'
+api.nvim_command('hi function_status guibg='..function_status_bg..' guifg='..function_status_fg..' gui='..function_status_gui)
+
 -- row and column Color
-local line_bg = 'None'
-local line_fg = white_fg
-local line_gui = 'bold'
+local line_bg = white_fg
+local line_fg = black_fg
+local line_gui = 'italic'
 api.nvim_command('hi Line guibg='..line_bg..' guifg='..line_fg..' gui='..line_gui)
 
 
@@ -129,7 +152,40 @@ function M.activeLine()
   local mode = api.nvim_get_mode()['mode']
   RedrawColors(mode)
   statusline = statusline.."%#ModeSeparator#"..left_separator.."%#Mode# "..current_mode[mode].." %#ModeSeparator#"..right_separator
-  statusline = statusline..blank
+  -- statusline = statusline..blank
+  statusline = statusline.."%#process# "
+  statusline = statusline.."%r%m "
+  local branch_name = vcs.get_git_branch()
+  if branch_name ~= nil then
+    statusline = statusline.."%#branch# "..branch_name
+  end
+
+  local error_count = vim.lsp.diagnostic.get_count(0, [[Error]])
+  local warning_count = vim.lsp.diagnostic.get_count(0, [[Warning]])
+  if mode == 'i' or mode == 'ic' or mode == 'ix' then
+    error_count = 0
+    warning_count = 0
+  end
+  if error_count ~= 0 then
+  statusline = statusline.."%#error_status# "
+    statusline = statusline.."❌ "..error_count.." "
+  end
+  if warning_count ~= 0 then
+  statusline = statusline.."%#warning_status# "
+    statusline = statusline.."⚠️ "..warning_count.." "
+  end
+  statusline = statusline.."%#process# "
+  local stats = status.status()
+  if type(stats) == "table" then
+    for _,stat in pairs(stats) do
+      if stat ~= nil then
+        statusline = statusline..stat
+      end
+    end
+  end
+  -- if stats ~= nil then
+  -- end
+  statusline = statusline.."%#StatusLine#"
   -- local branch = api.nvim_call_function("gina#component#repo#branch", {})
   -- if #branch ~= 0 then
   --   statusline = statusline.."%#Function#  "..branch
@@ -141,11 +197,11 @@ function M.activeLine()
 
   local lsp_function = vim.b.lsp_current_function
   if lsp_function ~= nil then
-    statusline = statusline.."%#Function# "..lsp_function
+    statusline = statusline.."%#function_status# "..lsp_function.." "
   end
 
   local filetype = api.nvim_buf_get_option(0, 'filetype')
-  statusline = statusline.."%#Filetype#  Filetype: "..filetype
+  statusline = statusline.."%#Filetype# Filetype: "..filetype
   statusline = statusline..blank
 
   -- Component: FileType
@@ -163,7 +219,7 @@ function M.activeLine()
   return statusline
 end
 
-local InactiveLine_bg = '#1c1c1c'
+local InactiveLine_bg = bg
 local InactiveLine_fg = white_fg
 api.nvim_command('hi InActive guibg='..InactiveLine_bg..' guifg='..InactiveLine_fg)
 
@@ -208,20 +264,20 @@ function M.TabLine()
   for _, val in ipairs(tab_list) do
     local file_name = getTabLabel(val)
     if val == current_tab then
-      tabline = tabline.."%#TabLineSelSeparator# "..left_separator
+      tabline = tabline.."%#TabLineSelSeparator#"..left_separator
       tabline = tabline.."%#TabLineSel# "..file_name
       tabline = tabline.." %#TabLineSelSeparator#"..right_separator
     else
-      tabline = tabline.."%#TabLineSeparator# "..left_separator
+      tabline = tabline.."%#TabLineSeparator#"..left_separator
       tabline = tabline.."%#TabLine# "..file_name
       tabline = tabline.." %#TabLineSeparator#"..right_separator
     end
   end
+  tabline = tabline.."%#StatusLine#"
   tabline = tabline.."%="
   -- Component: Working Directory
   local dir = api.nvim_call_function('getcwd', {})
   tabline = tabline.."%#DirSeparator#"..left_separator.."%#Directory# "..TrimmedDirectory(dir).." %#DirSeparator#"..right_separator
-  tabline = tabline..blank
   return tabline
 end
 return M

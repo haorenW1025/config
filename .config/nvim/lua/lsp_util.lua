@@ -1,17 +1,7 @@
 local lsp = require'lspconfig'
-local callback = require'callback'
+local saga = require 'lspsaga'
 
-local function preview_location_callback(_, method, result)
-  if result == nil or vim.tbl_isempty(result) then
-    vim.lsp.log.info(method, 'No location found')
-    return nil
-  end
-  if vim.tbl_islist(result) then
-    vim.lsp.util.preview_location(result[1])
-  else
-    vim.lsp.util.preview_location(result)
-  end
-end
+saga.init_lsp_saga()
 
 local function syntax_at_point()
     if vim.g.loaded_nvim_treesitter and vim.g.loaded_nvim_treesitter > 0 then
@@ -47,23 +37,39 @@ local on_attach = function(client)
   require'lsp_status'.on_attach(client)
   require'completion'.on_attach({
     sorting = 'alphabet',
-    enable_auto_signature = 0,
-    enable_auto_hover = 0,
+    enable_auto_signature = 1,
+    enable_auto_hover = 1,
     matching_strategy_list = {'exact', 'fuzzy'},
     abbr_length = 30,
     menu_length = 30,
     syntax_at_point = syntax_at_point
   })
   -- This came from https://github.com/tjdevries/config_manager/blob/master/xdg_config/nvim/lua/lsp_config.lua
+  vim.api.nvim_command [[autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]]
+  vim.api.nvim_command [[autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()]]
   local mapper = function(mode, key, result)
     vim.fn.nvim_buf_set_keymap(0, mode, key, result, {noremap=true, silent=true})
   end
 
-  mapper('n', '<leader>dj', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-  mapper('n', '<leader>dk', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
+  if client.resolved_capabilities.document_highlight then
+    vim.api.nvim_exec ([[
+      augroup lsp_document_highlight
+        autocmd!
+        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+      augroup END
+    ]], false)
+  end
+
+  mapper('n', '<leader>dh', '<cmd>lua require\'lspsaga.diagnostic\'.lsp_jump_diagnostic_prev()<CR>')
+  mapper('n', '<leader>dl', '<cmd>lua require\'lspsaga.diagnostic\'.lsp_jump_diagnostic_next()<CR>')
   mapper('n', '<leader>bf', '<cmd>lua vim.lsp.buf.formatting()<CR>')
-  mapper('n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>')
-  mapper('n', '<c-]>', '<cmd>lua vim.lsp.buf.definition()<CR>')
+  mapper('n', '<leader>ic', '<cmd>lua require(\'lsp_call\').incoming_calls()<CR>')
+  mapper('n', '<leader>rn', '')
+  mapper('n', 'gC', '<cmd>lua vim.lsp.buf.declaration()<CR>')
+  mapper('n', 'gh', '<cmd>lua require\'lspsaga.provider\'.lsp_finder()<CR>')
+  mapper('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+  mapper('n', 'gp' ,'<cmd>lua require\'lspsaga.provider\'.preview_definiton()<CR>')
   mapper('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
   mapper('n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>')
   mapper('n', '1gD', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
@@ -118,42 +124,12 @@ lsp.sumneko_lua.setup {
   },
 }
 
-lsp.vimls.setup{
+lsp.jedi_language_server.setup{
   on_attach = on_attach;
-  capabilities = {
-    textDocument = {
-      completion = {
-        completionItem = {
-          snippetSupport = true
-        }
-      }
-    }
-  },
 }
 
-lsp.pyls.setup{
-  on_attach = on_attach;
-  capabilities = {
-    textDocument = {
-      completion = {
-        completionItem = {
-          snippetSupport = true
-        }
-      }
-    }
-  },
-  settings = {
-    pyls = {
-      plugins = {
-        pycodestyle = { enabled = false; },
-      }
-    }
-  };
-  filetypes = { "python"}
-}
-
--- lsp.pyls_ms.setup{
-  -- on_attach = require'on_attach'.on_attach;
+-- lsp.pyright.setup{
+--   on_attach = on_attach;
 -- }
 
 lsp.clangd.setup{
@@ -179,6 +155,15 @@ lsp.bashls.setup{
 
 lsp.rust_analyzer.setup{
   on_attach = on_attach;
+  capabilities = {
+    ["rust-analyzer"] = {
+      completion = {
+        autoimport = {
+          enable = true
+        }
+      }
+    },
+  }
 }
 
 lsp.texlab.setup{
@@ -198,6 +183,20 @@ lsp.hls.setup{
   on_attach = on_attach;
 }
 
-lsp.gopls.setup{
-  on_attach= on_attach;
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+require'lspconfig'.gopls.setup{
+  on_attach = on_attach;
+	cmd = {"gopls", "serve"},
+	-- capabilities = capabilities,
+	-- settings = {
+		-- gopls = {
+			-- analyses = {
+			-- 	unusedparams = true,
+			-- },
+			-- staticcheck = true,
+		-- },
+	-- },
 }
+

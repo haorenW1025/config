@@ -11,7 +11,7 @@ browser
 zsh
 quit")
 
-choice=$(echo -e "${options[@]}" | rofi -dmenu -p 'Edit config file: ')
+choice=$(echo -e "${options[@]}" | dmenu -l 10 -p 'Edit config file: ')
 
 case "$choice" in
 	quit)

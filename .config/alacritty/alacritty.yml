@@ -94,18 +94,18 @@ font:
 
   # The italic font face
   italic:
-    family: "FantasqueSansMono Nerd Font"
+    family: "Victor Mono"
     # family: "Fira Code"
     # family: "Hack Nerd Font"
-    style: "Italic"
+    style: "SemiBold Italic"
 
   # Point size of the font
-  size: 12.0
+  size: 11.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
   offset:
-    x: 1
+    x: 0
     y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
