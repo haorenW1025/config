@@ -1,6 +1,6 @@
 local Color, colors, Group, groups, styles = require("colorbuddy").setup()
 
-Color.new('background', "#3B4252")
+Color.new('background', "#2E3440")
 Color.new('fg', "#292929")
 Color.new('nord_0', "#2E3440")
 Color.new('nord_1',"#3B4252")
@@ -32,15 +32,16 @@ Color.new('violet',    '#B48EAD')
 Color.new('orange',    '#D08770')
 
 -- my highlight
-Group.new('TabLineSel',          colors.fg,           colors.blue, styles.bold )
-Group.new('TabLineSelSeparator', colors.blue,         colors.none)
-Group.new('TabLine', colors.nord_4, colors.nord_2)
-Group.new('TabLineSeparator', colors.nord_2, colors.none)
+Group.new('TabLineSel', colors.nord_0,  colors.nord_9, styles.italic )
+Group.new('TabLineSelSeparator', colors.nord_9, colors.nord_0)
+Group.new('TabLine', colors.fg, colors.nord_2)
+Group.new('TabLineSeparator', colors.nord_2, colors.fg)
+Group.new('TabLineFill', colors.none, colors.none)
 
 Group.new('Conceal',             colors.nord_3_light, colors.none)
 Group.new('VertSplit', colors.nord_3, colors.none)
 
-Group.new('Normal',         colors.none,         colors.none)
+Group.new('Normal',         colors.background,         colors.none)
 Group.new('Function',       colors.nord_8,       colors.none,    styles.NONE)
 Group.new('Error',          colors.nord_11,      colors.none,    styles.bold)
 Group.new('ErrorMsg',       colors.nord_5,       colors.nord_11, styles.bold)
@@ -141,27 +142,19 @@ Group.new("GitGutterChange",       colors.nord_13, colors.none)
 Group.new("GitGutterChangeDelete", colors.nord_11, colors.none)
 
 -- built-in LSP
-Group.new("LSPDiagnosticsDefaultWarning", colors.nord_13, colors.none)
-Group.new("LSPDiagnosticsDefaultError", colors.nord_11, colors.none)
-Group.new("LSPDiagnosticsDefaultInformation", colors.nord_8, colors.none)
-Group.new("LSPDiagnosticsDefaultHint", colors.nord_10, colors.none)
-Group.new("LSPDiagnosticsSignWarning", colors.nord_13, colors.none)
-Group.new("LSPDiagnosticsSignError", colors.nord_11, colors.none)
-Group.new("LSPDiagnosticsSignInformation", colors.nord_8, colors.none)
-Group.new("LSPDiagnosticsSignHint", colors.nord_10, colors.none)
-Group.new("LSPDiagnosticsFloatingWarning", colors.nord_13, colors.none)
-Group.new("LSPDiagnosticsFloatingError", colors.nord_11, colors.none)
-Group.new("LSPDiagnosticsFloatingInformation", colors.nord_8, colors.none)
-Group.new("LSPDiagnosticsFloatingHint", colors.nord_10, colors.none)
+Group.new("DiagnosticWarn", colors.nord_13, colors.none)
+Group.new("DiagnosticError", colors.nord_11, colors.none)
+Group.new("DiagnosticInfo", colors.nord_8, colors.none)
+Group.new("DiagnosticHint", colors.nord_10, colors.none)
 
 Group.new("LSPReferenceText", colors.none, colors.none)
 Group.new("LSPReferenceRead", colors.none, colors.none, styles.bold)
 Group.new("LSPReferenceWrite", colors.nord_9, colors.none, styles.bold)
 
--- TeleScope
-Group.new("TelescopeSelection", colors.nord_11, colors.nord_8, styles.bold)
-Group.new("TelescopeNormal", groups.Pmenu, groups.Pmenu)
-
 -- Markdown
 Group.new("markdownError", colors.nord_4, colors.none)
+
+Group.new("CmpItemAbbr", colors.nord_4, colors.none)
+Group.new("CmpItemKind", colors.nord_13, colors.none)
+Group.new("CmpItemMenu", colors.nord_7, colors.none)
 

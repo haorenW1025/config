@@ -19,6 +19,7 @@ ts.setup {
 require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = true,
+        disable = {"cpp"}
     },
     incremental_selection = {
         enable = false,

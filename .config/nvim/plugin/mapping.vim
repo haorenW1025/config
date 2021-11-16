@@ -1,9 +1,3 @@
-" lsp
-nnoremap <silent> <leader>f <cmd>lua vim.lsp.buf.formatting()<CR>
-nnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<CR>
-nnoremap <silent> <leader>rn <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <leader>dl <cmd>lua require'diagnostic.util'.show_line_diagnostics()<CR>
-
 " git
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
@@ -21,7 +15,7 @@ autocmd Filetype markdown nnoremap  <leader>pdf <cmd>lua require'markdown'.conve
 nmap <leader>w :e ~/workplace/note/index.md<CR>
 
 " tmux like terminal
-tnoremap <ESC> <c-\><c-n>
+tnoremap <c-a> <c-\><c-n>
 
 nmap <c-n> :tabnew term://zsh<CR>
 nmap <c-t>v :vsplit term://zsh<CR>i
@@ -31,28 +25,14 @@ tmap <c-t>v <c-a><CR>:vsplit term://zsh<CR>i
 tmap <c-t>x <c-a><CR>:split term://zsh<CR>i
 tmap <c-t>] <c-a>:+tabmove<cr>
 tmap <c-t>[ <c-a>:-tabmove<cr>
-tmap <a-h> <c-t><CR><c-w>h
-tmap <a-j> <c-t><CR><c-w>j
-tmap <a-k> <c-t><CR><C-w>k
-tmap <a-l> <c-t><CR><c-w>l
+tmap <a-h> <c-a><CR><c-w>h
+tmap <a-j> <c-a><CR><c-w>j
+tmap <a-k> <c-a><CR><C-w>k
+tmap <a-l> <c-a><CR><c-w>l
 tmap <c-t>J <c-t><CR><c-w>J
 tmap <c-t>K <c-t><CR><c-w>K
 tmap <c-t>H <c-t><CR><c-w>H
 tmap <c-t>L <c-t><CR><c-w>L
-
-function! s:save_and_exec() abort
-  if &filetype == 'vim'
-    :silent! write
-    :source %
-  elseif &filetype == 'lua'
-    :silent! write
-    :luafile %
-  endif
-
-  return
-endfunction
-
-nnoremap <leader><leader>x :call <SID>save_and_exec()<CR>
 
 function! ClosingTerminal()
     let answer = confirm('closing this terminal?', "&Yes\n&No", 1)
@@ -124,11 +104,6 @@ autocmd FileType sh nmap <buffer> <leader>tr:TermSend bash %<CR>
 autocmd FileType rust nmap <buffer> <leader>tr:TermSend cargo run<CR>
 autocmd FileType lua nmap <buffer> <leader>tr:TermSend lua %<CR>
 
-" floatLf
-nmap \ :LfToggle<CR>
-nmap <leader>\ :LfToggleCurrentBuf<CR>
-let g:floatLf_lf_close = '\'
-
 " lazygit
 function! ToggleLazyGit()
     call ToggleNoBorderTerm('lazygit')
@@ -137,10 +112,6 @@ nnoremap <silent> <leader>tg :call ToggleLazyGit()<CR>
 
 " fold
 nmap <leader><leader> za
-
-" leetcode cli
-nmap <localleader>lt :T leetcode test %<CR>
-nmap <localleader>ls :T leetcode submit %<CR>
 
 function CloseBuffer()
     bprevious
@@ -205,3 +176,8 @@ nmap Y y$
 " nmap <leader>dr <Plug>VimspectorRestart
 " nmap <leader>dr <Plug>VimspectorRestart
 " nmap <leader>dr <Plug>VimspectorRestart
+nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
+nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
+
+nmap go :SymbolsOutline<CR>
+nnoremap do <cmd>LspTroubleToggle<cr>

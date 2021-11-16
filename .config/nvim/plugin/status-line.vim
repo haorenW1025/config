@@ -1,17 +1,17 @@
-function! InactiveLine()
-    return luaeval("require'status-line'.inActiveLine()")
-endfunction
+" function! InactiveLine()
+"     return luaeval("require'status-line'.inActiveLine()")
+" endfunction
 
-function! ActiveLine()
-    return luaeval("require'status-line'.activeLine()")
-endfunction
+" function! ActiveLine()
+"     return luaeval("require'status-line'.activeLine()")
+" endfunction
 
-" Change statusline automatically
-augroup Statusline
-  autocmd!
-  autocmd WinEnter,BufEnter * setlocal statusline=%!ActiveLine()
-  autocmd WinLeave,BufLeave * setlocal statusline=%!InactiveLine()
-augroup END
+" " Change statusline automatically
+" augroup Statusline
+"   autocmd!
+"   autocmd WinEnter,BufEnter * setlocal statusline=%!ActiveLine()
+"   autocmd WinLeave,BufLeave * setlocal statusline=%!InactiveLine()
+" augroup END
 
 
 function! TabLine()

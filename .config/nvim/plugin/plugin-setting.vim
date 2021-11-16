@@ -63,15 +63,6 @@ let g:completion_auto_change_source = 1
 let g:completion_matching_ignore_case = 1
 " let g:completion_trigger_keyword_length = 3
 
-" lua require'completion'.addCompletionSource('vimtex', require'vimtex'.complete_item)
-
-autocmd BufEnter *.tex lua require'completion'.on_attach()
-" let g:completion_chain_complete_list = {
-"             \ 'tex' : [
-"             \     {'complete_items': ['vimtex']}, 
-"             \   ],
-"             \ }
-
  let g:completion_chain_complete_list = {
     \ 'default' : {
     \   'default': [
@@ -82,6 +73,9 @@ autocmd BufEnter *.tex lua require'completion'.on_attach()
     \       {'complete_items': ['path']}
     \]
     \   },
+    \ 'python' : [
+    \     {'complete_items': ['snippet', 'tabnine']}, 
+    \   ],
     \ 'tex' : [
     \     {'complete_items': ['vimtex', 'lsp']}, 
     \   ],
@@ -97,11 +91,6 @@ autocmd BufEnter *.tex lua require'completion'.on_attach()
     \   }
     \}
 
-
-augroup CompletionStartUp
-    autocmd!
-    autocmd BufEnter *.md lua require'completion'.on_attach()
-augroup end
 
 
 function! s:check_back_space() abort
@@ -137,19 +126,12 @@ let g:NERDTrimTrailingWhitespace = 0
 let g:NERDCompactSexyComs = 1
 
 " ultisnips
-let g:UltiSnipsSnippetDirectories = ["~/.local/share/nvim/UltiSnips/"]
-let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsExpandTrigger="jl"
-let g:ultisnips_python_style="google"
-let g:UltiSnipsJumpForwardTrigger="jl"
-let g:UltiSnipsJumpBackwardTrigger="jh"
-
-" vim-vsnip
-imap <expr> <c-f>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<c-f>'
-smap <expr> <c-f>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<c-f>'
-imap <expr> <c-b> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<c-b>'
-smap <expr> <c-b> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<c-b>'
-let g:vsnip_snippet_dir = "~/.local/share/nvim/vsnip"
+" let g:UltiSnipsSnippetDirectories = ["~/.config/nvim/UltiSnips/"]
+" let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsExpandTrigger="jl"
+" let g:ultisnips_python_style="google"
+" let g:UltiSnipsJumpForwardTrigger="jl"
+" let g:UltiSnipsJumpBackwardTrigger="jh"
 
 " rainbow
 let g:rainbow_active = 1
@@ -212,3 +194,14 @@ augroup pandoc_syntax
 augroup END
 
 let g:doge_mapping = '<leader>dg'
+
+let g:nnn#set_default_mappings = 0
+nnoremap <silent> <leader>nn :NnnPicker<CR>
+" Start n³ in the current file's directory
+nnoremap <leader>nc :NnnPicker %:p:h<CR>
+let g:nnn#action = {
+      \ '<c-t>': 'tab split',
+      \ '<c-s>': 'split',
+      \ '<c-v>': 'vsplit' }
+let g:nnn#session = 'local'
+

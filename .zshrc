@@ -1,5 +1,5 @@
 autoload -U promptinit; promptinit
-prompt pure
+# prompt pure
 
 ZSH_AUTOSUGGEST_STRATEGY=(history)
 
@@ -58,7 +58,11 @@ function zle-keymap-select {
        [[ ${KEYMAP} = '' ]] ||
        [[ $1 = 'beam' ]]; then
     echo -ne '\e[6 q'
+  else
+    echo -ne '\e[6 q'
   fi
+  zle reset-prompt
+  zle -R
 }
 zle -N zle-keymap-select
 zle-line-init() {
@@ -68,9 +72,22 @@ zle-line-init() {
 zle -N zle-line-init
 echo -ne '\e[6 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[6 q' ;} # Use beam shape cursor for each new prompt.
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git svn
+# This line obtains information from the vcs.
+zstyle ':vcs_info:git*' formats " (%b)"
+precmd() {
+print ""
+vcs_info
+}
+
+# Enable substitution in the prompt.
+setopt prompt_subst
+export PS1='%F{magenta}%2~%F{yellow}${vcs_info_msg_0_} %(?.%F{cyan}.%F{red})$ '
 
 echo $TTY | read test
 export NVIM_TTY=$test
+
 
 set -o vi
 alias ab='abduco'
@@ -80,20 +97,30 @@ alias activate='source ~/env/bin/activate'
 alias ls='exa --icons'
 alias rm='rm -i'
 alias vim='nvim'
+alias tn='tmux new-session -s'
+alias tk='tmux kill-session -t'
+alias ta='tmux attach'
+alias tl='tmux ls'
+alias fc='fc -e nvim'
 set charset="utf-8"
 set send_charset="utf-8"
 set attach_charset="utf-8"
-source $HOME/.config/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source $HOME/.config/zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh
 source $HOME/.config/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.config/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $HOME/.config/zsh/completion.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 eval "$(zoxide init zsh)"
 source $HOME/.config/lf/lficon
 source $HOME/.cargo/env
 
-_fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" . "$1"
-}
+# _fzf_compgen_path() {
+#   fd --hidden --follow --exclude ".git" . "$1"
+# }
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+eval "$(pyenv init -)"
+
+alias luamake=/home/whz861025/packages/lua-language-server/3rd/luamake/luamake
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

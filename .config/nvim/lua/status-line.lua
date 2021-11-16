@@ -6,12 +6,11 @@ local M = {}
 
 -- Different colors for mode
 local purple = '#B48EAD'
-local blue = '#81A1C1'
-local yellow = '#EBCB8B'
-local green = '#A3BE8C'
-local red = '#BF616A'
+local blue = '#8BE9FD'
+local yellow = '#FFFFA5'
+local green = '#69FF94'
+local red = '#FF6E6E'
 local orange = '#D08770'
-local cyan = '#8FBCBB'
 
 -- fg and be
 local white_fg = '#e6e6e6'
@@ -19,10 +18,10 @@ local black_fg = '#282c34'
 local bg = '#4C566A'
 
 -- Separators
--- local left_separator = ''
-local left_separator = ''
--- local right_separator = ''
-local right_separator = ''
+local left_separator = ''
+-- local left_separator = ''
+local right_separator = ''
+-- local right_separator = ''
 
 -- Blank Between Components
 local blank = ' '
@@ -168,7 +167,7 @@ function M.activeLine()
   end
   if error_count ~= 0 then
   statusline = statusline.."%#error_status# "
-    statusline = statusline.."❌ "..error_count.." "
+    statusline = statusline.." "..error_count.." "
   end
   if warning_count ~= 0 then
   statusline = statusline.."%#warning_status# "
@@ -250,12 +249,6 @@ local getTabLabel = function(n)
   return file_name
 end
 
-api.nvim_command('hi TabLineSel gui=Bold guibg=#81A1C1 guifg=#292929')
-api.nvim_command('hi TabLineSelSeparator gui=bold guifg=#81A1C1')
-api.nvim_command('hi TabLine guibg=#4d4d4d guifg=#c7c7c7 gui=None')
-api.nvim_command('hi TabLineSeparator guifg=#4d4d4d')
-api.nvim_command('hi TabLineFill guibg=None gui=None')
-
 
 function M.TabLine()
   local tabline = ''
@@ -273,7 +266,7 @@ function M.TabLine()
       tabline = tabline.." %#TabLineSeparator#"..right_separator
     end
   end
-  tabline = tabline.."%#StatusLine#"
+  tabline = tabline.."%#TabLineFill#"
   tabline = tabline.."%="
   -- Component: Working Directory
   local dir = api.nvim_call_function('getcwd', {})

@@ -22,13 +22,11 @@ local function init()
 
   use {'mhinz/vim-startify', opt = true}
   use {'airblade/vim-gitgutter', opt = true}
+  use {'TimUntersberger/neogit'}
   use {'lervag/vimtex', opt = true}
 
   -- paring
   use {'Raimondi/delimitMate', opt = false}
-
-  -- Movement
-  use 'chaoren/vim-wordmotion'
 
   -- Indentation tracking
   use {'yggdroot/indentLine', opt = true}
@@ -37,22 +35,30 @@ local function init()
   use 'junegunn/vim-easy-align'
 
   -- Completion and linting
-  use {'SirVer/ultisnips'}
+  -- use {'SirVer/ultisnips'}
   use {'kkoomen/vim-doge', opt = true}
   use {'neovim/nvim-lsp', opt = true}
+  use {'hrsh7th/nvim-cmp'}
+  use {'hrsh7th/cmp-nvim-lsp'}
+  use {'hrsh7th/cmp-buffer'}
+  use {'hrsh7th/cmp-vsnip'}
+  use {'hrsh7th/vim-vsnip'}
+  use {'saadparwaiz1/cmp_luasnip'}
+  use {'L3MON4D3/LuaSnip'}
+  use {'onsails/lspkind-nvim'}
+
+
   use {
     'haorenW1025/completion-nvim',
     opt = true,
     requires = {{'hrsh7th/vim-vsnip', opt = true}, {'hrsh7th/vim-vsnip-integ', opt = true}}
   }
-  use {'glepnir/lspsaga.nvim', opt = true}
-
-  -- extra sources
-  use {'steelsojka/completion-buffers', opt = true}
-  use {'aca/completion-tabnine', opt = true, run = "./install.sh"}
+  use {'tami5/lspsaga.nvim', opt = true}
+  use {'folke/lsp-trouble.nvim'}
+  -- use {"ray-x/lsp_signature.nvim"}
+  use {'simrat39/symbols-outline.nvim'}
 
   -- treesitter
-  use {'nvim-treesitter/completion-treesitter', opt = true}
   use {'nvim-treesitter/nvim-treesitter'}
   use {'nvim-treesitter/nvim-treesitter-textobjects'}
   use {'nvim-treesitter/playground'}
@@ -60,20 +66,16 @@ local function init()
   -- Highlight colors
   use 'norcalli/nvim-colorizer.lua'
 
-  -- smooth scrolling
-  use {'psliwka/vim-smoothie', opt = true}
-
   -- movement
   use {'justinmk/vim-sneak'}
   use {'rhysd/clever-f.vim'}
 
-  use {'junegunn/goyo.vim', opt = true}
-  use {'junegunn/limelight.vim', opt = true}
-
   -- utility
+  use {'ibhagwan/fzf-lua'}
+  use {'vijaymarupudi/nvim-fzf'}
+
   use {'nvim-lua/plenary.nvim', opt = true}
   use {'nvim-lua/popup.nvim', opt = true}
-  use {'nvim-lua/telescope.nvim', opt = true}
 
   use {'tjdevries/colorbuddy.vim'}
 
@@ -85,11 +87,21 @@ local function init()
 
   -- devicons
   use {'kyazdani42/nvim-web-devicons'}
+  -- use {'kyazdani42/nvim-tree.lua'}
+  -- use {'mcchrish/nnn.vim'}
+  use {"mcchrish/nnn.vim"}
 
+
+  -- use {'glepnir/galaxyline.nvim'}
+  use {'nvim-lualine/lualine.nvim'}
+
+  use {'lfv89/vim-interestingwords'}
+  use {'akinsho/nvim-bufferline.lua'}
   -- texobject
   use {'kana/vim-textobj-user'}
   use {'Julian/vim-textobj-variable-segment'}
-  use {'jeetsukumaran/vim-indentwise'}
+  use 'karb94/neoscroll.nvim'
+  use 'bfrg/vim-cpp-modern'
 end
 
 local plugins = setmetatable({}, {

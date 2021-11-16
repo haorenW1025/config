@@ -24,7 +24,7 @@ window:
 
   # Window padding (changes require restart)
   #
-  # Blank space added around the window in pixels. This padding is not scaled by
+
   # DPI and the specified value is always added at both opposing sides.
   padding:
     x: 10
@@ -76,17 +76,18 @@ font:
   # Style can be specified to pick a specific face.
   normal:
     # family: Iosevka
-    family: "FantasqueSansMono Nerd Font"
+    # family: "FantasqueSansMono Nerd Font"
+    family: "VictorMono Nerd Font Mono"
     # family: "OperatorMono Nerd Font"
     # family: "FuraCode Nerd Font"
     # family: "Hack Nerd Font"
-    style: "Regular"
+    style: "SemiBold"
     # style: "book"
 
   # The bold font face
   bold:
     # family: Iosevka
-    family: "FantasqueSansMono Nerd Font"
+    family: "VictorMono Nerd Font Mono"
     # family: "OperatorMono Nerd Font"
     # family: "Hack Nerd Font"
     # family: "Source Code Pro"
@@ -94,7 +95,7 @@ font:
 
   # The italic font face
   italic:
-    family: "Victor Mono"
+    family: "VictorMono Nerd Font Mono"
     # family: "Fira Code"
     # family: "Hack Nerd Font"
     style: "SemiBold Italic"

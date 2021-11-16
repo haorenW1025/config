@@ -7,36 +7,55 @@
 --
 
 import XMonad hiding(config)
+import qualified XMonad.StackSet as SS
 import Data.Monoid
 import System.Exit
 
 import Data.Tree
 import System.Exit (exitSuccess)
-import qualified Data.Map as M
+-- import qualified Data.Map as M
+import qualified Data.Map.Strict as M
+import qualified Codec.Binary.UTF8.String as UTF8
 import qualified XMonad.StackSet as W
+import XMonad.Config.Desktop
 -- layout
 
 import XMonad.Layout.Decoration
-import XMonad.Layout.LayoutModifier
 import XMonad.Layout.WindowArranger
 import XMonad.Layout.LimitWindows (limitWindows, increaseLimit, decreaseLimit)
-import XMonad.Layout.MultiToggle
-import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Renamed (renamed, Rename(Replace))
 import XMonad.Layout.Spacing
 import XMonad.Layout.Tabbed
+-- import XMonad.Layout.SubLayouts (pushGroup, pullGroup, pushWindow, pullWindow, onGroup, toSubl, mergeDir, GroupMsg(..), Broadcast(..), defaultSublMap)
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowNavigation
 import XMonad.Layout.BoringWindows(boringWindows, focusUp, focusDown, focusMaster)
 import XMonad.Layout.Gaps
+import XMonad.Layout.Accordion
+import XMonad.Layout.Simplest
 import XMonad.Layout.Hidden
+import XMonad.Layout.ThreeColumns
+import XMonad.Layout.Magnifier
+import XMonad.Layout.TabBarDecoration
+import XMonad.Layout.Decoration(Decoration, DefaultShrinker)
+import XMonad.Layout.LayoutModifier(LayoutModifier(handleMess, modifyLayout,
+                                    redoLayout),
+                                    ModifiedLayout(..))
+import XMonad.Util.Invisible(Invisible(..))
+import qualified XMonad.Util.ExtensibleConf as XC
 
+
+
+
+import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
 import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
+import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), (??))
+import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
 import XMonad.Layout.SimplestFloat
 import XMonad.Layout.ResizableTile
-import XMonad.Layout.ResizableThreeColumns
-import XMonad.Layout.Simplest
+-- import XMonad.Layout.Simplest
+import XMonad.Layout.Simplest(Simplest(..))
 import XMonad.Layout.NoFrillsDecoration
 
 -- Prompt
@@ -44,7 +63,6 @@ import XMonad.Prompt
 -- import XMonad.Prompt.Unicode
 import XMonad.Prompt.Ssh
 import XMonad.Prompt.Shell
-import XMonad.Prompt.Zsh
 import XMonad.Prompt.XMonad
 import XMonad.Prompt.FuzzyMatch
 import XMonad.Prompt.Window
@@ -52,10 +70,12 @@ import XMonad.Prompt.Man
 
 -- hooks
 -- import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
+import XMonad.Hooks.ManageHelpers(doFullFloat, doCenterFloat, isFullscreen, isDialog)
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.EwmhDesktops
-import XMonad.Hooks.WindowSwallowing
 import XMonad.Hooks.ServerMode
+import XMonad.Hooks.WindowSwallowing
+import XMonad.Hooks.RefocusLast
 
 -- Actions
 -- import XMonad.Actions.Submap
@@ -63,19 +83,19 @@ import XMonad.Actions.CycleWS
 import XMonad.Actions.DynamicProjects
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.PerWorkspaceKeys
-import XMonad.Actions.TagWindows
+import qualified XMonad.Actions.WindowBringer as WB
 import qualified XMonad.Actions.Search as S
 
 -- util
+import XMonad.Util.WorkspaceCompare
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.NamedScratchpad
-import XMonad.Util.DynamicScratchpads
-
+import XMonad.Util.Themes
 import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
+import XMonad.Util.Dmenu
+import qualified XMonad.Util.Hacks as Hacks
 
-import qualified DBus as D
-import qualified DBus.Client as D
 
 
 
@@ -90,6 +110,7 @@ myEditor :: String
 myEditor   = "neovim"
 myFont :: String
 myFont     = "Monofur Nerd Font Mono"
+myBaseConfig = desktopConfig
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -122,43 +143,45 @@ myModMask       = mod4Mask
 --
 -- myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
 myWorkspaces :: [[Char]]
-myWorkspaces    = ["home","dev1","config1","web","remote","reading","dev2","config2","music","virtual"]
+myWorkspaces    = ["\61461", "\62601","\59286","\61612","\63114","\58923","\61822","\63215","\61441"]
+--myWorkspaces    = ["I","II","III","IV","V","VI","VII","VIII","IX","X"]
+-- myWorkspaces    = ["home","dev1","config1","web","remote","reading","dev2","config2","music","virtual"]
 
 
 projects :: [Project]
 projects =
 
-    [ Project   { projectName       = "remote"
-                , projectDirectory  = "~/"
-                , projectStartHook  = Just $ do
-                    sshPrompt myXPConfig
-                }
-    , Project   { projectName       = "dev1"
+    [ Project   { projectName       = "\62601"
                 , projectDirectory  = "~/workplace"
                 , projectStartHook  = Just $ do
-                    spawn "~/script/rofi/tmux_session.sh"
+                    spawn myTerminal
                 }
-    , Project   { projectName       = "dev2"
+    , Project   { projectName       = "\59286"
                 , projectDirectory  = "~/workplace"
                 , projectStartHook  = Just $ do
-                    spawn "~/script/rofi/tmux_session.sh"
+                    spawn myTerminal
                 }
-    , Project   { projectName       = "web"
+    , Project   { projectName       = "\63114"
+                , projectDirectory  = "~/workplace"
+                , projectStartHook  = Just $ do
+                    spawn myBrowser
+                }
+    , Project   { projectName       = "\61612"
                 , projectDirectory  = "~"
                 , projectStartHook  = Just $ do
-                    spawn "qutebrowser"
+                    spawn myBrowser
                 }
-    , Project   { projectName       = "config1"
+    , Project   { projectName       = "\61822"
                 , projectDirectory  = "~/"
                 , projectStartHook  = Just $ do
-                    spawn "~/script/rofi/edit_configs.sh"
+                    spawn "skypeforlinux"
                 }
-    , Project   { projectName       = "config2"
+    , Project   { projectName       = "\63215"
                 , projectDirectory  = "~/"
                 , projectStartHook  = Just $ do
-                    spawn "~/script/rofi/edit_configs.sh"
+                    spawn "thunderbird"
                 }
-    , Project   { projectName       = "music"
+    , Project   { projectName       = "\61441"
                 , projectDirectory  = "~/"
                 , projectStartHook  = Just $ do
                     spawn "spotify"
@@ -166,89 +189,59 @@ projects =
     ]
 
 myNormalBorderColor :: String
-myNormalBorderColor  = "#81A1C1"
+myNormalBorderColor  = "#BD93F9"
 myFocusedBorderColor :: String
-myFocusedBorderColor = "#BF616A"
+myFocusedBorderColor = "#FF5555"
 
 windowCount :: X (Maybe String)
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
-myXPConfig :: XPConfig
-myXPConfig = def
-      { font                = "xft:Monofurbold Nerd Font Mono:size=12:bold:antialias=true"
-      , bgColor             = "#3B4252"
-      , fgColor             = "#D8DEE9"
-      , bgHLight            = "#8FBCBB"
-      , fgHLight            = "#292929"
-      , borderColor         = "#81A1C1"
-      , promptBorderWidth   = 0
-      , promptKeymap        = defaultXPKeymap
-      , completionKey       = (controlMask, xK_n)
-      , changeModeKey       = xK_Tab
-      , position            = Top
-      -- , position            = CenteredAt { xpCenterY = 0.3, xpWidth = 0.5 }
-      , height              = 25
-      , historySize         = 256
-      , historyFilter       = id
-      , defaultText         = []
-      , showCompletionOnTab = False
-      , alwaysHighlight     = False
-      , maxComplRows        = Nothing
-      , searchPredicate     = fuzzyMatch
-      , sorter              = fuzzySort
-      }
+myTabConfig = def { fontName            =  "xft:Monofurbold Nerd Font Mono:size=10:bold:antialias=true"
+                 , activeColor         = "#8be9fd"
+                 , inactiveColor       = "#313846"
+                 , activeBorderColor   = "#8be9fd"
+                 , inactiveBorderColor = "#282c34"
+                 , activeTextColor     = "#282c34"
+                 , inactiveTextColor   = "#d0d0d0"
+                 }
 
-
--- self defined prompt
-spawnPrompt :: String -> XPConfig -> X ()
-spawnPrompt c config =  do
-    cmds <- io getCommands
-    mkXPrompt Shell config (getShellCompl cmds $ searchPredicate config) run
-    where run a = unsafeSpawn $ c ++ " " ++ a
-
+-- define a custom function which activate the project startup event
 activateCurrentProject :: X ()
 activateCurrentProject = do
     project <- currentProject
     activateProject project
 
+-- Make a windowBringer variant of bring & copy
+bringCopyWindow :: Window -> WindowSet -> WindowSet
+bringCopyWindow w ws = copyWindow w (W.currentTag ws) ws
 
+bringCopyMenuConfig :: WB.WindowBringerConfig -> X ()
+bringCopyMenuConfig wbConfig = WB.actionMenu wbConfig bringCopyWindow
 
+bringCopyMenuArgs :: [String] -> X ()
+bringCopyMenuArgs args = bringCopyMenuConfig def { WB.menuArgs = args }
 
--- trigger current project hook
-
-------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
 --
 myEZKeys :: [([Char], X ())]
 myEZKeys =
         -- Prompt
-        [ ("M-r x", xmonadPrompt myXPConfig)
-        , ("M-r h", sshPrompt myXPConfig)
-        , ("M-r w", windowPrompt myXPConfig Goto allWindows)
-        , ("M-r S-w", windowPrompt myXPConfig Bring allWindows)
-        , ("M-r C-w", windowPrompt myXPConfig BringCopy allWindows)
+        [("M-r w", WB.gotoMenuArgs ["-l", "20", "-z", "1200", "-p", "Goto:"])
+        , ("M-r S-w", WB.bringMenuArgs ["-l", "20", "-z", "1200", "-p", "Bring:"])
+        , ("M-r C-w", bringCopyMenuArgs ["-l", "20", "-z", "1200", "-p", "Bring Copy:"])
+        , ("M-r r", spawn "rofi -show drun")
         , ("M-r c", spawn "~/script/rofi/edit_configs.sh")
-        , ("M-r s", spawn "~/script/rofi/surfraw.sh")
-        , ("M-r r", spawn "rofi -show drun -modi drun")
-        , ("M-r e", spawn "rofi -show emoji -modi emoji")
-        , ("M-r b", spawn "~/script/rofi/browser_bookmark.sh")
-        , ("M-r m", manPrompt myXPConfig)
-        , ("M-r t", spawn "~/script/rofi/tmux_session.sh")
-        , ("M-r p", switchProjectPrompt myXPConfig)
-        , ("M-r C-p", shiftToProjectPrompt myXPConfig)
-        , ("M-r d", changeProjectDirPrompt myXPConfig)
-        , ("M-r z", spawnPrompt (myTerminal ++ " -e") myXPConfig)
-        -- , ("M-r z", zshPrompt myXPConfig "$HOME/packages/zsh-capture-completion/capture.zsh")
+        , ("M-r s", spawn "~/script/rofi/sshmenu")
 
         -- xmonad
         , ("M-S-q", io exitSuccess)                  -- Quits xmonad
-        , ("M-C-r", spawn "xmonad --recompile")      -- Recompiles xmonad
+        , ("M-C-r", spawn "xmonad --recompile && xmonad --restart")      -- Recompiles xmonad
         , ("M-S-r", spawn "xmonad --restart")        -- Restarts xmonad
         -- applications
         , ("M-<Return>", spawn myTerminal)
-        , ("M-b", spawn "qutebrowser")
-        , ("M-S-b", runOrCopy "qutebrowser" (className =? "qutebrowser"))
-        , ("M-a m", spawn "/snap/bin/spotify")
+        , ("M-b", spawn myBrowser)
+        , ("M-S-b", runOrCopy  myBrowser(className =? myBrowser))
+        -- , ("M-a m", spawn "/snap/bin/spotify")
         -- emacs
         , ("M-e e", spawn "emacs") -- this is not illegal!
         , ("M-e o", spawn "emacs --funcall org-agenda-list")
@@ -263,34 +256,23 @@ myEZKeys =
         , ("M-S-h", windows W.swapUp)
         , ("M-j", sendMessage Shrink)
         , ("M-k", sendMessage Expand)
+        , ("M-x", toggleFocus)
         , ("M-C-j", sendMessage MirrorShrink)
         , ("M-C-k", sendMessage MirrorExpand)
-        , ("M-f", sendMessage $ Toggle FULL)
+        , ("M-S-f", sendMessage (T.Toggle "floats")) -- Toggles my 'floats' layout
+        , ("M-f", sendMessage (MT.Toggle NBFULL) )
         , ("M-d", decWindowSpacing 4)           -- Decrease window spacing
         , ("M-i", incWindowSpacing 4)           -- Increase window spacing
+        , ("M-g", sendMessage $ ToggleGaps) -- Toggles noborder/full
 
         , ("M-n", withFocused hideWindow)
         , ("M-S-n", popOldestHiddenWindow)
-
-
-        -- workspace
-        -- , ("M-S-w", TS.treeselectWorkspace myTSConfig myWorkspaces (\i -> W.greedyView i . W.shift i))
-        , ("M-w h", windows $ W.greedyView "home")
-        , ("M-w d", windows $ W.greedyView "dev1")
-        , ("M-w c", windows $ W.greedyView "config1")
-        , ("M-w r", windows $ W.greedyView "remote")
-        , ("M-w w", windows $ W.greedyView "web")
-        , ("M-w m", windows $ W.greedyView "music")
-        , ("M-x", toggleWS)
+        , ("M-S-x", toggleWS' ["NSP"])
         -- run project startup hook
         , ("M-S-<Return>",  activateCurrentProject)
 
-        -- , ("M-w", TS.treeselectWorkspace myTSConfig myWorkspaces W.greedyView)
-
 
         , ("M-<Backspace>", withFocused $ windows . W.sink) -- Push floating window back to tile
-        , ("M-v", windows copyToAll)
-        , ("M-S-v", killAllOtherCopies)
         -- layout
         , ("M-<Space>", sendMessage NextLayout)
         -- screen
@@ -304,27 +286,31 @@ myEZKeys =
         --scratchpads
         , ("M-s t", namedScratchpadAction myScratchPads "terminal")
         , ("M-s s", namedScratchpadAction myScratchPads "spt")
-        , ("M-s l", namedScratchpadAction myScratchPads "file_manager")
+        , ("M-s f", namedScratchpadAction myScratchPads "file_manager")
         , ("M-s c", namedScratchpadAction myScratchPads "ytop")
         , ("M-s g", namedScratchpadAction myScratchPads "nvtop")
-        , ("M-s p", withFocused $ makeDynamicSP "dyn1")
-        , ("M-s S-p", spawnDynamicSP "dyn1")
+        , ("M-s p", namedScratchpadAction myScratchPads "pulsemixer")
 
         -- sublayout
         , ("M-'" , onGroup W.focusDown')
         , ("M-;" , onGroup W.focusUp')
+        , ("M-S-<Space>" , toSubl NextLayout)
         , ("M-t h" , sendMessage $ pullGroup L)
         , ("M-t l" , sendMessage $ pullGroup R)
         , ("M-t k" , sendMessage $ pullGroup U)
         , ("M-t j" , sendMessage $ pullGroup D)
         , ("M-t m" , withFocused (sendMessage . MergeAll))
         , ("M-t u" , withFocused (sendMessage . UnMerge))
-        , ("<XF86AudioMute>",   spawn "pactl -- set-sink-mute alsa_output.pci-0000_0b_00.4.analog-stereo toggle")  -- Bug prevents it from toggling correctly in 12.04.
-        , ("<XF86AudioLowerVolume>", spawn "pactl -- set-sink-volume alsa_output.pci-0000_0b_00.4.analog-stereo -5%")
-        , ("<XF86AudioRaiseVolume>", spawn "pactl -- set-sink-volume alsa_output.pci-0000_0b_00.4.analog-stereo +5%")
+        , ("<XF86AudioMute>",   spawn "amixer -q set Master toggle")  -- Bug prevents it from toggling correctly in 12.04.
+        , ("<XF86AudioLowerVolume>", spawn "amixer -q set Master 2%-")
+        , ("<XF86AudioRaiseVolume>", spawn "amixer -q set Master 2%+")
+        , ("<XF86AudioPlay>", spawn $ "playerctl play-pause")
+        , ("<XF86AudioNext>", spawn $ "playerctl next")
+        , ("<XF86AudioPrev>", spawn $ "playerctl previous")
+        , ("<XF86AudioStop>", spawn $ "playerctl stop")
 
         -- utility
-        , ("M-u 4", spawn "sleep 0.2; scrot -s -f")
+        , ("M-u 4", spawn "sleep 0.2; scrot -s -f -e 'mv $f ~/Pictures/'")
         , ("M-u 3", spawn "peek")
         ]
         ++
@@ -355,74 +341,54 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 
 ------------------------------------------------------------------------
 -- Layouts:
-mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing :: Integer -> l a -> ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
 -- Below is a variation of the above except no borders are applied
 -- if fewer than two windows. So a single window has no gaps.
-mySpacing' :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing' :: Integer -> l a -> ModifiedLayout Spacing l a
 mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
 
-myTabConfig::Theme
-myTabConfig = def { fontName            = "xft:Monofurbold Nerd Font Mono:bold:pixelsize=14"
-                    , activeColor         = "#292d3e"
-                    , inactiveColor       = "#3e445e"
-                    , activeBorderColor   = "#292d3e"
-                    , inactiveBorderColor = "#292d3e"
-                    , activeTextColor     = "#ffffff"
-                    , inactiveTextColor   = "#d0d0d0"
-                    }
-
--- sublayout is nice
 tall     = renamed [Replace "tall"]
+           $ smartBorders
            $ windowNavigation
-           $ boringWindows
-           $ subLayout [] (tabs)
-           $ addTabs shrinkText myTabConfig
-           $ limitWindows 8
-           $ mySpacing 4
+           -- $ addTabs shrinkText myTabConfig $ subLayout [] Simplest
+           -- $ boringWindows
+           $ hiddenWindows
+           $ limitWindows 12
+           $ mySpacing 8
            $ ResizableTall 1 (3/100) (1/2) []
-mirrorTall = renamed [Replace "mirrorTall"]
-           $ windowNavigation
-           $ boringWindows
-           $ subLayout [] (tabs)
-           $ addTabs shrinkText myTabConfig
-           $ limitWindows 8
-           $ mySpacing 4
-           $ Mirror
-           $ ResizableTall 1 (3/100) (1/2) []
-monocle  = renamed [Replace "monocle"]
-           $ limitWindows 20
-           $ Full
 floats   = renamed [Replace "floats"]
-           $ limitWindows 20
-           $ simplestFloat
-threeCol = renamed [Replace "threeCol"]
+           $ smartBorders
+           $ limitWindows 20 simplestFloat
+mag  = renamed [Replace "magnify"]
+           $ smartBorders
            $ windowNavigation
-           $ boringWindows
-           $ subLayout [] (tabs)
-           $ addTabs shrinkText myTabConfig
+           $ hiddenWindows
+           $ magnifier
+           $ limitWindows 12
+           $ mySpacing 5
+           $ ResizableTall 1 (3/100) (1/2) []
+threeCol = renamed [Replace "threeCol"]
+           $ smartBorders
+           -- $ addTabs shrinkText myTabConfig $ subLayout [] Simplest
+           -- $ boringWindows
+           $ windowNavigation
+           $ hiddenWindows
+           $ mySpacing 8
            $ limitWindows 7
-           $ mySpacing' 4
-           $ ResizableThreeColMid 1 (1/10) (1/2) []
-tabs     = renamed [Replace "tabs"]
-           -- I cannot add spacing to this layout because it will
-           -- add spacing between window and tabs which looks bad.
-           $ tabbed shrinkText myTabConfig
-
--- combo    = tmsCombineTwoDefault (Tall 0 (3/100) 0) simpleTabbed         
+           $ ThreeCol 1 (3/100) (1/2)
 
 -- The layout hook
-myLayoutHook = avoidStruts $ mkToggle (MIRROR ?? FULL ?? EOT) $ T.toggleLayouts floats $ T.toggleLayouts monocle
-               $ T.toggleLayouts tabs $ windowArrange
-               $ hiddenWindows $ myDefaultLayout
+myLayoutHook = avoidStruts $ windowArrange $ T.toggleLayouts floats
+               $ addTabs shrinkText myTabConfig $ subLayout [] Simplest
+               $ boringWindows
+               $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
              where
-               myDefaultLayout =     tall
-                                 ||| mirrorTall 
+               myDefaultLayout = tall
+                                 ||| Mirror tall
+                                 ||| mag
                                  ||| threeCol
-                                 ||| noBorders monocle
-
-myL = noFrillsDeco shrinkText def (myLayoutHook)
 
 ------------------------------------------------------------------------
 -- Window rules:
@@ -439,14 +405,32 @@ myL = noFrillsDeco shrinkText def (myLayoutHook)
 -- To match on the WM_NAME, you can use 'title' in the same way that
 -- 'className' and 'resource' are used below.
 --
-myManageHook :: Query(Endo WindowSet)
 myManageHook = composeAll
-    [ className =? "MPlayer"        --> doFloat
-    , className =? "Gimp"           --> doFloat
-    , className =? "Peek"           --> doFloat
-    , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore 
-    ] <+> namedScratchpadManageHook myScratchPads
+     -- 'doFloat' forces a window to float.  Useful for dialog boxes and such.
+     -- using 'doShift ( myWorkspaces !! 7)' sends program to workspace 8!
+     -- I'm doing it this way because otherwise I would have to write out the full
+     -- name of my workspaces and the names would be very long if using clickable workspaces.
+     [ className =? "confirm"         --> doFloat
+     , className =? "file_progress"   --> doFloat
+     , className =? "dialog"          --> doFloat
+     , className =? "download"        --> doFloat
+     , className =? "error"           --> doFloat
+     , className =? "Gimp"            --> doFloat
+     , className =? "notification"    --> doFloat
+     , className =? "pinentry-gtk-2"  --> doFloat
+     , className =? "splash"          --> doFloat
+     , className =? "toolbar"         --> doFloat
+     -- , title =? "Oracle VM VirtualBox Manager"  --> doFloat
+     -- , title =? "Mozilla Firefox"     --> doShift ( myWorkspaces !! 1 )
+     -- , className =? "brave-browser"   --> doShift ( myWorkspaces !! 1 )
+     -- , className =? "qutebrowser"     --> doShift ( myWorkspaces !! 1 )
+     -- , className =? "mpv"             --> doShift ( myWorkspaces !! 7 )
+     -- , className =? "Gimp"            --> doShift ( myWorkspaces !! 8 )
+     -- , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 4 )
+     , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
+     , isFullscreen -->  doFullFloat
+     ] <+> namedScratchpadManageHook myScratchPads
+
 
 ------------------------------------------------------------------------
 -- Event handling
@@ -457,8 +441,14 @@ myManageHook = composeAll
 -- return (All True) if the default handler is to be run afterwards. To
 -- combine event hooks use mappend or mconcat from Data.Monoid.
 --
-myEventHook = ewmhDesktopsEventHook
-              <+> swallowEventHook (className =? "Alacritty" <||> className =? "kitty") (return True)
+-- myEventHook = ewmhDesktopsEventHook <+> swallowEventHook (className =? "Alacritty" <||> className =? "Termite") (return True)
+-- refocusLastEventHook prevent xmonad from changing focus to the first tab when closing a floating window
+myEventHook = refocusLastEventHook <+> swallowEventHook (className =? "Alacritty") (return True)
+    where
+        refocusLastEventHook = refocusLastWhen isFloat
+-- myEventHook = refocusLastEventHook <+> ewmhDesktopsEventHook <+> swallowEventHook (className =? "Alacritty") (return True)
+--     where
+--         refocusLastEventHook = refocusLastWhen isFloat
 
 ------------------------------------------------------------------------
 -- Status bars and logging
@@ -474,9 +464,8 @@ myEventHook = ewmhDesktopsEventHook
 -- per-workspace layout choices.
 --
 -- By default, do nothing.
-myStartupHook :: X ()
 myStartupHook = do
-        spawnOnce "~/script/autorun.sh" 
+    spawn "$HOME/.xmonad/scripts/autostart.sh"
 
 
 -- scratchpads
@@ -486,14 +475,15 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                 , NS "spt" spawnSpt findSpt manageSpt
                 , NS "file_manager" spawnlf findlf managelf
                 , NS "nvtop" spawnNvtop findNvtop manageNvtop
+                , NS "pulsemixer" spawnpulse findpulse managepulse
                 ]
     where
     spawnTerm  = myTerminal ++ " --class scratchpad"
     findTerm   = resource =? "scratchpad"
     manageTerm = customFloating $ W.RationalRect l t w h
                  where
-                 h = 0.9
-                 w = 0.9
+                 h = 0.8
+                 w = 0.8
                  t = 0.95 -h
                  l = 0.95 -w
     spawnNvtop  = myTerminal ++ " --class nvtop -e nvtop"
@@ -504,7 +494,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                  w = 0.9
                  t = 0.95 -h
                  l = 0.95 -w
-    spawnTop  = myTerminal ++ " --class ytop -e ytop"
+    spawnTop  = myTerminal ++ " --class ytop -e bpytop"
     findTop   = resource =? "ytop"
     manageTop = customFloating $ W.RationalRect l t w h
                  where
@@ -520,9 +510,17 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                  w = 0.9
                  t = 0.95 -h
                  l = 0.95 -w
-    spawnlf  = myTerminal ++ " --class file_manager -e lf"
+    spawnlf  = "kitty --class=file_manager --listen-on=unix:\"$TMPDIR/kitty\" nnn"
     findlf   = resource =? "file_manager"
     managelf = customFloating $ W.RationalRect l t w h
+                 where
+                 h = 0.9
+                 w = 0.9
+                 t = 0.95 -h
+                 l = 0.95 -w
+    spawnpulse  = myTerminal ++ " --class pulsemixer -e pulsemixer"
+    findpulse   = resource =? "pulsemixer"
+    managepulse = customFloating $ W.RationalRect l t w h
                  where
                  h = 0.9
                  w = 0.9
@@ -535,48 +533,13 @@ color2 = "#81A1C1"
 color3 = "#900000"
 color4 = "#EBCB8B"
 
--- myLogHook :: D.Client -> PP
--- myLogHook dbus = def
---     { ppOutput  = dbusOutput dbus
---     , ppCurrent = wrap ("%{F" ++ color4 ++ "} ") "%{F-}"
---     , ppVisible = \( _ ) -> ""
---     , ppUrgent  = \( _ ) -> ""
---     , ppHidden  = \( _ ) -> ""
---     , ppHiddenNoWindows= \( _ ) -> ""
---     , ppTitle   = wrap ("%{F" ++ color2 ++ "}")"%{F-}" . shorten 60
---     -- , ppTitle   = \( _ ) -> ""
---     , ppLayout = wrap ("%{F" ++ color1 ++ "} ") "%{F-}"
---     , ppSep     = "  |  "
---     }
-
-------------------------------------------------------------------------
--- Now run xmonad with all the defaults we set up.
-
 -- Run xmonad with the settings you specify. No need to modify this.
 --
+myFilter = filterOutWs [scratchpadWorkspaceTag]
 main::IO()
 main = do
-    -- xmproc0 <- spawnPipe "xmobar -x 0 /home/whz861025/.config/xmobar/xmobarrc0"
 
-    dbus <- D.connectSession
-    -- Request access to the DBus name
-    D.requestName dbus (D.busName_ "org.xmonad.Log")
-        [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
-
-
-    -- -- Emit a DBus signal on log updates
--- dbusOutput :: D.Client -> String -> IO ()
--- dbusOutput dbus str = do
-    --     let signal = (D.signal objectPath interfaceName memberName) {
-    --             D.signalBody = [D.toVariant $ UTF8.decodeString str]
-    --         }
-    --     D.emit dbus signal
-    -- where
-    --     objectPath = D.objectPath_ "/org/xmonad/Log"
-    --     interfaceName = D.interfaceName_ "org.xmonad.Log"
-    --     memberName = D.memberName_ "Update"
-
-    xmonad $ ewmh $ dynamicProjects projects $ docks $ def {
+    xmonad $ addEwmhWorkspaceSort (pure myFilter) $ ewmh $ Hacks.javaHack $ dynamicProjects projects $ docks $ def {
         -- simple stuff
             terminal           = myTerminal,
             focusFollowsMouse  = myFocusFollowsMouse,
@@ -586,13 +549,11 @@ main = do
             workspaces         = myWorkspaces,
             normalBorderColor  = myNormalBorderColor,
             focusedBorderColor = myFocusedBorderColor,
-
-        -- key bindings
             mouseBindings      = myMouseBindings,
-
-        -- hooks, layouts
-            layoutHook         = myLayoutHook,
+            -- hooks, layouts
+            layoutHook         =  myLayoutHook,
             manageHook         = myManageHook,
             handleEventHook    = myEventHook,
-            startupHook        = myStartupHook
+            startupHook        = myStartupHook,
+            logHook = refocusLastLogHook >> nsHideOnFocusLoss myScratchPads
         } `additionalKeysP` myEZKeys

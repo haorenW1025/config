@@ -1,4 +1,5 @@
 syntax enable
+let g:python3_host_prog = '/home/whz861025/.pyenv/versions/neovim3/bin/python'
 syntax on
 filetype indent plugin on
 set nocompatible
@@ -63,20 +64,21 @@ function! NextClosedFold(dir)
 endfunction
 
 
-function! Osc52Yank()
-    let buffer=system('base64 -w0 ', @0)
-    let buffer=substitute(buffer, "\n$", "", "")
-    let buffer='\e]52;c;'.buffer.'\x07'
-    " let tty = $SSH_TTY
-    " echo tty
-    silent exe "!echo -ne ".shellescape(buffer)." > ".shellescape($NVIM_TTY)
-    " silent exe "!echo -ne ".shellescape(buffer)." > ".tty
-endfunction
-command! Osc52CopyYank call Osc52Yank()
-augroup Example
-    autocmd!
-    autocmd TextYankPost * if v:event.operator ==# 'y' | call Osc52Yank() | endif
-augroup END
+" function! Osc52Yank()
+"     let buffer=system('base64 -w0 ', @0)
+"     let buffer=substitute(buffer, "\n$", "", "")
+"     let buffer='\e]52;c;'.buffer.'\x07'
+"     " let tty = $SSH_TTY
+"     " echo tty
+"     silent exe "!echo -ne ".shellescape(buffer)." > ".shellescape($NVIM_TTY)
+"     " silent exe "!echo -ne ".shellescape(buffer)." > ".tty
+" endfunction
+" command! Osc52CopyYank call Osc52Yank()
+" augroup Example
+"     autocmd!
+"     autocmd TextYankPost * if v:event.operator ==# 'y' | call Osc52Yank() | endif
+" augroup END
+set clipboard+=unnamedplus
 
 let defaults = {'placeholder': '⋯',   'line': '▤', 'multiplication': '×' }
 let g:FoldText_placeholder    = get(g:, 'FoldText_placeholder',    defaults['placeholder'])
